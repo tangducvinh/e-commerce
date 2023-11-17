@@ -5,25 +5,25 @@ const bcrypt = require('bcrypt')
 var userSchema = new mongoose.Schema({
     firstname:{
         type: String,
-        required:true,
+        required: true,
     },
     lastname:{
         type: String,
-        required:true,
+        required: true,
     },
     email:{
         type: String,
-        required:true,
+        required: true,
         unique: true,
     },
     mobile:{
         type: String,
-        required:true,
-        unique:true,
+        required: true,
+        unique: true,
     },
     password:{
         type: String,
-        required:true,
+        required: true,
     },
     role:{
         type: String,
@@ -63,6 +63,12 @@ userSchema.pre('save', async function(next) {
         this.password = await bcrypt.hash(this.password, salt)
     }
 })
+
+userSchema.methods = {
+    isCorrectPassword: async function(password) {
+        return await bcrypt.compare(password, this.password)
+    }
+}
 
 //Export the model
 module.exports = mongoose.model('User', userSchema);
