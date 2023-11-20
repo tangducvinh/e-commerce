@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const asyncHandler = require('express-async-handler')
 const { generateAccessToken, generateRefreshToken } = require('../middlewares/jwt')
+const jwt = require('jsonwebtoken')
 
 const register = asyncHandler(async(req, res) => {
     const { email, password, firstname, lastname } = req.body
@@ -31,7 +32,7 @@ const login = asyncHandler(async (req, res) => {
             mes: 'Missing inputs'
         })
     } else {
-        const response = await User.findOne({email})
+        const response = await User.findOne({ email })
         const checkPassword = await response.isCorrectPassword(password)
         
         if (response && checkPassword) {
@@ -60,8 +61,42 @@ const getCurrent = asyncHandler(async (req, res) => {
     })
 })
 
+const refreshAccessToken = asyncHandler(async(req, res) => {
+    const cookie = req.cookies
+
+    if (!cookie.refreshToken) throw new Error('No refresh token in cookies')
+    jwt.verify(cookie.refreshToken, process.env.JWT_SECRET, async (err, decode) => {
+        if (err) throw new Error('Invalid refresh token')
+        else {
+            const response = await User.findOne({_id: decode._id, refreshToken: cookie.refreshToken})
+            return res.status(200).json({
+                success: response ? true : false,
+                newAccessToken: response ? generateAccessToken(response._id, response.role) : 'RefreshToken invalid',
+            })
+        }
+    })
+})
+
+const logout = asyncHandler( async(req, res) => {
+    const cookie = req.cookies
+    
+    if(!cookie.refreshToken) throw new Error('No refresh tokens in cookies')
+    else await User.findOneAndUpdate({refreshToken: cookie.refreshToken}, {refreshToken: ''}, {new: true})
+    res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: true
+    })
+
+    res.status(200).json({
+        success: true,
+        mess: "Logout is done",
+    })
+})
+
 module.exports = {
     register,
     login,
-    getCurrent
+    getCurrent,
+    refreshAccessToken,
+    logout,
 }
