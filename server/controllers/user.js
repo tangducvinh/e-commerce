@@ -2,6 +2,8 @@ const User = require('../models/user')
 const asyncHandler = require('express-async-handler')
 const { generateAccessToken, generateRefreshToken } = require('../middlewares/jwt')
 const jwt = require('jsonwebtoken')
+const sendMail = require('../ultis/sendMail')
+const crypto = require('crypto')
 
 const register = asyncHandler(async(req, res) => {
     const { email, password, firstname, lastname } = req.body
@@ -93,10 +95,54 @@ const logout = asyncHandler( async(req, res) => {
     })
 })
 
+const forgotPassword = asyncHandler(async(req, res) => {
+    const { email } = req.query
+    if (!email) throw new Error('Missing email')
+    const user = await User.findOne({email})
+    if (!user) throw new Error('User not found')
+    const resetToken = user.createPasswordChangedToken()
+    await user.save()
+
+    const html = `Xin vui lòng click vào link sau đây để thay đổi mật khẩu của bạn. Link này có hiệu lực trong 15 phút. <a href=${process.env.URL_SERVER}api/user/reset-password/${resetToken}>Click here</a>`
+
+    const data = {
+        email: email,
+        html: html,
+    }
+
+    const rs = await sendMail(data)
+    return res.status(200).json({
+        sucess: true,
+        rs
+    })
+})
+
+const checkTokenResetPassword = asyncHandler(async(req, res) => {
+    const { token, password } = req.body
+    if(!token || !password) throw Error("token or password empty")
+
+    passwordResetToken = crypto.createHash('sha256').update(token).digest('hex')
+    const user = await User.findOne({passwordResetToken, passwordResetExpire: {$gt: Date.now()}})
+    if (!user) throw new Error("Invalid reset token")
+    user.password = password
+    user.passwordResetToken = undefined
+    user.passwordChangedAt = Date.now()
+    user.passwordResetExpire = undefined
+    await user.save()
+
+    return res.status(200).json({
+        success: true,
+        mes: user ? 'Updated password' : 'Something went wrong'
+    })
+})
+
+
 module.exports = {
     register,
     login,
     getCurrent,
     refreshAccessToken,
     logout,
+    forgotPassword,
+    checkTokenResetPassword
 }
