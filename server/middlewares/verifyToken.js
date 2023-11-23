@@ -3,8 +3,8 @@ const asyncHandler = require('express-async-handler')
 
 const verifyAccessToken = asyncHandler(async(req, res, next) => {
     // Bearer token
-    if(req?.headers?.authorization) {
-        const token = req.headers.authorization
+    if(req?.headers?.authorization?.startsWith('Bearer')) {
+        const token = req.headers.authorization.split(' ')[1]
         
         jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
             if(err) return res.status(401).json({
@@ -22,6 +22,18 @@ const verifyAccessToken = asyncHandler(async(req, res, next) => {
     }
 })
 
+const isAdmin = asyncHandler((req, res, next) => {
+    const { role } = req.user
+    if (role !== 'admin') {
+        return res.status(401).json({
+            success: false,
+            mes: 'You can\'t get users'
+        })
+    }
+    next()
+})
+
 module.exports = {
-    verifyAccessToken
+    verifyAccessToken,
+    isAdmin
 }
