@@ -79,7 +79,7 @@ const refreshAccessToken = asyncHandler(async(req, res) => {
     })
 })
 
-const logout = asyncHandler( async(req, res) => {
+const logout = asyncHandler(async(req, res) => {
     const cookie = req.cookies
     
     if(!cookie.refreshToken) throw new Error('No refresh tokens in cookies')
@@ -171,6 +171,7 @@ const updateUserByAdmin = asyncHandler(async(req, res) => {
     const { uid } = req.params
     if (!uid || Object.keys(req.body).length === 0) throw new Error('Missing inputs')
     const response = await User.findByIdAndUpdate({_id: uid}, req.body, {new: true}).select('-password -role')
+    
     return res.status(200).json({
         success: response ? true : false,
         updateUser: response ? response : 'Some thing went wrong'
