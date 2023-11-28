@@ -24,12 +24,41 @@ const getProduct = asyncHandler(async(req, res) => {
 })
 
 const getAllProduct = asyncHandler(async(req, res) => {
-    const products = await Product.find()
+    const queries = {...req.query}
+    // splice expect field
+    const excludeFields = ['limit', 'sort', 'fields', 'page']
+    excludeFields.forEach(el => delete queries[el])
 
-    res.status(200).json({
-        success: products ? true : false,
-        data: products ? products : "Something went wrong"
-    })
+    let queryString = JSON.stringify(queries)
+    queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, el => `$${el}`)
+    const formatedQueries = JSON.parse(queryString)
+
+    console.log(formatedQueries)
+
+    // Filtering
+    if (queries?.title) formatedQueries.title = {$regex: queries.title, $options: 'i'}
+    let queryCommand = Product.find(formatedQueries)
+
+    // Sorting
+    if (req.query.sort) {
+        const sortBy = req.query.sort.split(',').join(' ')
+        queryCommand = queryCommand.sort(sortBy)
+    }
+
+    queryCommand.exec()
+        .then(async(response) => {
+            const counts = await Product.find(formatedQueries).countDocuments()
+        
+            return res.status(200).json({
+                success: response ? true : false,
+                data: response ? response : "Something went wrong",
+                counts: counts,
+            })
+        })
+
+        .catch(err => {
+            throw new Error(err.message)
+        })
 })
 
 const updateProduct = asyncHandler(async(req, res) => {
@@ -49,7 +78,6 @@ const deleteProduct = asyncHandler(async(req, res) => {
     const { pid } = req.params
 
     const response = await Product.findByIdAndDelete({_id: pid})
-    console.log(response)
 
     res.status(200).json({
         success: response ? true : false,
