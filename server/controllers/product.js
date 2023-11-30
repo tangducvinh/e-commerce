@@ -105,17 +105,28 @@ const ratings = asyncHandler(async(req, res) => {
     const alreadyRating = ratingProduct?.ratings?.find(item => item.postedBy.toString() === _id)
 
     if (alreadyRating) {
-        // await Product.updateOne({
-            
-        // })
+        await Product.updateOne({
+            ratings: { $elemMatch: alreadyRating}
+        }, {
+            $set: { "ratings.$.star": star, "ratings.$.comment": comment}
+        }, {new: true})
     } else {
         const response = await Product.findByIdAndUpdate(pid, {
             $push: {ratings: {star, comment, postedBy: _id}}
         }, {new: true})
     }
 
+    const updateProduct = await Product.findById(pid)
+
+    let sumRatings = 0
+    updateProduct.ratings.forEach((item) => sumRatings += item.star)
+    sumRatings = (sumRatings / updateProduct.ratings.length).toFixed(1)
+    updateProduct.totalRatings = sumRatings
+    await updateProduct.save()
+
     return res.status(200).json({
         status: true,
+        data: updateProduct,
     })
 })
 
