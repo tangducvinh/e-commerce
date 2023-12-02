@@ -1,7 +1,6 @@
 const Blog = require('../models/blog')
 const asyncHandler = require('express-async-handler')
 
-
 const createBlog = asyncHandler(async(req, res) => {
     const { title, description, category } = req.body
     
@@ -29,19 +28,15 @@ const updateBlog = asyncHandler(async(req, res) => {
 const getBlogs = asyncHandler(async(req, res) => {
     const response = await Blog.find()
 
-    res.status(200).json({
+    return res.status(200).json({
         success: response ? true : false,
-        data: response ? response : "Can't get"
+        data: response ? response : "Can't g33et333"
     })
 })
 
-// if like -> cancel like
-// else if dislike => cancel dislike => add like
-// else add like
-
 const likeBlog = asyncHandler(async(req, res) => {
     const { _id } = req.user
-    const { bid } = req.body
+    const { bid } = req.params
 
     if (!bid) throw new Error('Missing input')
     const blog = await Blog.findById(bid)
@@ -79,7 +74,7 @@ const likeBlog = asyncHandler(async(req, res) => {
 
 const dislikeBlog = asyncHandler(async(req, res) => {
     const { _id } = req.user
-    const { bid } = req.body
+    const { bid } = req.params
 
     if (!bid) throw new Error('Missing input')
     const blog = await Blog.findById(bid)
@@ -112,12 +107,37 @@ const dislikeBlog = asyncHandler(async(req, res) => {
     }
 })
 
+// check numberViews again
+const excludeFields = '-refreshToken -passwrod -role -createAt -updateAt'
+const getBlog = asyncHandler(async(req, res) => {
+    const { bid } = req.params
 
+    const response = await Blog.findByIdAndUpdate(bid, {$inc: {numberViews: 1}}, {new: true})
+        .populate('likes', excludeFields)
+        .populate('dislikes', excludeFields)
 
+    return res.status(200).json({
+        success: response ? true : false,
+        data: response ? response : 'Can\'t get blog'
+    })
+}) 
+
+const deleteBlog = asyncHandler(async(req, res) => {
+    const { bid } = req.params
+
+    const response = await Blog.findByIdAndDelete(bid)
+
+    return res.status(200).json({
+        success: response ? true : false,
+        data: response ? `Deleted blog id ${response._id}` : 'Can\'t deleted blog'
+    })
+})
 module.exports = {
     createBlog,
     updateBlog,
     getBlogs,
     likeBlog,
-    dislikeBlog
+    dislikeBlog,
+    getBlog,
+    deleteBlog,
 }
