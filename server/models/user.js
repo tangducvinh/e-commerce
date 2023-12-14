@@ -31,12 +31,14 @@ var userSchema = new mongoose.Schema({
         default: 'user',
     },
     cart:{
-        type: Array,
-        required:[],
+        product: {type: mongoose.Types.ObjectId, ref: 'Product'},
+        quantity: Number,
+        color: String,
     },
-    address:[
-        {type: mongoose.Types.ObjectId, ref: 'Address'}
-    ],
+    address:{
+        type: Array,
+        default: [],
+    },
     wishlist: [{type: mongoose.Types.ObjectId, ref: 'Product'}],
     isBlocked: {
         type: Boolean,
