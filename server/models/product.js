@@ -14,15 +14,6 @@ var productSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        require: true,
-    },
-    brand: {
-        type: String,
-        required: true,
-    },
-    price: {
-        type: Number,
-        required: true,
     },
     category: {
         type: mongoose.Types.ObjectId,
@@ -39,9 +30,21 @@ var productSchema = new mongoose.Schema({
     images: {
         type: Array,
     },
-    color: {
-        type: String,
-        enum: ['Black', 'Blue', 'Green'],
+    star: {
+        type: Number,
+        default: 0,
+    },
+    highlights: {
+        type: Array,
+    },
+    information: {
+        type: Array,
+    },
+    variants: {
+        type: Array,
+    },
+    version: {
+        type: Array,
     },
     ratings: [
         {
