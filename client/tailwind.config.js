@@ -16,6 +16,7 @@ module.exports = {
       backgroundColor: {
         main: '#D70018',
         gray: '#E9EFFF',
+        'bg-btn': 'hsla(0,0%,100%,.2)',
       },
       colors: {
         main: '#D70018',
