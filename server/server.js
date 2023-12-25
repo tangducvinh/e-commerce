@@ -10,6 +10,7 @@ app.use(cors({
     origin: process.env.CLIENT_URL,
     methods: ["POST", 'PUT', 'GET', 'DELETE']
 }))
+
 app.use(cookieParser())
 const port = process.env.PORT || 7777
 
