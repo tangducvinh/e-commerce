@@ -1,6 +1,15 @@
 import axios from '../axios'
 
-export const apiGetCategory = () => axios({
-    url: '/product-category',
-    method: 'get'
-})
+export const getApiCategory = () => {
+    return new Promise( async(resolve, reject) => {
+        try {
+            const response = await axios({
+                url: '/product-category',
+                mothod: 'get'
+            })
+            resolve(response.data.data)
+        } catch(e) {
+            reject(e)
+        }
+    })
+}
