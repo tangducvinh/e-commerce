@@ -9,8 +9,6 @@ const Sidebar = () => {
     const { categorys } = useSelector(categorySelector)
     const { FaChevronRight } = icons
 
-    console.log(categorys)
-
     return (
         <div className="flex flex-col">
             {categorys?.data?.map((item, index) => (
