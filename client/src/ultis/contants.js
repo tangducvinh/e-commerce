@@ -21,3 +21,9 @@ export const iconSidebar = [
     <PiComputerTower size={25} />,
     <PiTelevisionSimple size={25} />,
 ]
+
+export const advantises = [
+    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:10/plain/https://dashboard.cellphones.com.vn/storage/right-banner-fold5-th122.png',
+    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:10/plain/https://dashboard.cellphones.com.vn/storage/gen%209.jpg',
+    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:10/plain/https://dashboard.cellphones.com.vn/storage/%C6%B0u-dai-sinhvien-chung-right-banner.png'
+]

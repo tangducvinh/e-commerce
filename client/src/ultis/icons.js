@@ -9,6 +9,7 @@ import { BsHandbag, BsLaptop, BsUsbDrive } from "react-icons/bs"
 import { HiOutlineDevicePhoneMobile } from "react-icons/hi2"
 import { FaChevronRight } from "react-icons/fa6"
 import { PiComputerTower, PiTelevisionSimple } from "react-icons/pi"
+import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai"
 
 
 const icons = {
@@ -30,6 +31,8 @@ const icons = {
     BsUsbDrive,
     PiComputerTower,
     PiTelevisionSimple,
+    AiOutlineRight,
+    AiOutlineLeft,
 }
 
 export default icons
