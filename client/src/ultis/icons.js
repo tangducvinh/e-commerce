@@ -10,6 +10,7 @@ import { HiOutlineDevicePhoneMobile } from "react-icons/hi2"
 import { FaChevronRight } from "react-icons/fa6"
 import { PiComputerTower, PiTelevisionSimple } from "react-icons/pi"
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai"
+import { FaStar, FaRegHeart } from "react-icons/fa"
 
 
 const icons = {
@@ -33,6 +34,8 @@ const icons = {
     PiTelevisionSimple,
     AiOutlineRight,
     AiOutlineLeft,
+    FaStar,
+    FaRegHeart,
 }
 
 export default icons

@@ -1,9 +1,8 @@
-import { Sidebar } from '../../companents'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
+import { Sidebar, Banner, HotSale } from '../../companents'
 import { fecthHome } from '../../store/appSlice'
-import { Banner } from '../../companents'
 import { advantises } from '../../ultis/contants'
 
 const Home = () => {
@@ -14,7 +13,7 @@ const Home = () => {
     })
 
     return (
-        <div className="flex mt-[16px] flex-col items-center">
+        <div className="flex mt-[16px] flex-col items-center px-[10px]">
             <div className="w-[1220px] flex gap-4">
                 <div className="w-[220px] rounded-xl shadow-md flex-shrink-0">
                     <Sidebar />
@@ -25,6 +24,10 @@ const Home = () => {
                         <img className="rounded-xl" alt='advantise' key={item} src={item}></img>
                     ))}
                 </div>
+            </div>
+
+            <div className="mt-4 w-main">
+                <HotSale />
             </div>
 
             <div className="h-[500px]"></div>

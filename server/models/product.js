@@ -6,6 +6,12 @@ var productSchema = new mongoose.Schema({
         require: true,
         trim: true,
     },
+    price: {
+        type: Object,
+    },
+    incentives: {
+        type: Array,
+    },
     slug: {
         type: String,
         require: true,
@@ -16,8 +22,7 @@ var productSchema = new mongoose.Schema({
         type: String,
     },
     category: {
-        type: mongoose.Types.ObjectId,
-        ref: 'category',
+        type: String,
     },
     quanlity: {
         type: Number,
@@ -45,6 +50,9 @@ var productSchema = new mongoose.Schema({
     },
     version: {
         type: Array,
+    },
+    discount: {
+        type: Number,
     },
     ratings: [
         {

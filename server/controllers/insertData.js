@@ -2,7 +2,6 @@ const Product = require('../models/product')
 const asyncHandler = require('express-async-handler')
 const data = require('../../data/ecommerce.json')
 const slugify = require('slugify')
-const { createProduct } = require('./product')
 
 const fn = async(product) => {
     await Product.create({
@@ -15,7 +14,11 @@ const fn = async(product) => {
         version: product?.version,
         quanlity: Math.round(Math.random() * 1000),
         sold: Math.round(Math.random() * 100),
-        images: product?.images
+        images: product?.images,
+        discount: Math?.round(Math.random() * 50),
+        price: product?.price,
+        incentives: product?.incentives,
+        category: product?.category
     })
 }
 
