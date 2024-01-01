@@ -5,7 +5,7 @@ const slugify = require('slugify')
 
 const fn = async(product) => {
     await Product.create({
-        name: product?.name,
+        title: product?.name,
         slug: slugify(product?.name + Math.random() * 1000),
         variants: product?.variants,
         information: product?.information,

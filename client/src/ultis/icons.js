@@ -7,7 +7,7 @@ import { FiPhone } from "react-icons/fi"
 import { TfiTruck } from "react-icons/tfi"
 import { BsHandbag, BsLaptop, BsUsbDrive } from "react-icons/bs"
 import { HiOutlineDevicePhoneMobile } from "react-icons/hi2"
-import { FaChevronRight } from "react-icons/fa6"
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa6"
 import { PiComputerTower, PiTelevisionSimple } from "react-icons/pi"
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai"
 import { FaStar, FaRegHeart } from "react-icons/fa"
@@ -36,6 +36,7 @@ const icons = {
     AiOutlineLeft,
     FaStar,
     FaRegHeart,
+    FaChevronLeft,
 }
 
 export default icons

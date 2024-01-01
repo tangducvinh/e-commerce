@@ -30,8 +30,8 @@ export const advantises = [
 
 export const navHotSales = [
     {
-        title: "Điện thoại",
-        filter: "smartphone"
+        title: 'Điện thoại',
+        filter: 'smartphone',
     },
     {
         title: 'Loptop',
@@ -40,5 +40,9 @@ export const navHotSales = [
     {
         title: 'Phụ kiện',
         filter: 'accessory',
-    }
+    },
+    {
+        title: 'Smarthome',
+        filter: 'smarthome',
+    },
 ]

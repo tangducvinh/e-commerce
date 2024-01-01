@@ -27,3 +27,20 @@ export const getHome = () => {
         }
     })
 }
+
+export const getProducts = (title) => {
+    return new Promise( async(resolve, reject) => {
+        try{
+            const response = await axios({
+                url: '/product/infor-all-product',
+                params: {
+                    category: title
+                },
+                mothod: 'get'
+            })
+            resolve(response.data.data)
+        } catch(e) {
+            reject(e)
+        }
+    })
+}

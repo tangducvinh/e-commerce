@@ -55,17 +55,17 @@ const Banner = () => {
                 <div 
                     ref={nextElement}
                     onClick={() => number === banner.length - 1 ? setNumber(0) : setNumber(prev => prev + 1)}
-                    className="absolute top-[40%] right-[-50px] w-[45px] h-[50px] rounded-l-[50%] flex justify-center items-center bg-navigation cursor-pointer" 
+                    className="absolute top-[40%] right-[-50px] w-[35px] h-[55px] rounded-l-[100px] flex justify-center items-center bg-navigation cursor-pointer" 
                 >
-                    <AiOutlineRight size={30} color="#ccc"/>
+                    <AiOutlineRight size={27} color="#ccc"/>
                 </div>
                 
                 <div 
                     ref={prevElement}
                     onClick={() => number === 0 ? setNumber(banner.length - 1) : setNumber(prev => prev - 1)}
-                    className="absolute top-[40%] left-[-50px] w-[45px] h-[50px] rounded-r-[50%] flex justify-center items-center bg-navigation cursor-pointer" 
+                    className="absolute top-[40%] left-[-50px] w-[35px] h-[55px] rounded-r-[100px] flex justify-center items-center bg-navigation cursor-pointer" 
                 >
-                    <AiOutlineLeft size={30} color="#ccc"/>
+                    <AiOutlineLeft size={27} color="#ccc"/>
                 </div>
             </div>
 
