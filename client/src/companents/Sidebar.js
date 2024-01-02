@@ -18,7 +18,7 @@ const Sidebar = () => {
                 >
                     <div className="flex-auto flex items-center">
                         {iconSidebar[index]}
-                        <Link className="text-[12px] text-sidebar font-[700] ml-1 hover:text-main">{item.title}</Link>
+                        <Link to={`/products/${item?.category}`} className="text-[12px] text-sidebar font-[700] ml-1 hover:text-main">{item.title}</Link>
                     </div>
 
                     <FaChevronRight color="gray"/>

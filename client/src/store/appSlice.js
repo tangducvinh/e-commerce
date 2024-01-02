@@ -13,6 +13,7 @@ export const appSlice = createSlice({
         },
         banner: [],
         hotSales: [],
+        dataTheme: [],
     },
     reducers: {
         getCategory: (state, action) => {
@@ -35,11 +36,16 @@ export const appSlice = createSlice({
         builder.addCase(fecthProducts.fulfilled, (state, action) => {
             state.hotSales = action.payload
         })
+
+        builder.addCase(fecthTheme.fulfilled, (state, action) => {
+            state.dataTheme = action.payload
+        })
     }
 })
 
 export const fecthCategory = createAsyncThunk('app/fecthCategory', async () => {
     const response = await getApiCategory()
+    console.log(response)
 
     return response
 })
@@ -52,6 +58,20 @@ export const fecthHome = createAsyncThunk('app/fecthHome', async() => {
 
 export const fecthProducts = createAsyncThunk('app/fecthSmartphone', async(title) => {
     const response = await getProducts(title)
+
+    return response
+})
+
+export const fecthTheme = createAsyncThunk('app/fecthTheme', async(data) => {
+    const response = []
+
+    for (let value of data) {
+        const result = {}
+        result.title = value.title
+        result.row = value.row
+        result.items = await getProducts(value.filter)
+        response.push(result)
+    }
 
     return response
 })

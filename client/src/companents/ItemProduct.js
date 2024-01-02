@@ -1,12 +1,17 @@
 import { memo } from 'react'
+import { Link } from 'react-router-dom'
 
 import icons from '../ultis/icons'
+import path from '../ultis/path'
 
-const ItemProduct = ({ image, discount, title, price, sale, star }) => {
+const ItemProduct = ({ image, discount, title, price, sale, star, incentives, link }) => {
     const { FaStar, FaRegHeart } = icons
 
     return (
-        <div className="flex flex-col ml-2 bg-white h-full rounded-xl p-3 relative">
+        <Link 
+            to={`/${path.DETAIL_PRODUCT}/${link}`}
+            className="flex flex-col ml-2 bg-white h-full rounded-xl p-3 relative mt-[10px] shadow-lg"
+        >
             <div className="flex justify-center mt-2">
                 <img className="w-[160px] h-[160px] object-cover" alt="product" src={image} ></img>
             </div>
@@ -15,13 +20,19 @@ const ItemProduct = ({ image, discount, title, price, sale, star }) => {
                 <span className="text-white text-[12px] font-[700]">{`Giảm ${discount}%`}</span>
             </div>
 
-            <div className="mt-2 gap-4 flex flex-col">
-                <p className="text-[#444444] font-[500] h-[100px]">{title}</p>
+            <div className="mt-2 flex flex-col">
+                <p className="text-[#444444] font-[500] line-clamp-3 h-[75px]">{title}</p>
 
                 <div className="flex gap-1 font-[500]">
-                    <p className="font-[16px] text-[#D70018]">{price}</p>
-                    <p className="font-sm text-[#707070] line-through">{sale}</p>
+                    <p className="font-[16px] text-[#D70018]">{sale}</p>
+                    <p className="font-sm text-[#707070] line-through">{price}</p>
                 </div>
+
+                {incentives?.length ? 
+                    <div className="bg-[#F3F4F6] min-h-10 px-1 py-[2px] mt-2 mb-2 rounded-md"><p className="text-[12px] line-clamp-2">{incentives}</p></div>
+                    :
+                    <div className="px-1 py-[2px] mt-2 mb-2 min-h-10"></div>
+                }
 
                 <div className="flex items-center">
                     {star == 5 && 
@@ -40,7 +51,7 @@ const ItemProduct = ({ image, discount, title, price, sale, star }) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     )
 }
 

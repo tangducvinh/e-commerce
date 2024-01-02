@@ -7,18 +7,24 @@ const {
     IoWatchOutline,
     IoHomeOutline,
     BsUsbDrive,
-    PiComputerTower,
-    PiTelevisionSimple 
+    PiTelevisionSimple,
+    FaTabletAlt,
+    IoCameraOutline,
+    GiPressureCooker,
+    SlScreenDesktop,
 } = icons
 
 export const iconSidebar = [
     <HiOutlineDevicePhoneMobile size={25} />,
+    <FaTabletAlt size={25}/>,
     <BsLaptop size={25} />,
     <IoHeadsetOutline size={25} />,
     <IoWatchOutline size={25} />,
+    <IoCameraOutline size={25}/>,
+    <GiPressureCooker size={25}/>,
     <IoHomeOutline size={25} />,
     <BsUsbDrive size={25} />,
-    <PiComputerTower size={25} />,
+    <SlScreenDesktop size={25} />,
     <PiTelevisionSimple size={25} />,
 ]
 
@@ -46,3 +52,47 @@ export const navHotSales = [
         filter: 'smarthome',
     },
 ]
+
+export const theme = [
+    {
+        title: 'ĐIỆN THOẠI NỔI BẬT NHẤT',
+        filter: 'smartphone',
+        row: 2,
+    },
+    {
+        title: 'LAPTOP',
+        filter: 'laptop',
+        row: 2,
+    },
+    {
+        title: 'MÀN HÌNH, MÁY TÍNH ĐỂ BÀN',
+        filter: 'monitor',
+        row: 1,
+    },
+    {
+        title: 'MÁY TÍNH BẢNG',
+        filter: 'tablet',
+        row: 1,
+    },
+    {
+        title: 'ÂM THANH',
+        filter: 'audio',
+        row: 1,
+    },
+    {
+        title: 'ĐỒNG HỒ',
+        filter: 'watch',
+        row: 1,
+    },
+    {
+        title: 'GIA DỤNG',
+        filter: 'appliances',
+        row: 1,
+    },
+    {
+        title: 'TI VI',
+        filter: 'tivi',
+        row: 1,
+    },
+]
+

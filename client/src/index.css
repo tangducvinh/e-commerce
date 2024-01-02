@@ -114,3 +114,7 @@ button.slick-next::before {
     position: absolute;
 }
 
+.slick-track {
+    padding-bottom: 8px;
+}
+

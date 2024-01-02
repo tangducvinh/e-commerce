@@ -33,6 +33,9 @@ module.exports = {
         '6': '6 6 0%',
         '7': '7 7 0%',
       },
+      boxShadow: {
+        'item-product': '[0 1px 2px 0 rgba(60,64,67,.1)]',
+      }
     },
   },
   plugins: [],

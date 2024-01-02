@@ -1,16 +1,18 @@
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { Sidebar, Banner, HotSale } from '../../companents'
-import { fecthHome } from '../../store/appSlice'
-import { advantises } from '../../ultis/contants'
+import { Sidebar, Banner, HotSale, SlickProduct } from '../../companents'
+import { fecthHome, fecthTheme } from '../../store/appSlice'
+import { advantises, theme } from '../../ultis/contants'
 
 const Home = () => {
     const dispatch = useDispatch()
+    const { dataTheme } = useSelector(state => state.app)
 
     useEffect(() => {
         dispatch(fecthHome())
-    })
+        dispatch(fecthTheme(theme))
+    }, [])
 
     return (
         <div className="flex mt-[16px] flex-col items-center px-[10px]">
@@ -30,7 +32,14 @@ const Home = () => {
                 <HotSale />
             </div>
 
+            {dataTheme.map(item => (
+                <div className="mt-4 w-main">
+                    <SlickProduct data={item.items} row={item.row} title={item.title} incentives/>
+                </div>
+            ))}
+
             <div className="h-[500px]"></div>
+
         </div>     
     )
 }

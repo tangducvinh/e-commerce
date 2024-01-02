@@ -13,28 +13,28 @@ const Countdown = () => {
         setSecond(60)
     }, [])
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            if (second !== 0) setSecond(prev => prev - 1)
-            else {
-                setSecond(60)
-                if (minute !== 0) setMinute(prev => prev - 1)
-                else {
-                    setMinute(59)
-                    if (hour !== 0) setHour(prev => prev - 1)
-                    else {
-                        setHour(23)
-                        if (day !== 0) setDay(prev => prev - 1)
-                        else {
-                            setDay(1)
-                        }
-                    }
-                }
-            }
-        }, 1000)
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         if (second !== 0) setSecond(prev => prev - 1)
+    //         else {
+    //             setSecond(60)
+    //             if (minute !== 0) setMinute(prev => prev - 1)
+    //             else {
+    //                 setMinute(59)
+    //                 if (hour !== 0) setHour(prev => prev - 1)
+    //                 else {
+    //                     setHour(23)
+    //                     if (day !== 0) setDay(prev => prev - 1)
+    //                     else {
+    //                         setDay(1)
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }, 1000)
 
-        return () => clearInterval(interval)
-    }, [second])
+    //     return () => clearInterval(interval)
+    // }, [second])
 
     return (
         <div className="flex gap-1 items-center">
