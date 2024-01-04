@@ -36,7 +36,7 @@ export const getProducts = (title) => {
                 params: {
                     category: title
                 },
-                mothod: 'get'
+                method: 'get'
             })
             resolve(response.data.data)
         } catch(e) {
@@ -44,3 +44,4 @@ export const getProducts = (title) => {
         }
     })
 }
+

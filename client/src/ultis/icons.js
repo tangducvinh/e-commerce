@@ -12,7 +12,8 @@ import { PiComputerTower, PiTelevisionSimple } from "react-icons/pi"
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai"
 import { FaStar, FaRegHeart, FaTabletAlt } from "react-icons/fa"
 import { GiPressureCooker } from "react-icons/gi"
-import { SlScreenDesktop } from "react-icons/sl";
+import { SlScreenDesktop } from "react-icons/sl"
+import { GoArrowLeft } from "react-icons/go"
 
 
 const icons = {
@@ -42,7 +43,8 @@ const icons = {
     FaTabletAlt,
     IoCameraOutline,
     GiPressureCooker,
-    SlScreenDesktop
+    SlScreenDesktop,
+    GoArrowLeft
 }
 
 export default icons

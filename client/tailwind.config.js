@@ -34,7 +34,22 @@ module.exports = {
         '7': '7 7 0%',
       },
       boxShadow: {
-        'item-product': '[0 1px 2px 0 rgba(60,64,67,.1)]',
+        'item-product': '[0 1px 2px 0 rgba(60,64,67,.1)]'
+      },
+      animation: {
+        'slice-top': 'slide-top 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;'
+      },
+      keyframes: {
+        'slide-top': {
+          '0%': {
+            '-webkit-transform': 'translateY(0);',
+            transform: 'translateY(0);'
+          },
+          '100%': {
+            '-webkit-transform': 'translateY(-22px);',
+            transform: 'translateY(-22px);'
+          }
+        }
       }
     },
   },

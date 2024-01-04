@@ -1,4 +1,5 @@
 import icons from './icons'
+import path from './path'
 
 const {
     HiOutlineDevicePhoneMobile,
@@ -12,6 +13,7 @@ const {
     IoCameraOutline,
     GiPressureCooker,
     SlScreenDesktop,
+    GoArrowLeft,
 } = icons
 
 export const iconSidebar = [
@@ -95,4 +97,95 @@ export const theme = [
         row: 1,
     },
 ]
+
+export const dataRegister = {
+    id: 1,
+    navigate: `/${path.LOGIN}`,
+    link: `${process.env.REACT_APP_API_URI}${path.USER_REGISTER}`,
+    icon: <GoArrowLeft size={30} color="#4A4A4A"/>,
+    image: 'https://account.cellphones.com.vn/_nuxt/img/Shipper_CPS3.77d4065.png',
+    title: 'Đăng ký tài khoản Smember',
+    initData: {
+        name: '',
+        mobile: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        introduce: '',
+    },
+    options: [
+        {
+            placeholder: 'Nhập họ và tên',
+            label: 'HỌ VÀ TÊN (*)',
+            name: 'name'
+        },
+        {
+            placeholder: 'Nhập số điện thoại',
+            label: 'NHẬP SỐ ĐIỆN THOẠI (*)',
+            name: 'mobile',
+        },
+        {
+            placeholder: 'Nhập email (không bắt buộc)',
+            label: 'EMAIL',
+            description: 'Hoá đơn VAT khi mua hàng sẽ được gửi qua email này',
+            name: 'email'
+        },
+        {
+            placeholder: 'Nhập mật khẩu',
+            label: 'NHẬP MẬT KHẨU (*)',
+            description: '(*) Mật khẩu tối thiểu 6 ký tự, có ít nhất 1 chứ và 1 số. (VD: 12345a)',
+            name: 'password',
+            type: 'password'
+        },
+        {
+            placeholder: 'Nhập lại mật khẩu',
+            label: 'XÁC NHẬN MẬT KHẨU (*)',
+            name: 'confirmPassword',
+            type: 'password'
+        },
+        {
+            placeholder: 'Nhập mã giới thiệu (nếu có)',
+            label: 'MÃ GIỚI THIỆU',
+            name: 'introduce',
+        },
+    ],
+    clause: [
+        'Đăng ký nhận bản tin khuyến mãi từ CellphoneS',
+        'Tôi đồng ý với các điều khoản bảo mật cá nhân'
+    ],
+    name: 'Đăng ký',
+    description: 'hoặc đăng ký bằng',
+    question: 'Bạn đã có tài khoản?',
+    require: 'Đăng nhập ngay',
+}
+
+export const dataLogin = {
+    id: 2,
+    navigate: `/${path.REGISTER}`,
+    link: `${process.env.REACT_APP_API_URI}${path.USER_LOGIN}`,
+    image: 'https://account.cellphones.com.vn/_nuxt/img/Shipper_CPS3.77d4065.png',
+    title: 'Đăng nhập tài khoản Smember',
+    initData: {
+        email: '',
+        password: '',
+    },
+    options: [
+        {
+            label: 'SỐ ĐIỆN THOẠI/EMAIL',
+            placeholder: "Nhập số điện thoại/email",
+            name: 'email',
+        },
+        {
+            label: 'MẬT KHẨU',
+            placeholder: "Nhập mật khẩu",
+            name: 'password',
+            type: 'password'
+        },
+    ],
+    forgot: 'Quên mật khẩu?',
+    name: 'Đăng nhập',
+    description: 'hoặc đăng nhập bằng',
+    question: 'Bạn chưa có tài khoản?',
+    require: 'Đăng ký ngay',
+}
 

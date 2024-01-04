@@ -6,8 +6,8 @@ const sendMail = require('../ultis/sendMail')
 const crypto = require('crypto')
 
 const register = asyncHandler(async(req, res) => {
-    const { email, password, firstname, lastname } = req.body
-    if(!email || !password || !lastname || !firstname) {
+    const { email, password, name, mobile } = req.body
+    if(!email || !password || !name || !mobile) {
         return res.status(400).json({
             sucess: false,
             mes: 'Missing inputs'
@@ -44,7 +44,7 @@ const login = asyncHandler(async (req, res) => {
             await User.findByIdAndUpdate(response._id, { refreshToken: newRefreshToken }, {new: true})
             res.cookie('refreshToken', newRefreshToken, {httpOnly: true, maxAge: 7*24*60*60*1000})
             return res.status(200).json({
-                sucess: true,
+                success: true,
                 accessToken,
                 userData,
             })

@@ -67,10 +67,10 @@ const Header = () => {
                         <Button icon={<BsHandbag size={25} />} text1={'Giỏ'} text2={'hàng'}></Button>
                     </div>
 
-                    <div className="text-white bg-bg-btn rounded-xl px-2 flex flex-col items-center cursor-pointer">
+                    <Link to={`/${path.LOGIN}`} className="text-white bg-bg-btn rounded-xl px-2 flex flex-col items-center cursor-pointer">
                         <IoPersonCircleOutline size={25}/>
                         <span className="text-[12px]">Đăng nhập</span>
-                    </div>
+                    </Link>
                 </div>
             </div>
         </div>
