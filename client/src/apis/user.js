@@ -10,7 +10,7 @@ export const register = (data) => {
                 data,
                 method: 'post',
             })
-            resolve(response)
+            resolve(response.data)
         } catch(e) {
             reject(e)
         }
@@ -25,7 +25,7 @@ export const login = (data) => {
                 data,
                 method: 'post'
             })
-            resolve(response)
+            resolve(response.data)
         } catch(e) {
             reject(e)
         }

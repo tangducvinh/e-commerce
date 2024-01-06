@@ -1,27 +1,45 @@
 import { Link } from 'react-router-dom'
 import { memo, useState, useEffect } from 'react'
+import swal from 'sweetalert'
+import { useNavigate } from 'react-router-dom'
 
 import { InputLogin } from '../../companents'
 import * as apis from '../../apis'
+import path from '../../ultis/path'
 
 const Register = ({ data }) => {
     const [ value, setValue ] = useState({})
+    const navigate = useNavigate()
+    const [ saveRegister, setSaveRegister ] = useState()
 
     useEffect(() => {
-        setValue(data.initData)
+        if (saveRegister) setValue(saveRegister)
+        else setValue(data.initData)
     }, [data])
 
     const handleSubmit = async() => {
         const { confirmPassword, introduce, ...rest} = value
 
         if (data.id === 1) {
-            const response = await apis.register(rest)
-            console.log(response)
+            if (value.confirmPassword !== value.password ) {
+                swal("Thất bại", "Mật khẩu xác thực lại không trùng khớp", "error")
+            } else {
+                const response = await apis.register(rest)
+                swal(response?.success ? 'Congratulation' : 'Oops', response?.mess, response?.success ? 'success' : 'error')
+
+                if (response?.success) {
+                    navigate(`/${path.LOGIN}`)
+                    setSaveRegister({email: rest.email, password: rest.password})
+                }
+            }
         } else {
             const response = await apis.login(rest)
-            console.log(response)
-        }
 
+            if (!response.success) swal("Thất bại", "Thông tin đăng nhập không đúng", "error")
+            else {
+                navigate(`/${path.HOME}`)
+            }
+        }
     }
 
     return (

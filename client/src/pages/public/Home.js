@@ -22,8 +22,8 @@ const Home = () => {
                 </div>
                 <div className="flex-auto rounded-br-xl rounded-bl-xl shadow-md"><Banner /></div>
                 <div className="w-[260px] flex-shrink-0 flex flex-col justify-between">
-                    {advantises.map(item => (
-                        <img className="rounded-xl" alt='advantise' key={item} src={item}></img>
+                    {advantises.map((item, index) => (
+                        <img className="rounded-xl" alt='advantise' key={index} src={item}></img>
                     ))}
                 </div>
             </div>

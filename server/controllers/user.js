@@ -8,19 +8,31 @@ const crypto = require('crypto')
 const register = asyncHandler(async(req, res) => {
     const { email, password, name, mobile } = req.body
     if(!email || !password || !name || !mobile) {
-        return res.status(400).json({
-            sucess: false,
-            mes: 'Missing inputs'
+        return res.status(200).json({
+            success: false,
+            mess: 'Vui lòng nhập thông tin đầy đủ'
         }) 
     } else {
-        const user = await User.findOne({email: email})
-        if (user) {
-            throw new Error('User has existed!')
+        const user = await User.findOne({mobile})
+        const checkEmail = await User.findOne({email})
+        if (user || checkEmail) {
+            if (user) {
+                return res.status(200).json({
+                    success: false,
+                    mess: "Số điện thoại đã được sử dụng"
+                })
+            } else {
+                return res.status(200).json({
+                    success: false,
+                    mess: "Email đã được sử dụng"
+                })
+            }
         } else {
             const response = await User.create(req.body)
+            console.log(response)
             return res.status(200).json({
-                sucess: response ? true : false,
-                mes: response ? 'Register is successfully. Please go login' : 'Something went wrong'
+                success: response ? true : false,
+                mess: response ? 'Register is successfully. Please go login' : 'Something went wrong'
             })
         }
     }
@@ -29,13 +41,17 @@ const register = asyncHandler(async(req, res) => {
 const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body
     if (!email || !password) {
-        return res.status(400).json({
+        return res.status(200).json({
             sucess: false,
             mes: 'Missing inputs'
         })
     } else {
-        const response = await User.findOne({ email })
-        const checkPassword = await response.isCorrectPassword(password)
+        let response
+        if ( email.slice(0, 1) === '0' ) response = await User.findOne({mobile: email})
+        else response = await User.findOne({email})
+
+        let checkPassword
+        if (response) checkPassword = await response.isCorrectPassword(password)
         
         if (response && checkPassword) {
             const { password, role, refreshToken, ...userData } = response.toObject()
@@ -49,7 +65,10 @@ const login = asyncHandler(async (req, res) => {
                 userData,
             })
         } else {
-            throw new Error('Invalid credentials')
+            return res.status(200).json({
+                success: false,
+                mess: "Thông tin đăng nhập không đÚng"
+            })
         }
     }
 })
