@@ -4,38 +4,103 @@ const { generateAccessToken, generateRefreshToken } = require('../middlewares/jw
 const jwt = require('jsonwebtoken')
 const sendMail = require('../ultis/sendMail')
 const crypto = require('crypto')
+const uniqid = require('uniqid')
+
+// const register = asyncHandler(async(req, res) => {
+//     const { email, password, name, mobile } = req.body
+//     if(!email || !password || !name || !mobile) {
+//         return res.status(200).json({
+//             success: false,
+//             mess: 'Vui lòng nhập thông tin đầy đủ'
+//         }) 
+//     } else {
+//         const user = await User.findOne({mobile})
+//         const checkEmail = await User.findOne({email})
+//         if (user || checkEmail) {
+//             if (user) {
+//                 return res.status(200).json({
+//                     success: false,
+//                     mess: "Số điện thoại đã được sử dụng"
+//                 })
+//             } else {
+//                 return res.status(200).json({
+//                     success: false,
+//                     mess: "Email đã được sử dụng"
+//                 })
+//             }
+//         } else {
+//             const response = await User.create(req.body)
+            
+//             return res.status(200).json({
+//                 success: response ? true : false,
+//                 mess: response ? 'Register is successfully. Please go login' : 'Something went wrong'
+//             })
+//         }
+//     }
+// })
 
 const register = asyncHandler(async(req, res) => {
     const { email, password, name, mobile } = req.body
-    if(!email || !password || !name || !mobile) {
+    if (!email || !password || !mobile || !name) {
         return res.status(200).json({
-            success: false,
-            mess: 'Vui lòng nhập thông tin đầy đủ'
-        }) 
-    } else {
-        const user = await User.findOne({mobile})
-        const checkEmail = await User.findOne({email})
-        if (user || checkEmail) {
-            if (user) {
-                return res.status(200).json({
-                    success: false,
-                    mess: "Số điện thoại đã được sử dụng"
-                })
-            } else {
-                return res.status(200).json({
-                    success: false,
-                    mess: "Email đã được sử dụng"
-                })
-            }
-        } else {
-            const response = await User.create(req.body)
-            console.log(response)
+            succees: false,
+            mess: 'Vui lòng nhập đầy đủ thông tin'
+        })
+    }
+
+    const user = await User.findOne({mobile})
+    const checkEmail = await User.findOne({email})
+
+    if (user || checkEmail) {
+        if (user) {
             return res.status(200).json({
-                success: response ? true : false,
-                mess: response ? 'Register is successfully. Please go login' : 'Something went wrong'
+                success: false,
+                mess: "Số điện thoại đã được sử dụng"
+            })
+        } else {
+            return res.status(200).json({
+                success: false,
+                mess: "Email đã được sử dụng"
             })
         }
     }
+
+    const token = uniqid()
+    res.cookie('dataregister', { ...req.body, token }, {httpOnly: true, maxAge: 3*60*1000})
+    const html = `Xin vui lòng click vào link dưới đây để xác thực email. Link nào sẽ hết hiệu lực trong 3 phút kể từ bây giờ. <a href=${process.env.URL_SERVER}api/user/final-register/${token}>Xác thực</a>`
+
+    await sendMail({email, html, subject: 'Xác thực email'})
+
+    return res.json({
+        success: true,
+        mess: "Check email để hoàn thành đăng kí tài khoản"
+    })
+})
+
+const finalRegister = asyncHandler( async(req, res) => {
+    const { token } = req.params
+    const cookie = req.cookies
+
+    console.log(cookie)
+
+    return res.json({
+        success: true,
+        data: cookie
+    })
+
+    // if (cookie.dataregister.token === token) {
+    //     const response = await User.create({email: cookie.dataregister.email, mobile: cookie.dataregister.mobile, name: cookie.dataregister.name, password: cookie.dataregister.password})
+        
+    //     return res.status(200).json({
+    //         success: response ? true : false,
+    //         mess: response ? 'Register is successfully. Please go login' : 'Something went wrong'
+    //     })
+    // } else {
+    //     return res.json({
+    //         success: false,
+    //         mess: 'Xác thực email thất bại'
+    //     })
+    // }
 })
 
 const login = asyncHandler(async (req, res) => {
@@ -127,6 +192,7 @@ const forgotPassword = asyncHandler(async(req, res) => {
     const data = {
         email: email,
         html: html,
+        subject: 'Lấy lại mật khẩu'
     }
 
     const rs = await sendMail(data)
@@ -231,6 +297,7 @@ const updateCart = asyncHandler(async(req, res) => {
 
 module.exports = {
     register,
+    finalRegister,
     login,
     getCurrent,
     refreshAccessToken,

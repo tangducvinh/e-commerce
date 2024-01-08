@@ -28,8 +28,9 @@ const SlickProduct = ({ data, title, row = 1, incentives }) => {
                 </div>
             }
             <Slice {...settings}>
-                {data?.map(item => (
+                {data?.map((item, index) => (
                     <ItemProduct 
+                        key={index}
                         image = {item?.images[0]}
                         discount = {item?.discount}
                         title = {item?.title}

@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import { getApiCategory, getHome, getProducts } from '../apis'
-import { TfiQuoteLeft } from 'react-icons/tfi'
 
 export const appSlice = createSlice({
     name: 'app',
@@ -45,7 +44,6 @@ export const appSlice = createSlice({
 
 export const fecthCategory = createAsyncThunk('app/fecthCategory', async () => {
     const response = await getApiCategory()
-    console.log(response)
 
     return response
 })

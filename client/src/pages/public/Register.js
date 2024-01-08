@@ -2,15 +2,18 @@ import { Link } from 'react-router-dom'
 import { memo, useState, useEffect } from 'react'
 import swal from 'sweetalert'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 import { InputLogin } from '../../companents'
 import * as apis from '../../apis'
 import path from '../../ultis/path'
+import { userSlice } from '../../store/userSlice'
 
 const Register = ({ data }) => {
     const [ value, setValue ] = useState({})
     const navigate = useNavigate()
     const [ saveRegister, setSaveRegister ] = useState()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (saveRegister) setValue(saveRegister)
@@ -27,16 +30,17 @@ const Register = ({ data }) => {
                 const response = await apis.register(rest)
                 swal(response?.success ? 'Congratulation' : 'Oops', response?.mess, response?.success ? 'success' : 'error')
 
-                if (response?.success) {
-                    navigate(`/${path.LOGIN}`)
-                    setSaveRegister({email: rest.email, password: rest.password})
-                }
+                // if (response?.success) {
+                //     navigate(`/${path.LOGIN}`)
+                //     setSaveRegister({email: rest.email, password: rest.password})
+                // }
             }
         } else {
             const response = await apis.login(rest)
 
             if (!response.success) swal("Thất bại", "Thông tin đăng nhập không đúng", "error")
             else {
+                dispatch(userSlice.actions.register({isLoggedIn: true, userData: response.userData, token: response.accessToken}))
                 navigate(`/${path.HOME}`)
             }
         }

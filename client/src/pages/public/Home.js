@@ -32,8 +32,8 @@ const Home = () => {
                 <HotSale />
             </div>
 
-            {dataTheme.map(item => (
-                <div className="mt-4 w-main">
+            {dataTheme.map((item, index) => (
+                <div className="mt-4 w-main" key={index}>
                     <SlickProduct data={item.items} row={item.row} title={item.title} incentives/>
                 </div>
             ))}
