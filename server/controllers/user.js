@@ -6,39 +6,6 @@ const sendMail = require('../ultis/sendMail')
 const crypto = require('crypto')
 const uniqid = require('uniqid')
 
-// const register = asyncHandler(async(req, res) => {
-//     const { email, password, name, mobile } = req.body
-//     if(!email || !password || !name || !mobile) {
-//         return res.status(200).json({
-//             success: false,
-//             mess: 'Vui lòng nhập thông tin đầy đủ'
-//         }) 
-//     } else {
-//         const user = await User.findOne({mobile})
-//         const checkEmail = await User.findOne({email})
-//         if (user || checkEmail) {
-//             if (user) {
-//                 return res.status(200).json({
-//                     success: false,
-//                     mess: "Số điện thoại đã được sử dụng"
-//                 })
-//             } else {
-//                 return res.status(200).json({
-//                     success: false,
-//                     mess: "Email đã được sử dụng"
-//                 })
-//             }
-//         } else {
-//             const response = await User.create(req.body)
-            
-//             return res.status(200).json({
-//                 success: response ? true : false,
-//                 mess: response ? 'Register is successfully. Please go login' : 'Something went wrong'
-//             })
-//         }
-//     }
-// })
-
 const register = asyncHandler(async(req, res) => {
     const { email, password, name, mobile } = req.body
     if (!email || !password || !mobile || !name) {
@@ -81,26 +48,16 @@ const finalRegister = asyncHandler( async(req, res) => {
     const { token } = req.params
     const cookie = req.cookies
 
-    console.log(cookie)
-
-    return res.json({
-        success: true,
-        data: cookie
-    })
-
-    // if (cookie.dataregister.token === token) {
-    //     const response = await User.create({email: cookie.dataregister.email, mobile: cookie.dataregister.mobile, name: cookie.dataregister.name, password: cookie.dataregister.password})
-        
-    //     return res.status(200).json({
-    //         success: response ? true : false,
-    //         mess: response ? 'Register is successfully. Please go login' : 'Something went wrong'
-    //     })
-    // } else {
-    //     return res.json({
-    //         success: false,
-    //         mess: 'Xác thực email thất bại'
-    //     })
-    // }
+    try {
+        if (cookie.dataregister.token === token) {
+            const response =  await User.create({email: cookie.dataregister.email, mobile: cookie.dataregister.mobile, name: cookie.dataregister.name, password: cookie.dataregister.password})
+            if(response) return res.redirect(`${process.env.CLIENT_URL}/final_register/true`)
+        } else {
+            return res.redirect(`${process.env.CLIENT_URL}/final_register/false`)
+        }
+    } catch(e) {
+        return res.redirect(`${process.env.CLIENT_URL}/final_register/false`)
+    }
 })
 
 const login = asyncHandler(async (req, res) => {
@@ -180,14 +137,25 @@ const logout = asyncHandler(async(req, res) => {
 })
 
 const forgotPassword = asyncHandler(async(req, res) => {
-    const { email } = req.query
-    if (!email) throw new Error('Missing email')
+    const { email } = req.body
+    console.log(email)
+    if (!email) {
+        return res.json({
+            sucess: false,
+            mes: 'Vui lòng nhập email để tiếP tục'
+        })
+    }
     const user = await User.findOne({email})
-    if (!user) throw new Error('User not found')
+    if (!user) {
+        return res.json({
+            success: false,
+            mes: 'Email chưa đặt đăng kí trước đó'
+        })
+    }
     const resetToken = user.createPasswordChangedToken()
     await user.save()
 
-    const html = `Xin vui lòng click vào link sau đây để thay đổi mật khẩu của bạn. Link này có hiệu lực trong 15 phút. <a href=${process.env.URL_SERVER}api/user/reset-password/${resetToken}>Click here</a>`
+    const html = `Xin vui lòng click vào link sau đây để thay đổi mật khẩu của bạn. Link này có hiệu lực trong 15 phút. <a href=${process.env.CLIENT_URL}/change_password/${resetToken}>Click here</a>`
 
     const data = {
         email: email,
@@ -195,16 +163,21 @@ const forgotPassword = asyncHandler(async(req, res) => {
         subject: 'Lấy lại mật khẩu'
     }
 
-    const rs = await sendMail(data)
+    await sendMail(data)
     return res.status(200).json({
-        sucess: true,
-        rs
+        success: true,
+        mes: 'Vui lòng check email để tiếp tục'
     })
 })
 
 const checkTokenResetPassword = asyncHandler(async(req, res) => {
     const { token, password } = req.body
-    if(!token || !password) throw Error("token or password empty")
+    if(!token) {
+        return res.json({
+            success: false,
+            mes: 'Đã quá thời gian để tạo mới. Vui lòng thử lại'
+        })
+    }
 
     passwordResetToken = crypto.createHash('sha256').update(token).digest('hex')
     const user = await User.findOne({passwordResetToken, passwordResetExpire: {$gt: Date.now()}})
@@ -217,7 +190,7 @@ const checkTokenResetPassword = asyncHandler(async(req, res) => {
 
     return res.status(200).json({
         success: true,
-        mes: user ? 'Updated password' : 'Something went wrong'
+        mes: 'Mật khẩu đã được thay đổi vui lòng đăng nhập'
     })
 })
 

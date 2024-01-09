@@ -29,11 +29,6 @@ const Register = ({ data }) => {
             } else {
                 const response = await apis.register(rest)
                 swal(response?.success ? 'Congratulation' : 'Oops', response?.mess, response?.success ? 'success' : 'error')
-
-                // if (response?.success) {
-                //     navigate(`/${path.LOGIN}`)
-                //     setSaveRegister({email: rest.email, password: rest.password})
-                // }
             }
         } else {
             const response = await apis.login(rest)
@@ -63,7 +58,7 @@ const Register = ({ data }) => {
                         ))}
                     </div>
 
-                    <span className="w-full flex justify-end mt-2 text-[13px] text-[#777777] mr-2">{data.forgot}</span>
+                    <Link to={`/${path.FORGOT_PASSWORD}`} className="w-full flex justify-end mt-2 text-[13px] text-[#777777] mr-2">{data.forgot}</Link>
 
                     {data?.clause && 
                         data?.clause?.map((item, index) => (
