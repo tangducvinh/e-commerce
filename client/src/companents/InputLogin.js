@@ -6,7 +6,7 @@ const InputLogin = ({ data, index, description, value, setValue }) => {
     return (
         <div className="relative w-full">
             <label 
-                className={`text-[11px] absolute w-full mt-8 animate-slice-top bottom-2 text-main ${show || value ? 'block' : 'hidden'}`}
+                className={`text-[11px] absolute w-full mt-8 animate-slice-top bottom-2 ${show ? 'block text-main' : value?.length > 0 ? 'block text-[#999]' : 'hidden'}`}
             >{data.label}</label>
             <input 
                 onBlur={() => setShow(false)} 
@@ -15,7 +15,7 @@ const InputLogin = ({ data, index, description, value, setValue }) => {
                 required 
                 placeholder={show ? '' : data.placeholder}
                 type={data?.type}
-                value={value}
+                value={value || ''}
                 onChange={(e) => setValue(prev => ({...prev, [data.name]: e.target.value}))}
             >
             </input>

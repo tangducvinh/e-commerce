@@ -143,16 +143,11 @@ export const dataRegister = {
             name: 'confirmPassword',
             type: 'password'
         },
-        {
-            placeholder: 'Nhập mã giới thiệu (nếu có)',
-            label: 'MÃ GIỚI THIỆU',
-            name: 'introduce',
-        },
     ],
-    clause: [
-        'Đăng ký nhận bản tin khuyến mãi từ CellphoneS',
-        'Tôi đồng ý với các điều khoản bảo mật cá nhân'
-    ],
+    // clause: [
+    //     'Đăng ký nhận bản tin khuyến mãi từ CellphoneS',
+    //     'Tôi đồng ý với các điều khoản bảo mật cá nhân'
+    // ],
     name: 'Đăng ký',
     description: 'hoặc đăng ký bằng',
     question: 'Bạn đã có tài khoản?',

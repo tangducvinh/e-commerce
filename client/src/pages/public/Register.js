@@ -8,35 +8,45 @@ import { InputLogin } from '../../companents'
 import * as apis from '../../apis'
 import path from '../../ultis/path'
 import { userSlice } from '../../store/userSlice'
+import { validate } from '../../ultis/func'
 
 const Register = ({ data }) => {
     const [ value, setValue ] = useState({})
     const navigate = useNavigate()
-    const [ saveRegister, setSaveRegister ] = useState()
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (saveRegister) setValue(saveRegister)
-        else setValue(data.initData)
+        setValue(data.initData)
     }, [data])
 
     const handleSubmit = async() => {
         const { confirmPassword, introduce, ...rest} = value
 
         if (data.id === 1) {
-            if (value.confirmPassword !== value.password ) {
-                swal("Thất bại", "Mật khẩu xác thực lại không trùng khớp", "error")
+            const rs = validate(rest)
+            if (rs !== true) {
+                swal('Opps', rs, 'error')
             } else {
-                const response = await apis.register(rest)
-                swal(response?.success ? 'Congratulation' : 'Oops', response?.mess, response?.success ? 'success' : 'error')
+                if (value.confirmPassword !== value.password ) {
+                    swal("Thất bại", "Mật khẩu xác thực lại không trùng khớp", "error")
+                } else {
+                    const response = await apis.register(rest)
+                    swal(response?.success ? 'Congratulation' : 'Oops', response?.mess, response?.success ? 'success' : 'error')
+                }
             }
         } else {
-            const response = await apis.login(rest)
+            const rs = validate(rest)
 
-            if (!response.success) swal("Thất bại", "Thông tin đăng nhập không đúng", "error")
-            else {
-                dispatch(userSlice.actions.register({isLoggedIn: true, userData: response.userData, token: response.accessToken}))
-                navigate(`/${path.HOME}`)
+            if (rs !== true) {
+                swal('Opps', rs, 'error')
+            } else {
+                const response = await apis.login(rest)
+                if (response.success) {
+                    dispatch(userSlice.actions.register({isLoggedIn: true, userData: response.userData, token: response.accessToken}))
+                    navigate(`/${path.HOME}`)
+                } else {
+                    swal('Opps', 'Thông tin đăng nhập không hợp lệ', 'error')
+                }
             }
         }
     }
@@ -49,7 +59,7 @@ const Register = ({ data }) => {
                 <div 
                     className="flex flex-col items-center pb-[50px] pt-5 w-[700px]"
                 >
-                    <img className="w-[100px] h-[100px] object-cover" src={data?.image}></img>
+                    <img className="w-[100px] h-[100px] object-cover" alt="cellphones" src={data?.image}></img>
                     <p className="font-bold text-[#4A4A4A] text-[23px]">{data?.title}</p>
                     
                     <div className='flex flex-col gap-10 w-full mt-10 relative'>
