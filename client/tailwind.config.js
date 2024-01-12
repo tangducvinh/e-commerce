@@ -11,7 +11,8 @@ module.exports = {
     },
     extend: {
       width: {
-        main: '1220px'
+        main: '1220px',
+        three: 'calc(33.3333% - 8px)'
       },
       backgroundColor: {
         main: '#D70018',
@@ -32,6 +33,8 @@ module.exports = {
         '5': '5 5 0%',
         '6': '6 6 0%',
         '7': '7 7 0%',
+        '8': '8 8 0%',
+        '9': '9 9 0%',
       },
       boxShadow: {
         'item-product': '[0 1px 2px 0 rgba(60,64,67,.1)]'

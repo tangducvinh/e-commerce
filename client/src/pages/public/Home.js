@@ -12,7 +12,7 @@ const Home = () => {
     useEffect(() => {
         dispatch(fecthHome())
         dispatch(fecthTheme(theme))
-    }, [])
+    }, [dispatch])
 
     return (
         <div className="flex mt-[16px] flex-col items-center px-[10px]">

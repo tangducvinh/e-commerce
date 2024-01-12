@@ -1,7 +1,11 @@
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
+
 import icons from '../ultis/icons'
 import { Button } from '../companents'
 import { Link } from 'react-router-dom'
 import path from '../ultis/path'
+import { fecthCurrentUser, userSlice } from '../store/userSlice'
 
 const Header = () => {
     const { 
@@ -14,7 +18,26 @@ const Header = () => {
         TfiTruck,
         BsHandbag,
         IoPersonCircleOutline,
-    } = icons
+    } = icons   
+    const dispatch = useDispatch()
+
+    const { dataCurrent, isLoggedIn } = useSelector(state => state.user)
+    const name = dataCurrent?.name.split(' ')
+    const [ show, setShow ] = useState(false)
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            const set = setTimeout(() => {
+                dispatch(fecthCurrentUser())
+            }, 1500)
+
+            return () => clearTimeout(set)
+        }
+    }, [isLoggedIn, dispatch])
+
+    const handleLogout = () => {
+        dispatch(userSlice.actions.logout())
+    }
 
     return (
         <div>
@@ -31,15 +54,15 @@ const Header = () => {
                         to={`/${path.HOME}`}
                     >
                         <span className="text-white text-2xl mr-1 font-bold">Cellphone</span>
-                        <img className="h-[30px] w-[30px]" src="https://cdn2.cellphones.com.vn/x/media/favicon/default/logo-cps.png"></img>
+                        <img className="h-[30px] w-[30px]" alt="cellphones" src="https://cdn2.cellphones.com.vn/x/media/favicon/default/logo-cps.png"></img>
                     </Link>
 
-                    <a className="flex items-center w-[95px] h-[42px] bg-bg-btn justify-center rounded-xl cursor-pointer">
+                    <div className="flex items-center w-[95px] h-[42px] bg-bg-btn justify-center rounded-xl cursor-pointer">
                         <LuMenuSquare color={'white'} size={20}/>
                         <span className="ml-1 text-white text-[12px]">Danh mục</span>
-                    </a>
+                    </div>
 
-                    <a className="w-[130px] h-[39px] flex items-center cursor-pointer text-white bg-bg-btn mx-[10px] justify-center rounded-xl">
+                    <div className="w-[130px] h-[39px] flex items-center cursor-pointer text-white bg-bg-btn mx-[10px] justify-center rounded-xl">
                         <MdOutlineLocalOffer size={25}/>
 
                         <div className="flex flex-col px-2">
@@ -48,7 +71,7 @@ const Header = () => {
                         </div>
 
                         <IoChevronDownOutline />
-                    </a>
+                    </div>
 
                     <button className="h-[34px] bg-white rounded-l-xl pl-2">
                         <HiOutlineSearch size={20}/>
@@ -67,10 +90,26 @@ const Header = () => {
                         <Button icon={<BsHandbag size={25} />} text1={'Giỏ'} text2={'hàng'}></Button>
                     </div>
 
-                    <Link to={`/${path.LOGIN}`} className="text-white bg-bg-btn rounded-xl px-2 flex flex-col items-center cursor-pointer">
-                        <IoPersonCircleOutline size={25}/>
-                        <span className="text-[12px]">Đăng nhập</span>
-                    </Link>
+                    {isLoggedIn ? 
+                        <div 
+                            onClick={() => setShow(prev => !prev)}
+                            className="text-white bg-bg-btn rounded-xl px-2 flex flex-col items-center cursor-pointer relative"
+                        >
+                            <IoPersonCircleOutline size={25}/>
+                            <span className="text-[12px] px-2 select-none">{name && name[name.length - 1]}</span>
+
+                            {show && 
+                                <div className='w-[250px] bg-white z-50 absolute right-0 rounded-md shadow-xl top-[130%] p-2'>
+                                    <Link to={`/${path.LOGIN}`} onClick={handleLogout} className='text-main px-3 py-2 block w-full border border-main rounded-xl select-none'>Đăng xuất</Link>
+                                </div>
+                            }
+                        </div>
+                    : 
+                        <Link to={`/${path.LOGIN}`} className="text-white bg-bg-btn rounded-xl px-2 flex flex-col items-center cursor-pointer">
+                            <IoPersonCircleOutline size={25}/>
+                            <span className="text-[12px] px-2 select-none">Đăng nhập</span>
+                        </Link>
+                    }
                 </div>
             </div>
         </div>

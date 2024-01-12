@@ -6,14 +6,15 @@ import { MdOutlineCancel } from "react-icons/md"
 import { FiPhone } from "react-icons/fi"
 import { TfiTruck } from "react-icons/tfi"
 import { BsHandbag, BsLaptop, BsUsbDrive } from "react-icons/bs"
-import { HiOutlineDevicePhoneMobile } from "react-icons/hi2"
+import { HiOutlineDevicePhoneMobile, HiGift } from "react-icons/hi2"
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa6"
 import { PiComputerTower, PiTelevisionSimple } from "react-icons/pi"
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai"
-import { FaStar, FaRegHeart, FaTabletAlt } from "react-icons/fa"
+import { FaStar, FaRegHeart, FaTabletAlt, FaCartPlus } from "react-icons/fa"
 import { GiPressureCooker } from "react-icons/gi"
 import { SlScreenDesktop } from "react-icons/sl"
 import { GoArrowLeft } from "react-icons/go"
+import { FaCheck } from "react-icons/fa6"
 
 
 const icons = {
@@ -44,7 +45,10 @@ const icons = {
     IoCameraOutline,
     GiPressureCooker,
     SlScreenDesktop,
-    GoArrowLeft
+    GoArrowLeft,
+    HiGift,
+    FaCartPlus,
+    FaCheck,
 }
 
 export default icons

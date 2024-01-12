@@ -62,3 +62,18 @@ export const changePassword = (data) => {
         }
     })
 }
+
+export const getCurrentUser = () => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            const response = await axios({
+                url: 'user/current',
+                method: 'get',
+            })
+
+            resolve(response)
+        } catch(e) {
+            reject(e)
+        }
+    })
+}
