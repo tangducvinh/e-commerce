@@ -38,7 +38,7 @@ const Home = () => {
                 </div>
             ))}
 
-            <div className="h-[500px]"></div>
+            <div className="h-[50px]"></div>
 
         </div>     
     )

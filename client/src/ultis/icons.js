@@ -10,11 +10,12 @@ import { HiOutlineDevicePhoneMobile, HiGift } from "react-icons/hi2"
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa6"
 import { PiComputerTower, PiTelevisionSimple } from "react-icons/pi"
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai"
-import { FaStar, FaRegHeart, FaTabletAlt, FaCartPlus } from "react-icons/fa"
+import { FaStar, FaRegHeart, FaTabletAlt, FaCartPlus, FaSortAmountDown, FaSortAmountUp } from "react-icons/fa"
 import { GiPressureCooker } from "react-icons/gi"
 import { SlScreenDesktop } from "react-icons/sl"
 import { GoArrowLeft } from "react-icons/go"
 import { FaCheck } from "react-icons/fa6"
+import { RiPercentLine } from "react-icons/ri"
 
 
 const icons = {
@@ -49,6 +50,9 @@ const icons = {
     HiGift,
     FaCartPlus,
     FaCheck,
+    FaSortAmountDown,
+    FaSortAmountUp,
+    RiPercentLine,
 }
 
 export default icons

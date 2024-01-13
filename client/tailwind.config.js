@@ -9,10 +9,18 @@ module.exports = {
     fontFamily: {
       main: ['Roboto', 'sans-serif']
     },
+    listStyleType: {
+      none: 'none',
+      disc: 'disc',
+      decimal: 'decimal',
+      square: 'square',
+      roman: 'upper-roman',
+    },
     extend: {
       width: {
         main: '1220px',
-        three: 'calc(33.3333% - 8px)'
+        three: 'calc(33.3333% - 8px)',
+        five: 'calc(20% - 8px)'
       },
       backgroundColor: {
         main: '#D70018',

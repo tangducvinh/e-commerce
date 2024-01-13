@@ -14,6 +14,9 @@ const {
     GiPressureCooker,
     SlScreenDesktop,
     GoArrowLeft,
+    FaSortAmountDown,
+    FaSortAmountUp,
+    RiPercentLine,
 } = icons
 
 export const iconSidebar = [
@@ -183,4 +186,19 @@ export const dataLogin = {
     question: 'Bạn chưa có tài khoản?',
     require: 'Đăng ký ngay',
 }
+
+export const filters = [
+    {
+        icon: <FaSortAmountDown />,
+        content: 'Giá Cao - Thấp'
+    },
+    {
+        icon: <FaSortAmountUp />,
+        content: 'Giá Thấp - Cao'
+    },
+    {
+        icon: <RiPercentLine />,
+        content: 'Khuyến Mãi Hot'
+    }
+]
 

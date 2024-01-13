@@ -35,7 +35,7 @@ const ItemProduct = ({ image, discount, title, price, sale, star, incentives, li
                 }
 
                 <div className="flex items-center">
-                    {star == 5 && 
+                    {star === 5 && 
                         <div className="flex gap-1">
                             <FaStar color='#F59E0B' />
                             <FaStar color='#F59E0B' />

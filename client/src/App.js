@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 
-import { Public, Login, Home, Products, DetailProduct, Register, FinalRegister, ForgotPassword, ChangePassword } from './pages/public'
+import { Public, Home, Products, DetailProduct, Register, FinalRegister, ForgotPassword, ChangePassword } from './pages/public'
 import path from './ultis/path'
 import { fecthCategory } from './store/appSlice'
 import { dataRegister, dataLogin } from './ultis/contants'
@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fecthCategory())
-  }, [])
+  }, [dispatch])
   
   return (
     <div className="min-h-screen font-main">

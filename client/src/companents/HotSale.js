@@ -1,24 +1,28 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
+import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 
 import { navHotSales } from '../ultis/contants'
 import { Countdown, SlickProduct } from '../companents'
-import { useDispatch } from 'react-redux'
 import { fecthProducts } from '../store/appSlice'
 
-const HotSale = () => {
+const HotSale = ({ hiddenFilter, filterCategory }) => {
     const { hotSales } = useSelector(state => state.app)
     const dispatch = useDispatch()
     const [ filter, setFilter ] = useState(navHotSales[0].filter)
 
     useEffect(() => {
-        dispatch(fecthProducts(filter))
-    }, [filter])
+        if (!filterCategory) {
+            dispatch(fecthProducts(filter))
+        } else {
+            dispatch(fecthProducts(filterCategory))
+        }
+    }, [filter, filterCategory, dispatch])
 
     return (
         <div className="flex flex-col px-2 pt-2 bg-center z-2 rounded-2xl bg-[url('https://cdn2.cellphones.com.vn/x/media/catalog/product/h/o/hot-sale-giang-sinh_3.png')] border">
             <div className="flex h-[90px] relative">
-                <div className="flex gap-1 absolute bottom-0">
+                {!hiddenFilter && <div className="flex gap-1 absolute bottom-0">
                     {navHotSales?.map((item, index) => (
                         <div 
                             key={item.title}
@@ -28,7 +32,7 @@ const HotSale = () => {
                             {item.title}
                         </div>
                     ))}
-                </div>
+                </div>}
 
                 <div className="flex-7 flex object-cover justify-end items-center">
                     <img alt="banner" src="https://cdn2.cellphones.com.vn/x/media/catalog/product/h/o/hot-sale-cuoi-tuan-final.gif"></img>
@@ -46,4 +50,4 @@ const HotSale = () => {
     )
 }
 
-export default HotSale
+export default memo(HotSale)

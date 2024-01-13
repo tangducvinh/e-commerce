@@ -1,4 +1,4 @@
-import { UNSAFE_LocationContext, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import * as apis from '../../apis'
@@ -47,17 +47,17 @@ const DetailProduct = () => {
                 <div className='flex mt-5 gap-5 mb-7'>
                     <div className='flex-6 overflow-hidden'>
                         <div className='flex justify-center w-full border rounded-xl overflow-hidden h-[400px]'>
-                            <img src={dataDetaiProduct?.images[number]} className='object-cover' alt='image-product'></img>
+                            <img src={dataDetaiProduct?.images[number]} className='object-cover' alt='product'></img>
                         </div>
 
                         <div className='h-[52px] flex scroll-smooth focus:scroll-auto mt-2 cursor-pointer'>
                             {dataDetaiProduct?.images.map((item, index) => (
                                 <div
-                                    key={index}
+                                    key={item}
                                     onClick={() => setNumber(index)} 
                                     className='mr-2 flex flex-shrink-0 justify-center w-[50px] h-[50px] border rounded-lg'
                                 >
-                                    <img src={item} className='object-contain'></img>
+                                    <img src={item} className='object-contain' alt='banner'></img>
                                 </div>
                             ))}
                         </div>
@@ -66,23 +66,20 @@ const DetailProduct = () => {
                             <h4 className='text-[#444444] text-[16px] font-bold'>Thông tin sản phẩm</h4>
 
                             {dataDetaiProduct?.information.map((item, index) => (
-                                <p className='text-[#4A4A4A] text-[14px] ml-2 my-1'>{`${index + 1}. ${item}`}</p>
+                                <p className='text-[#4A4A4A] text-[14px] ml-2 my-1' key={index}>{`${index + 1}. ${item}`}</p>
                             ))}
                         </div>
-
-                      
 
                         {dataDetaiProduct?.highlights.length !== 0 && 
                             <div className='w-full mt-5 rounded-xl bg-[#f2f2f2] p-2'>
                                 <h2 className='text-[18px] text-[#D70018] w-full text-center font-bold'>ĐẶC ĐIỂM NỔI BẬT</h2>
-                                <ul>
+                                <ul className='list-disc'>
                                     {dataDetaiProduct?.highlights.map((item, index) => (
                                         <li className='text-[14px] py-1 text-[#4A4A4A]' key={index}>{item}</li>
                                     ))}
                                 </ul>
                             </div>
                         }
-
                     </div>
 
                     <div className='flex-4'>
@@ -116,7 +113,7 @@ const DetailProduct = () => {
                                         onClick={() => setVariant(index)}
                                         key={index}
                                         className={`flex gap-2 ml-2 w-three mb-2 rounded-lg border items-center justify-center py-2 cursor-pointer relative ${variant === index ? 'border-main' : undefined}`}>
-                                        <img className='w-[30px] h-[30px] object-cover' src={item.image}></img>
+                                        <img className='w-[30px] h-[30px] object-cover' src={item.image} alt='list product'></img>
 
                                         <div className='flex flex-col text-[12px] text-[#444444]'>
                                             <strong>{item.color}</strong>
