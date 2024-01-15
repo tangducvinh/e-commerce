@@ -9,6 +9,9 @@ var productSchema = new mongoose.Schema({
     price: {
         type: Object,
     },
+    priceSort: {
+        type: Number,
+    },
     incentives: {
         type: Array,
     },

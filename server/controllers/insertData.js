@@ -4,6 +4,8 @@ const data = require('../../data/ecommerce.json')
 const slugify = require('slugify')
 
 const fn = async(product) => {
+    const cleaned = product?.price?.sale.replace(/[^0-9.]/g, '')
+
     await Product.create({
         title: product?.name,
         slug: slugify(product?.name + Math.random() * 1000),
@@ -18,7 +20,8 @@ const fn = async(product) => {
         discount: Math?.round(Math.random() * 50),
         price: product?.price,
         incentives: product?.incentives,
-        category: product?.category
+        category: product?.category,
+        priceSort: Number(cleaned.replaceAll('.', ''))
     })
 }
 

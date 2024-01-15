@@ -17,6 +17,7 @@ const {
     FaSortAmountDown,
     FaSortAmountUp,
     RiPercentLine,
+    FaRegEye,
 } = icons
 
 export const iconSidebar = [
@@ -188,17 +189,28 @@ export const dataLogin = {
 }
 
 export const filters = [
-    {
+    {   
+        id: 0,
         icon: <FaSortAmountDown />,
-        content: 'Giá Cao - Thấp'
+        content: 'Giá Cao - Thấp',
+        sort: '-priceSort'
     },
     {
+        id: 1,
         icon: <FaSortAmountUp />,
-        content: 'Giá Thấp - Cao'
+        content: 'Giá Thấp - Cao',
+        sort: 'priceSort'
     },
     {
+        id: 2,
         icon: <RiPercentLine />,
-        content: 'Khuyến Mãi Hot'
+        content: 'Khuyến Mãi Hot',
+        sort: '-discount',
+    }, 
+    {
+        id: 3,
+        icon: <FaRegEye />,
+        content: 'Xem nhiều'
     }
 ]
 

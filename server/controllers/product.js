@@ -30,6 +30,7 @@ const getAllProduct = asyncHandler(async(req, res) => {
     excludeFields.forEach(el => delete queries[el])
 
     let queryString = JSON.stringify(queries)
+
     queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, el => `$${el}`)
     const formatedQueries = JSON.parse(queryString)
 
@@ -47,7 +48,6 @@ const getAllProduct = asyncHandler(async(req, res) => {
     if (req.query.fields) {
         const fields = req.query.fields.split(',').join(' ')
         queryCommand = queryCommand.select(fields)
-
     }
 
     // Pagination
