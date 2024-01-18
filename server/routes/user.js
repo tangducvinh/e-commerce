@@ -16,5 +16,6 @@ router.get('/get-all-users', [verifyAccessToken, isAdmin], controllers.getAllUse
 router.delete('/delete-user', [verifyAccessToken, isAdmin], controllers.deleteUser)
 router.put('/update-user', verifyAccessToken, controllers.updateUser)
 router.put('/update-user-by-admin/:uid', [verifyAccessToken, isAdmin], controllers.updateUserByAdmin)
+router.get('/get-user', controllers.getUser)
 
 module.exports = router

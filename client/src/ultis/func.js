@@ -1,4 +1,8 @@
 
+import icons from './icons'
+
+const { FaStar } = icons
+
 export const validate = (data) => {
     const formatArray = Object.entries(data)
 
@@ -41,4 +45,15 @@ export const validate = (data) => {
 
     return true
 
+}
+
+export const renderStar = (amount, size) => {
+    const arr = []
+
+    for (let i = 0; i < 5; i++) {
+        if (i < Math.floor(amount)) arr.push(<FaStar color='#FFBF00' size={size}/>)
+        else arr.push(<FaStar color='#EDEDED' size={size}/>)
+    }
+
+    return arr
 }

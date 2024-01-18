@@ -18,6 +18,7 @@ const {
     FaSortAmountUp,
     RiPercentLine,
     FaRegEye,
+    FaStar,
 } = icons
 
 export const iconSidebar = [
@@ -211,6 +212,29 @@ export const filters = [
         id: 3,
         icon: <FaRegEye />,
         content: 'Xem nhiều'
+    }
+]
+
+export const filterStar = [
+    {
+        amont: 5,
+        star: <FaStar color='#FFBF00' />
+    },
+    {
+        amont: 4,
+        star: <FaStar color='#FFBF00' />
+    },
+    {
+        amont: 3,
+        star: <FaStar color='#FFBF00' />
+    },
+    {
+        amont: 2,
+        star: <FaStar color='#FFBF00' />
+    },
+    {
+        amont: 1,
+        star: <FaStar color='#FFBF00'/>
     }
 ]
 

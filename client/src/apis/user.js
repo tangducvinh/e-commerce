@@ -77,3 +77,20 @@ export const getCurrentUser = () => {
         }
     })
 }
+
+export const getInforUser = (_id) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            const response = await axios({
+                url: 'user/get-user',
+                params: {
+                    _id
+                },
+                method: 'get'
+            })
+            resolve(response.data.data)
+        } catch(e) {
+            reject(e)
+        }
+    })
+}

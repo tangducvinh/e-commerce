@@ -97,36 +97,56 @@ const deleteProduct = asyncHandler(async(req, res) => {
     })
 })
 
-const ratings = asyncHandler(async(req, res) => {
-    const {_id} = req.user 
-    const {star, comment, pid} = req.body
-    if (!star || !pid) throw new Error('Missing inputs')
-    const ratingProduct = await Product.findById(pid)
-    const alreadyRating = ratingProduct?.ratings?.find(item => item.postedBy.toString() === _id)
+const ratings = asyncHandler (async(req, res) => {
+    const { _id } = req.user
+    const { star, comment, pid} = req.body
 
-    if (alreadyRating) {
-        await Product.updateOne({
-            ratings: { $elemMatch: alreadyRating}
-        }, {
-            $set: { "ratings.$.star": star, "ratings.$.comment": comment}
-        }, {new: true})
-    } else {
-        const response = await Product.findByIdAndUpdate(pid, {
-            $push: {ratings: {star, comment, postedBy: _id}}
-        }, {new: true})
+    if (!star || !comment) {
+        res.json({
+            success: false,
+            mes: 'Vui lòng nhập đầy đủ đánh giá sao và bình luận'
+        })
     }
 
-    const updateProduct = await Product.findById(pid)
+    const product = await Product.findById(pid)
+    const alreadyRating = await product?.ratings.some((item) => item.postedBy.toString() === _id)
 
-    let sumRatings = 0
-    updateProduct.ratings.forEach((item) => sumRatings += item.star)
-    sumRatings = (sumRatings / updateProduct.ratings.length).toFixed(1)
-    updateProduct.totalRatings = sumRatings
-    await updateProduct.save()
+    if (alreadyRating) {
+        await Product.findByIdAndUpdate(pid, {$pull: {ratings: {postedBy: _id}}})
+    }
+    
+    const response = await Product.findByIdAndUpdate(pid, {$push: {ratings: {star, comment, postedBy: _id}}}, {new: true})
 
-    return res.status(200).json({
-        status: true,
-        data: updateProduct,
+    let totalRating = response.ratings.reduce((total, current) => 
+        total + current.star
+    , 0) 
+
+
+    const detailRatings = []
+
+    for (let i = 1; i <= 5; i++) {
+        let count = 0
+        response.ratings.forEach((item) => {
+            if (item.star === i) {
+                count++;
+            }
+        })
+
+        const percent = (count / response.ratings.length) * 100
+        detailRatings.push({percent, count})
+    }
+
+    totalRating = (totalRating / response.ratings.length ).toFixed(1)
+    response.totalRatings = {
+        rate: totalRating,
+        totalUser: response.ratings.length,
+        percents: detailRatings
+    }
+    await response.save()
+
+    res.json({
+        success: true,
+        mes: response
     })
 })
 

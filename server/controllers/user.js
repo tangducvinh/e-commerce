@@ -122,6 +122,22 @@ const getCurrent = asyncHandler(async (req, res) => {
     })
 })
 
+const getUser = asyncHandler(async(req, res) => {
+    const { _id } = req.query
+
+    if (!_id) return res.json({
+        success: false,
+        mes: 'Không tìm thấy người dùng nào'
+    })
+
+    const response = await User.findById(_id)
+
+    return res.json({
+        success: response ? true : false,
+        data: response ? response : 'Không tìm thấy người dùng nào'
+    })
+})
+
 const refreshAccessToken = asyncHandler(async(req, res) => {
     const cookie = req.cookies
 
@@ -307,5 +323,6 @@ module.exports = {
     updateUserByAdmin,
     updateAddressUser,
     updateCart,
+    getUser,
 
 }
