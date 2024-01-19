@@ -1,3 +1,4 @@
+import { memo } from 'react'
 
 import icons from '../ultis/icons'
 
@@ -10,12 +11,12 @@ const ItemVotePercent = ({amont, percentFill, totalVote}) => {
                 <span className='text-[#4A4A4A] mt-1 text-[14px] font-bold'>{amont}</span>
                 <FaStar color='#FFBF00'/>
             </div>
-            <div className='flex-1 h-[10px] bg-[#EDEDED] ml-3 mr-3 rounded-full overflow-hidden'>
-                <div className={`h-[10px] bg-main rounded-full w-[${percentFill.toString()}%]`}></div>
+            <div className='flex-1 h-[10px] bg-[#EDEDED] relative ml-3 mr-3 rounded-full overflow-hidden'>
+                <div className={`h-[10px] bg-main absolute rounded-full left-0 right-[${percentFill === 100 ? 0 : 100 - percentFill}%]`}></div>
             </div>
             <p className='text-[#4A4A4A] text-[14px]'>{`${totalVote} đánh giá`}</p>
         </div>
     )
 }
 
-export default ItemVotePercent
+export default memo(ItemVotePercent)

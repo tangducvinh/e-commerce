@@ -238,3 +238,26 @@ export const filterStar = [
     }
 ]
 
+export const starVote = [
+    {
+        id: 1,
+        title: 'Rất tệ',
+    },
+    {
+        id: 2,
+        title: 'Tệ',
+    },
+    {
+        id: 3,
+        title: 'Bình thường',
+    },
+    {
+        id: 4,
+        title: 'Tốt',
+    },
+    {
+        id: 5,
+        title: 'Tuyệt vời',
+    }
+]
+

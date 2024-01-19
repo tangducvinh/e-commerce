@@ -29,10 +29,12 @@ module.exports = {
         navigation: 'rgba(0, 0, 0, 0.3)',
         hv: '#f3f4f6',
         'btn-yellow': '#E59441',
+        overlay: 'rgba(0, 0, 0, 0.7)'
       },
       colors: {
         main: '#D70018',
-        sidebar: '#343A40'
+        sidebar: '#343A40',
+        'regal-blue': '#485FC7'
       },
       flex: {
         '2': '2 2 0%',
@@ -48,20 +50,31 @@ module.exports = {
         'item-product': '[0 1px 2px 0 rgba(60,64,67,.1)]'
       },
       animation: {
-        'slice-top': 'slide-top 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;'
+        'slice-top': 'slide-top 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;',
+        'slice-form': 'slide-form 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;'
       },
       keyframes: {
         'slide-top': {
           '0%': {
-            '-webkit-transform': 'translateY(0);',
-            transform: 'translateY(0);'
+            '-webkit-transform': 'translateY(0px);',
+            transform: 'translateY(0px);'
           },
           '100%': {
             '-webkit-transform': 'translateY(-22px);',
             transform: 'translateY(-22px);'
           }
-        }
-      }
+        },
+        'slide-form': {
+          '0%': {
+            '-webkit-transform': 'translateY(400px);',
+            transform: 'translateY(400px);'
+          },
+          '100%': {
+            '-webkit-transform': 'translateY(0px);',
+            transform: 'translateY(0px);'
+          }
+        },
+      },
     },
   },
   plugins: [],

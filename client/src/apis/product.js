@@ -31,3 +31,18 @@ export const getAllProducts = (data) => {
         }
     })
 }
+
+export const ratings = (data) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            const response = await axios({
+                url: 'product/ratings',
+                method: 'put',
+                data
+            })
+            resolve(response.data)
+        } catch(e) {
+            reject(e)
+        }
+    })
+}

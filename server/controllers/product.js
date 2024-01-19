@@ -121,9 +121,7 @@ const ratings = asyncHandler (async(req, res) => {
         total + current.star
     , 0) 
 
-
     const detailRatings = []
-
     for (let i = 1; i <= 5; i++) {
         let count = 0
         response.ratings.forEach((item) => {
@@ -146,7 +144,7 @@ const ratings = asyncHandler (async(req, res) => {
 
     res.json({
         success: true,
-        mes: response
+        mes: 'Đánh giá sản phẩm thành công'
     })
 })
 
