@@ -1,5 +1,18 @@
 import icons from './icons'
 import path from './path'
+import banner1 from '../assets/imgs/banner/banner1.png'
+import banner2 from '../assets/imgs/banner/banner2.png'
+import banner3 from '../assets/imgs/banner/banner3.png'
+import banner4 from '../assets/imgs/banner/banner4.png'
+import banner5 from '../assets/imgs/banner/banner5.png'
+import banner6 from '../assets/imgs/banner/banner6.png'
+import banner7 from '../assets/imgs/banner/banner7.png'
+import banner8 from '../assets/imgs/banner/banner8.png'
+import banner9 from '../assets/imgs/banner/banner9.png'
+import banner10 from '../assets/imgs/banner/banner10.png'
+import advantise1 from '../assets/imgs/advantises/advantise1.png'
+import advantise2 from '../assets/imgs/advantises/advantise2.png'
+import advantise3 from '../assets/imgs/advantises/advantiste3.png'
 
 const {
     HiOutlineDevicePhoneMobile,
@@ -36,9 +49,9 @@ export const iconSidebar = [
 ]
 
 export const advantises = [
-    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:10/plain/https://dashboard.cellphones.com.vn/storage/right-banner-fold5-th122.png',
-    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:10/plain/https://dashboard.cellphones.com.vn/storage/gen%209.jpg',
-    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:10/plain/https://dashboard.cellphones.com.vn/storage/%C6%B0u-dai-sinhvien-chung-right-banner.png'
+    advantise1,
+    advantise2,
+    advantise3
 ]
 
 export const navHotSales = [
@@ -259,5 +272,59 @@ export const starVote = [
         id: 5,
         title: 'Tuyệt vời',
     }
+]
+
+export const banners = [
+    {
+        description: 'Đặt ngay giá sốc',
+        link: banner1,
+        name: 'GALAXY S24 SERIES'
+    },
+    {
+        description: 'Sẵn hàng mua ngay',
+        link: banner2,
+        name: 'IPHONE 15'
+    },
+    {
+        description: 'Mua ngay giá tốt',
+        link: banner3,
+        name: 'REDMI NOTE 13'
+    },
+    {
+        description: 'Rinh ngay quà chất',
+        link: banner4,
+        name: 'HUAWEI ULTIMATE'
+    },
+    {
+        description: 'Mua ngay giá tốt',
+        link: banner5,
+        name: 'REDMI WATCH 4'
+    },
+    {
+        description: 'Hiệu năng hàng đầu',
+        link: banner6,
+        name: 'ASUS ROG STRIX'
+    },
+    {
+        description: 'Chiến game sống động',
+        link: banner7,
+        name: 'INZONE BUDS'
+    },
+    {
+        description: 'Mở bán deal hời',
+        link: banner8,
+        name: 'GALAXY A15 | A25'
+    },
+    {
+        description: 'Làm chủ 4G',
+        link: banner9,
+        name: 'THU CŨ 2G'
+    },
+    {
+        description: 'Săn ngay deal hot',
+        link: banner10,
+        name: 'VIVO V29E'
+    },
+
 ]
 

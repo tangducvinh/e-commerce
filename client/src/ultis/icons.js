@@ -1,6 +1,6 @@
 import { LuMenuSquare } from "react-icons/lu"
 import { MdOutlineLocalOffer } from 'react-icons/md'
-import { IoChevronDownOutline, IoPersonCircleOutline, IoHeadsetOutline, IoWatchOutline, IoHomeOutline, IoCameraOutline, IoClose } from "react-icons/io5"
+import { IoChevronDownOutline, IoPersonCircleOutline, IoHeadsetOutline, IoWatchOutline, IoHomeOutline, IoCameraOutline, IoClose, IoTimeOutline } from "react-icons/io5"
 import { HiOutlineSearch } from "react-icons/hi"
 import { MdOutlineCancel } from "react-icons/md"
 import { FiPhone } from "react-icons/fi"
@@ -55,6 +55,7 @@ const icons = {
     RiPercentLine,
     FaRegEye,
     IoClose,
+    IoTimeOutline,
 }
 
 export default icons

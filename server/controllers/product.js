@@ -15,7 +15,13 @@ const createProduct = asyncHandler(async(req, res) => {
 const getProduct = asyncHandler(async(req, res) => {
     const pid = req.query.pid
     if(!pid) throw new Error("input missing")
-    const product = await Product.findById({_id: pid})
+    const product = await Product.findById({_id: pid}).populate({
+        path: 'ratings',
+        populate: {
+            path: 'postedBy',
+            select: 'name'
+        }
+    })
 
     return res.status(200).json({
         success: product ? true : false,
@@ -115,7 +121,7 @@ const ratings = asyncHandler (async(req, res) => {
         await Product.findByIdAndUpdate(pid, {$pull: {ratings: {postedBy: _id}}})
     }
     
-    const response = await Product.findByIdAndUpdate(pid, {$push: {ratings: {star, comment, postedBy: _id}}}, {new: true})
+    const response = await Product.findByIdAndUpdate(pid, {$push: {ratings: {star, comment, postedBy: _id, updatedAt: Date.now()}}}, {new: true})
 
     let totalRating = response.ratings.reduce((total, current) => 
         total + current.star
@@ -134,7 +140,7 @@ const ratings = asyncHandler (async(req, res) => {
         detailRatings.push({percent, count})
     }
 
-    totalRating = (totalRating / response.ratings.length ).toFixed(1)
+    totalRating = (totalRating / response.ratings.length).toFixed(1)
     response.totalRatings = {
         rate: totalRating,
         totalUser: response.ratings.length,

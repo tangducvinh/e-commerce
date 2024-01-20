@@ -1,5 +1,7 @@
-import { useParams } from 'react-router-dom'
-import { useEffect, useState, useCallBack } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import swal from 'sweetalert'
 
 import * as apis from '../../apis'
 import icons from '../../ultis/icons'
@@ -7,9 +9,11 @@ import { SlickProduct, ItemVotePercent, ItemUserComment, FormVote } from '../../
 import { renderStar } from '../../ultis/func'
 import { filterStar } from '../../ultis/contants'
 import imageEmpty from '../../assets/imgs/imageEmpty.png'
-import { FaLessThanEqual } from 'react-icons/fa6'
+import path from '../../ultis/path'
 
 const DetailProduct = () => {
+    const navigate = useNavigate()
+    const { isLoggedIn } = useSelector(state => state.user)
     const { pid } = useParams()
     const [ dataDetaiProduct, setDataDetaiProduct ] = useState(null)
     const { FaStar, HiGift, FaCartPlus, FaCheck } = icons
@@ -42,15 +46,37 @@ const DetailProduct = () => {
         fecthProducts(dataDetaiProduct?.category)
     }, [pid, dataDetaiProduct?.category, loadComment])
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [pid])
+
+    const handleChooseVote = () => {
+        if (!isLoggedIn) {
+            swal({
+                title: "Oops",
+                text: "Vui lòng đăng nhập để thực hiện đánh giá sản phẩm",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((rs) => {
+                if(rs) navigate(`/${path.LOGIN}`)
+            })
+        }
+        else setShowForm(true)
+    }
+
+    console.log(dataDetaiProduct?.ratings)
+
     return (
         <div className='flex justify-center relative'>
 
             {showForm && 
                 <div 
+                    onClick={() => setShowForm(false)}
                     className='absolute right-0 top-[-104px] left-0 bottom-0 bg-overlay z-10'
                 >
                     <div className='flex justify-center w-srceen h-screen items-center'>
-                        <div className='w-[600px] bg-white rounded-lg fixed animate-slice-form'>
+                        <div onClick={e => e.stopPropagation()} className='w-[600px] bg-white rounded-lg fixed animate-slice-form'>
                             <FormVote setLoadComment={setLoadComment} name={dataDetaiProduct?.title} setShowForm={setShowForm} pid={pid}/>
                         </div>    
                     </div>    
@@ -112,6 +138,7 @@ const DetailProduct = () => {
                         <div className='flex ml-[-8px] flex-wrap'>
                             {dataDetaiProduct?.version.map((item, index) => (
                                 <div 
+                                    key={index}
                                     onClick={() => setVersion(index)}
                                     className={`flex flex-col ml-2 mb-2 items-center border overflow-hidden rounded-lg py-2 cursor-pointer w-three relative ${index === version ? 'border-main' : undefined}` }
                                 >
@@ -157,7 +184,7 @@ const DetailProduct = () => {
                                     <h2 className='text-[16px] text-[#D70018] font-bold'>Khuyến mãi</h2>
                                 </div>
                                 {dataDetaiProduct?.incentives.map((item, index) => (
-                                    <div className='flex gap-1 p-2'>
+                                    <div className='flex gap-1 p-2' key={index}>
                                         <span className='bg-main w-4 h-4 flex flex-shrink-0 justify-center items-center text-[10px] rounded-full font-bold text-white'>{index + 1}</span>
                                         <p className='text-[14px] text-[#0A0A0A]'>{item?.split('<span>')[0]}</p>
                                     </div>
@@ -188,7 +215,7 @@ const DetailProduct = () => {
                                 <p className='text-[24px] text-[#363636] font-bold'>{`${dataDetaiProduct?.totalRatings.rate}/${dataDetaiProduct?.totalRatings.totalUser}`}</p>
 
                                 <div className='flex items-center gap-2'>
-                                    {renderStar(Number(dataDetaiProduct?.totalRatings.rate)).map(item => item)}
+                                    {renderStar(Number(dataDetaiProduct?.totalRatings.rate)).map((item, index) => (<span key={index}>{item}</span>))}
                                 </div>
 
                                 <a href='#'>{`${dataDetaiProduct?.totalRatings.totalUser} đánh giá`}</a>
@@ -197,11 +224,13 @@ const DetailProduct = () => {
                             <div className='flex flex-7 justify-center'>
                                 <div className='flex flex-col-reverse gap-2 w-[700px]'>
                                     {dataDetaiProduct?.totalRatings.percents?.map((item, index) => (
-                                        <ItemVotePercent 
-                                            amont={index + 1}
-                                            totalVote={item.count}
-                                            percentFill={item.percent}
-                                        /> 
+                                        <div key={index}>
+                                            <ItemVotePercent 
+                                                amont={index + 1}
+                                                totalVote={item.count}
+                                                percentFill={item.percent}
+                                            />
+                                        </div> 
                                     ))}
                                 </div>
                             </div>
@@ -211,7 +240,7 @@ const DetailProduct = () => {
                     <p className='text-[16px] text-[#4A4A4A] text-center mt-5'>Bạn đánh giá sao về sản phẩm này?</p>
                     <div className='text-center mt-7 pb-8 border-b-[1px]'>
                         <button 
-                            onClick={() => setShowForm(true)}
+                            onClick={handleChooseVote}
                             className='text-[16px] text-white bg-main text-center p-2 px-6 rounded-md'>Đánh giá ngay
                         </button>
                     </div>
@@ -230,8 +259,9 @@ const DetailProduct = () => {
                             </div>    
 
                             <div className='flex gap-2 mt-2'>
-                                {filterStar.map(item => (
+                                {filterStar.map((item, index) => (
                                     <div 
+                                        key={index}
                                         onClick={() => setFilterStarComment(item.amont)}
                                         className={`flex gap-1 border px-3 py-1 rounded-3xl items-center cursor-pointer ${item.amont === filterStarComment ? 'bg-main text-white' : 'text-[#637381]'}`}
                                     >
@@ -245,14 +275,14 @@ const DetailProduct = () => {
                                 {filterStarComment === 0 
                                     ? dataDetaiProduct?.ratings.map((item, index) => (
                                         <div className='border-b-[1px] py-3 pb-3' key={index}>
-                                            <ItemUserComment userId={item.postedBy} comment={item.comment} star={item.star}/>
+                                            <ItemUserComment comment={item.comment} userName={item.postedBy.name} updatedAt={item.updatedAt} star={item.star}/>
                                         </div>
                                     ))
                                     : dataDetaiProduct?.ratings.filter(item => item.star === filterStarComment).length === 0 
                                         ? <div className='flex justify-center mt-8 mb-8'>
                                             <div className='flex flex-col items-center'>
                                                 <img src={imageEmpty}></img>
-                                                <p className='text-[#4A4A4A] text-[14px] mt-4'>Bạn đánh giá sao về sản phẩm này</p>
+                                                <p className='text-[#4A4A4A] text-[14px] mt-4'>Hiện chưa có đánh giá nào thoả mãn</p>
                                             </div>
                                         </div>
                                         : dataDetaiProduct?.ratings.filter(item => item.star === filterStarComment).map((item, index) => (
@@ -265,7 +295,7 @@ const DetailProduct = () => {
                         </div>
                     } 
                 </div>
-
+                
                 <div className='h-[50px]'></div>
             </div> 
         </div>

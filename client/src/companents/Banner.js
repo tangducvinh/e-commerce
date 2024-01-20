@@ -2,6 +2,8 @@ import { useSelector } from 'react-redux'
 import { useState, useEffect, useRef } from 'react'
 import icons from '../ultis/icons'
 
+import { banners } from '../ultis/contants'
+
 const Banner = () => {
     const { banner } = useSelector(state => state.app)
     const [ number, setNumber ] = useState(0)
@@ -48,7 +50,7 @@ const Banner = () => {
                 onMouseLeave={() => handleHidden()}
             >
                 <img 
-                    className="object-cover w-full cursor-pointer" src={banner[number]?.link}
+                    className="object-cover w-full cursor-pointer" src={banners[number].link}
                     alt='banner'
                 ></img>
 
@@ -71,7 +73,7 @@ const Banner = () => {
 
             <div className="flex pl-4 select-none h-[70px] relative overflow-hidden">
                 <div className="flex absolute overflow-x-scroll w-full">
-                    {banner.map((item, index) => (
+                    {banners.map((item, index) => (
                         <div 
                             key={index}
                             onClick={() => setNumber(index)}
