@@ -105,7 +105,7 @@ const deleteProduct = asyncHandler(async(req, res) => {
 
 const ratings = asyncHandler (async(req, res) => {
     const { _id } = req.user
-    const { star, comment, pid} = req.body
+    const { star, comment, pid, updatedAt} = req.body
 
     if (!star || !comment) {
         res.json({
@@ -121,7 +121,7 @@ const ratings = asyncHandler (async(req, res) => {
         await Product.findByIdAndUpdate(pid, {$pull: {ratings: {postedBy: _id}}})
     }
     
-    const response = await Product.findByIdAndUpdate(pid, {$push: {ratings: {star, comment, postedBy: _id, updatedAt: Date.now()}}}, {new: true})
+    const response = await Product.findByIdAndUpdate(pid, {$push: {ratings: {star, comment, postedBy: _id, updatedAt}}}, {new: true})
 
     let totalRating = response.ratings.reduce((total, current) => 
         total + current.star

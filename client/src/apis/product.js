@@ -25,7 +25,7 @@ export const getAllProducts = (data) => {
                 params: data,
                 method: 'get'
             })
-            resolve(response.data.data)
+            resolve(response.data)
         } catch(e) {
             reject(e)
         }

@@ -1,37 +1,43 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate, createSearchParams, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { useDebounce } from 'use-debounce'
 
 import * as apis from '../../apis'
-import { HotSale, ItemProduct } from '../../companents'
+import { HotSale, ItemProduct, Pagiantion } from '../../companents'
 import { filters } from '../../ultis/contants'
 import icons from '../../ultis/icons'
-import { useDebounce } from 'use-debounce'
 
 const Products = () => {
     const  { category }  = useParams()
-    const [ data, setData ] = useState([])
+    const [ data, setData ] = useState({})
     const [ filterStatus, setFilterStatus ] = useState(filters.length - 1)
-    const [ dataPass, setDataPass ] = useState({category, limit: 100})
     const { IoClose } = icons
     const [ valueSearch, setValueSearch ] = useState('')
     const [ value ] = useDebounce(valueSearch, 1000)
+    const navigate = useNavigate()
+    const [ params ] = useSearchParams()
+
+    useEffect(() => {
+        let dataPrams = {}
+        for (let i of params.entries()) {
+            dataPrams[i[0]] = i[1]
+        }
+        fetchDataProduct({category, ...dataPrams})
+    }, [params, value])
 
     const fetchDataProduct = async(data) => {
         const response = await apis.getAllProducts(data)
-        setData(response.filter(el => el.title?.toLowerCase().includes(value)))
+        setData({counts: response.counts, data: response.data.filter(el => el.title?.toLowerCase().includes(value))})
     }
 
-    useEffect(() => {
-        fetchDataProduct(dataPass)
-    }, [category, dataPass, value])
-
-    const handleSetFilter = (filters) => {
+    const handleSetFilter = (filters) => { 
         setFilterStatus(filters.id)
-        setDataPass(prev => ({...prev, sort: filters.sort}))
-    }
-
-    const handleOnChangeSearch = (e) => {
-        setValueSearch(e.target.value)
+        navigate({
+            pathname: `/products/${category}`,
+            search: createSearchParams({
+                sort: filters.sort,
+            }).toString()
+        })
     }
 
     return (
@@ -70,8 +76,8 @@ const Products = () => {
                 </div>
 
                 <div className='ml-[-8px] flex flex-wrap mt-3'>
-                    {data?.map(item => (
-                        <div className='ml-2 w-five mb-2'>
+                    {data?.data?.map((item, index) => (
+                        <div className='ml-2 w-five mb-2' key={index}>
                             <ItemProduct 
                                 key={item?.images[0]}
                                 image = {item?.images[0]}
@@ -86,6 +92,8 @@ const Products = () => {
                         </div>
                     ))}
                 </div>
+
+                <div className='mt-10 flex justify-center'><Pagiantion totalProductCount={data?.counts}/></div>
 
                 <div className='h-[50px]'></div>
             </div>

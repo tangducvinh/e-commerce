@@ -14,7 +14,8 @@ const FormVote = ({name, setShowForm, pid, setLoadComment}) => {
     const passData = {
         pid,
         star,
-        comment: value
+        comment: value,
+        updatedAt: Date.now(),
     }
 
     const handleSubmitForm = async() => {
