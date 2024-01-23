@@ -25,6 +25,10 @@ const Products = () => {
         fetchDataProduct({category, ...dataPrams})
     }, [params, value])
 
+    useEffect(() => {
+        window.scrollTo(400, 400)
+    }, [params])
+
     const fetchDataProduct = async(data) => {
         const response = await apis.getAllProducts(data)
         setData({counts: response.counts, data: response.data.filter(el => el.title?.toLowerCase().includes(value))})
@@ -32,12 +36,16 @@ const Products = () => {
 
     const handleSetFilter = (filters) => { 
         setFilterStatus(filters.id)
-        navigate({
-            pathname: `/products/${category}`,
-            search: createSearchParams({
-                sort: filters.sort,
-            }).toString()
-        })
+        if (filters.sort) {
+            navigate({
+                pathname: `/products/${category}`,
+                search: createSearchParams({
+                    sort: filters.sort,
+                }).toString()
+            })
+        } else {
+            navigate(`/products/${category}`)
+        }
     }
 
     return (

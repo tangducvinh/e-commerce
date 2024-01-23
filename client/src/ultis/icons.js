@@ -7,7 +7,7 @@ import { FiPhone } from "react-icons/fi"
 import { TfiTruck } from "react-icons/tfi"
 import { BsHandbag, BsLaptop, BsUsbDrive } from "react-icons/bs"
 import { HiOutlineDevicePhoneMobile, HiGift } from "react-icons/hi2"
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa6"
+import { FaChevronRight, FaChevronLeft, FaAngleLeft, FaAngleRight } from "react-icons/fa6"
 import { PiComputerTower, PiTelevisionSimple } from "react-icons/pi"
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai"
 import { FaStar, FaRegHeart, FaTabletAlt, FaCartPlus, FaSortAmountDown, FaSortAmountUp, FaRegEye } from "react-icons/fa"
@@ -16,7 +16,6 @@ import { SlScreenDesktop } from "react-icons/sl"
 import { GoArrowLeft } from "react-icons/go"
 import { FaCheck } from "react-icons/fa6"
 import { RiPercentLine } from "react-icons/ri"
-
 
 const icons = {
     LuMenuSquare,
@@ -56,6 +55,8 @@ const icons = {
     FaRegEye,
     IoClose,
     IoTimeOutline,
+    FaAngleLeft,
+    FaAngleRight
 }
 
 export default icons

@@ -2,38 +2,23 @@ import { useMemo } from 'react'
 
 import { generateRange } from '../ultis/func'
 
-const usePagination = ( totalProductCount, currentPage, siblingCount = 1 ) => {
+const usePagination = ( totalProductCount, currentPage ) => {
 
     const paginationArray = useMemo(() => {
         const pageSize = 15
         const paginationCount = Math.ceil(totalProductCount / pageSize)
-        const totalPaginationItem = siblingCount + 5
+        const totalPaginationItem = 5
 
         if (paginationCount <= totalPaginationItem) return generateRange(1, paginationCount)
 
-        const isShowLeft = currentPage - siblingCount > 2
-        const isShowRight = currentPage + siblingCount < paginationCount - 1
+        const minLeft = Math.max(currentPage - 1, 1)
+        const maxRight = Math.min(+currentPage + 1, paginationCount - 1)
 
-        if (isShowLeft && !isShowRight) {
-            const rightStart = paginationCount - 4
-            const rightRange = generateRange(rightStart, paginationCount)
-            return [1, '...', ...rightRange]
-        } 
+        if (currentPage < paginationCount - 2) return [...generateRange(minLeft, maxRight), '...', paginationCount]
 
-        if (!isShowLeft && isShowRight) {
-            const leftRange = generateRange(1, 5)
-            return [...leftRange, '...', paginationCount]
-        }
+        if (currentPage + 2 >= paginationCount) return [...generateRange(minLeft, paginationCount)]
 
-        const siblingLeft = Math.max(currentPage - siblingCount, 1)
-        const siblingRight = Math.min(currentPage + siblingCount, paginationCount)
-
-        if (isShowLeft && isShowRight) {
-            const middleRange = generateRange(siblingLeft, siblingRight)
-            return [1, '...', ...middleRange, '...', paginationCount]
-        }
-
-    }, [totalProductCount, currentPage, siblingCount])
+    }, [totalProductCount, currentPage])
 
     return paginationArray
 }

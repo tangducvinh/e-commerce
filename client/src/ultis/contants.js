@@ -225,7 +225,6 @@ export const filters = [
         id: 3,
         icon: <FaRegEye />,
         content: 'Xem nhiều',
-        sort: '',
     }
 ]
 
