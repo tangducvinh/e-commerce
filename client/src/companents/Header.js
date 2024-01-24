@@ -1,11 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
+import swal from 'sweetalert'
 
 import icons from '../ultis/icons'
 import { Button } from '../companents'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import path from '../ultis/path'
-import { fecthCurrentUser, userSlice } from '../store/userSlice'
+import { userSlice } from '../store/userSlice'
+import * as apis from '../apis'
 
 const Header = () => {
     const { 
@@ -20,20 +22,30 @@ const Header = () => {
         IoPersonCircleOutline,
     } = icons   
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const { dataCurrent, isLoggedIn } = useSelector(state => state.user)
     const name = dataCurrent?.name.split(' ')
     const [ show, setShow ] = useState(false)
 
-    useEffect(() => {
-        if (isLoggedIn) {
-            const set = setTimeout(() => {
-                dispatch(fecthCurrentUser())
-            }, 1500)
+    const fecthDataCurrentUser = () => {
+        setTimeout(async() => {
+            const response = await apis.getCurrentUser()
 
-            return () => clearTimeout(set)
-        }
-    }, [isLoggedIn, dispatch])
+            if (!response.data.success) {
+                dispatch(userSlice.actions.logout())
+                swal('Oops', 'Phiên đăng nhập đã hết hạn vui lòng thực hiện đăng nhập lại', 'error').then(() => {
+                    navigate(`/${path.LOGIN}`)
+                })
+            } else {
+                dispatch(userSlice.actions.setDataUserCurrent(response.data.rs))
+            }
+        }, 2000)
+    }
+
+    useEffect(() => {
+        if (isLoggedIn) fecthDataCurrentUser()
+    }, [isLoggedIn])
 
     const handleLogout = () => {
         dispatch(userSlice.actions.logout())

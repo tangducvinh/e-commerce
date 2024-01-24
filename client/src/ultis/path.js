@@ -11,7 +11,13 @@ const path = {
     USER_LOGIN: 'user/login',
     PRODUCTS: 'products/:category',
     DETAIL_PRODUCT: 'detail_product',
-    DETAIL_PRODUCT_PID: 'detail_product/:pid'
+    DETAIL_PRODUCT_PID: 'detail_product/:pid',
+
+
+    //Admin
+    ADMIN: 'admin',
+    DASHBOARD: 'dashboard'
+
 }
 
 export default path

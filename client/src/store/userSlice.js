@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-import * as apis from '../apis'
-
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
@@ -18,17 +16,9 @@ export const userSlice = createSlice({
             state.isLoggedIn = false
             state.token = null
             state.dataCurrent = null
+        },
+        setDataUserCurrent: (state, action) => {
+            state.dataCurrent = action.payload
         }
     },
-    extraReducers: (builder) => {
-        builder.addCase(fecthCurrentUser.fulfilled, (state, action) => {
-            state.dataCurrent = action.payload
-        })
-    }
-})
-
-export const fecthCurrentUser = createAsyncThunk('user/fetchCurrent', async() => {
-    const response = await apis.getCurrentUser()
-
-    return response.data.rs
 })
