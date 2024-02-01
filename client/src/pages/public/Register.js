@@ -9,6 +9,7 @@ import * as apis from '../../apis'
 import path from '../../ultis/path'
 import { userSlice } from '../../store/userSlice'
 import { validate } from '../../ultis/func'
+import { appSlice } from '../../store/appSlice'
 
 const Register = ({ data }) => {
     const [ value, setValue ] = useState({})
@@ -40,8 +41,10 @@ const Register = ({ data }) => {
             if (rs !== true) {
                 swal('Opps', rs, 'error')
             } else {
+                dispatch(appSlice.actions.setLoading(true))
                 const response = await apis.login(rest)
                 if (response.success) {
+                    dispatch(appSlice.actions.setLoading(false))
                     dispatch(userSlice.actions.register({isLoggedIn: true, userData: response.userData, token: response.accessToken}))
                     navigate(`/${path.HOME}`)
                 } else {

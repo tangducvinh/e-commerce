@@ -32,6 +32,13 @@ const {
     RiPercentLine,
     FaRegEye,
     FaStar,
+    MdOutlineDashboardCustomize,
+    FaRegUser,
+    MdManageSearch,
+    MdOutlineCreate,
+    RiBillLine,
+    FaChevronRight,
+    FaChevronDown,
 } = icons
 
 export const iconSidebar = [
@@ -326,5 +333,51 @@ export const banners = [
         name: 'VIVO V29E'
     },
 
+]
+
+export const adminSidebar = [
+    {
+        id: 1,
+        type: 'singer',
+        text: 'Thống kê',
+        icon: <MdOutlineDashboardCustomize size={20} />,
+        path: `/admin/${path.DASHBOARD}`
+    },
+    {
+        id: 2,
+        type: 'singer',
+        text: 'Quản lí người dùng',
+        icon: <FaRegUser size={20} />,
+        path:  `/admin/${path.MANAGE_USER}`
+    },
+    {
+        id: 3,
+        type: 'parent',
+        text: 'Quản lí sản phẩm',
+        icon: <MdManageSearch size={25}/>,
+        iconRight: <FaChevronRight size={17} />,
+        iconDown: <FaChevronDown size={17} />,
+        subMenu: [
+            {
+                sid: 31,
+                type: 'childrent',
+                text: 'Tạo sẩn phẩm',
+                path: `/admin/${path.CREATE_PRODUCT}`,
+            },
+            {
+                sid: 32,
+                type: 'childrent',
+                text: 'Quản lí sản phẩm',
+                path: `/admin/${path.MANAGE_PRODUCTS}`
+            }
+        ]
+    },
+    {
+        id: 4,
+        type: 'singer',
+        text: 'Quản lí hoá đơn',
+        icon: <RiBillLine size={20} />,
+        path: `/admin/${path.MANAGE_BILL}`,
+    }
 ]
 

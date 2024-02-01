@@ -1,8 +1,8 @@
 import { useSearchParams, useNavigate, useParams, createSearchParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
-import usePagination from '../hooks/usePagination'
-import icons from '../ultis/icons'
+import usePagination from '../../hooks/usePagination'
+import icons from '../../ultis/icons'
 
 const Pagination = ({ totalProductCount }) => {
     const [ params] = useSearchParams()

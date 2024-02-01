@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux'
 import { useState, useEffect, useRef } from 'react'
-import icons from '../ultis/icons'
+import icons from '../../ultis/icons'
 
-import { banners } from '../ultis/contants'
+import { banners } from '../../ultis/contants'
 
 const Banner = () => {
     const { banner } = useSelector(state => state.app)

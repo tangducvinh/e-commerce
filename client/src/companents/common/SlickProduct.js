@@ -1,7 +1,7 @@
 import Slice from 'react-slick'
 import { memo } from 'react'
 
-import { ItemProduct } from './'
+import { ItemProduct } from '../../companents'
 
 const SlickProduct = ({ data, title, row = 1, incentives }) => {
 

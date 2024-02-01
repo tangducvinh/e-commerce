@@ -13,11 +13,15 @@ export const appSlice = createSlice({
         banner: [],
         hotSales: [],
         dataTheme: [],
+        isLoading: false,
     },
     reducers: {
         getCategory: (state, action) => {
             state.categorys = action.payload
         },
+        setLoading: (state, action) => {
+            state.isLoading = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(fecthCategory.pending, (state, action) => {

@@ -2,12 +2,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import swal from 'sweetalert'
 
-import icons from '../ultis/icons'
-import { Button } from '../companents'
+import icons from '../../ultis/icons'
+import { Button } from '../../companents'
 import { Link, useNavigate } from 'react-router-dom'
-import path from '../ultis/path'
-import { userSlice } from '../store/userSlice'
-import * as apis from '../apis'
+import path from '../../ultis/path'
+import { userSlice } from '../../store/userSlice'
+import * as apis from '../../apis'
 
 const Header = () => {
     const { 
@@ -112,6 +112,7 @@ const Header = () => {
 
                             {show && 
                                 <div className='w-[250px] bg-white z-50 absolute right-0 rounded-md shadow-xl top-[130%] p-2'>
+                                    <Link to={dataCurrent?.role === '3' ? `/${path.MEMBER}/${path.PERSONAL}` : dataCurrent?.role === '7' && `/${path.ADMIN}/${path.DASHBOARD}`} className='text-main mb-2 px-3 py-2 block w-full border border-main rounded-xl select-none'>Profile</Link>
                                     <Link to={`/${path.LOGIN}`} onClick={handleLogout} className='text-main px-3 py-2 block w-full border border-main rounded-xl select-none'>Đăng xuất</Link>
                                 </div>
                             }

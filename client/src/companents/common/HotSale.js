@@ -2,9 +2,9 @@ import { useState, useEffect, memo } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 
-import { navHotSales } from '../ultis/contants'
-import { Countdown, SlickProduct } from '../companents'
-import { fecthProducts } from '../store/appSlice'
+import { navHotSales } from '../../ultis/contants'
+import { Countdown, SlickProduct } from '../../companents'
+import { fecthProducts } from '../../store/appSlice'
 
 const HotSale = ({ hiddenFilter, filterCategory }) => {
     const { hotSales } = useSelector(state => state.app)

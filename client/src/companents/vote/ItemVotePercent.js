@@ -1,6 +1,6 @@
 import { memo, useRef, useEffect } from 'react'
 
-import icons from '../ultis/icons'
+import icons from '../../ultis/icons'
 
 const ItemVotePercent = ({amont, percentFill, totalVote}) => {
     const currentPercentEl = useRef()

@@ -1,9 +1,9 @@
 import { memo } from 'react'
 
-import avatar from '../assets/imgs/avatar.png'
-import { renderStar } from '../ultis/func'
+import avatar from '../../assets/imgs/avatar.png'
+import { renderStar } from '../../ultis/func'
 import moment from 'moment'
-import icons from '../ultis/icons'
+import icons from '../../ultis/icons'
 
 const ItemUserComment = ({userName, comment, star, updatedAt}) => {
     const { IoTimeOutline } = icons

@@ -1,8 +1,8 @@
 import { useState, memo } from 'react'
 
-import { ItemUserComment } from '../companents'
-import { filterStar } from '../ultis/contants'
-import imageEmpty from '../assets/imgs/imageEmpty.png'
+import { ItemUserComment } from '../../companents'
+import { filterStar } from '../../ultis/contants'
+import imageEmpty from '../../assets/imgs/imageEmpty.png'
 
 const CommentVote = ({ dataDetaiProduct }) => {
     const [ filterStarComment, setFilterStarComment ] = useState(0)

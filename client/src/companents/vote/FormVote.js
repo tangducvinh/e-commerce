@@ -1,10 +1,10 @@
 import { memo, useState } from 'react'
 import swal from 'sweetalert'
 
-import icons from '../ultis/icons'
-import iconvote from '../assets/imgs/iconvote.png'
-import { starVote } from '../ultis/contants'
-import * as apis from '../apis'
+import icons from '../../ultis/icons'
+import iconvote from '../../assets/imgs/iconvote.png'
+import { starVote } from '../../ultis/contants'
+import * as apis from '../../apis'
 
 const FormVote = ({name, setShowForm, pid, setLoadComment}) => {
     const [ star, setStar ] = useState(5)

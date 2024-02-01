@@ -1,2 +1,6 @@
 export { default as AdminLayout } from './AdminLayout'
 export { default as Dashboard } from './Dashboard'
+export { default as ManageProducts } from './ManageProducts'
+export { default as ManageOders } from './ManagerOders'
+export { default as ManagerUsers } from './ManagerUsers'
+export { default as CreateProducts } from './CreateProducts'

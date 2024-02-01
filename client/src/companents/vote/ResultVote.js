@@ -1,7 +1,7 @@
 import { memo } from 'react'
 
-import { ItemVotePercent } from '../companents'
-import { renderStar } from '../ultis/func'
+import { ItemVotePercent } from '../../companents'
+import { renderStar } from '../../ultis/func'
 
 const ResultVote = ({ dataDetaiProduct }) => {
     return (

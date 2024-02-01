@@ -1,7 +1,7 @@
 const path = {
     PUBLIC: '/',
     HOME: '',
-    ALL: '*',
+    // ALL: '*',
     REGISTER: 'register',
     FINAL_REGISTER: 'final_register/:status',
     FORGOT_PASSWORD: 'fotgot_password',
@@ -16,8 +16,15 @@ const path = {
 
     //Admin
     ADMIN: 'admin',
-    DASHBOARD: 'dashboard'
+    DASHBOARD: 'dashboard',
+    MANAGE_USER: 'manage_user',
+    MANAGE_PRODUCTS: 'manage_products',
+    CREATE_PRODUCT: 'create_product',
+    MANAGE_BILL: 'manage_bill',
 
+    //Member
+    MEMBER: 'member',
+    PERSONAL: 'personal',
 }
 
 export default path

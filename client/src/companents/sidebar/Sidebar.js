@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-import icons from '../ultis/icons'
-import { iconSidebar } from '../ultis/contants'
-import { categorySelector } from '../store/selectors'
+import icons from '../../ultis/icons'
+import { iconSidebar } from '../../ultis/contants'
+import { categorySelector } from '../../store/selectors'
 
 const Sidebar = () => {
     const { categorys } = useSelector(categorySelector)

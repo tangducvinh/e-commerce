@@ -39,7 +39,6 @@ const Home = () => {
             ))}
 
             <div className="h-[50px]"></div>
-
         </div>     
     )
 }

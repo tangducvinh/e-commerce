@@ -1,8 +1,8 @@
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
 
-import icons from '../ultis/icons'
-import path from '../ultis/path'
+import icons from '../../ultis/icons'
+import path from '../../ultis/path'
 
 const ItemProduct = ({ image, discount, title, price, sale, star, incentives, link }) => {
     const { FaStar, FaRegHeart } = icons
