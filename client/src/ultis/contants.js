@@ -381,3 +381,18 @@ export const adminSidebar = [
     }
 ]
 
+export const rules = [
+    {
+        role: '7',
+        value: 'Quản lí'
+    },
+    {
+        role: '3',
+        value: 'Khách hàng'
+    },
+    {
+        role: '5',
+        value: 'Nhân viên'
+    },
+]
+

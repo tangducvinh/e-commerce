@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const sendMail = require('../ultis/sendMail')
 const crypto = require('crypto')
 const uniqid = require('uniqid')
+const { dataUsers } = require('../../data/mockUsers')
 
 const register = asyncHandler(async(req, res) => {
     const { email, password, name, mobile } = req.body
@@ -234,12 +235,65 @@ const checkTokenResetPassword = asyncHandler(async(req, res) => {
     })
 })
 
-const getAllUsers = asyncHandler(async(req, res) => {   
-    const response = await User.find({}).select('-refreshToken -password -role')
+const getAllUsers = asyncHandler((req, res) => {
+    const queries = { ...req.query}
+    console.log({queries})
+    const excludeFields = ['limit', 'sort', 'page', 'fields']
+    excludeFields.forEach(el => delete queries[el])
 
-    return res.status(200).json({
+    let queryString = JSON.stringify(queries)
+    queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, mactheEl => `$${mactheEl}`)
+    const formatedQueries = JSON.parse(queryString)
+
+    if (req.query.q) {
+        delete formatedQueries.q
+        formatedQueries['$or'] = [
+            {email: {$regex: req.query.q, $options: 'i'}},
+            {mobile: {$regex: req.query.q, $options: 'i'}},
+        ]
+    }
+    let queryCommand = User.find(formatedQueries)
+
+    console.log(queryCommand)
+    
+    if (req.query.sort) {
+        const sortBy = req.query.sort.split(',').join(' ')
+        queryCommand = queryCommand.sort(sortBy)
+    }
+
+    if (req.query.fields) {
+        const fields = req.query.fields.split(',').join(' ')
+        queryCommand = queryCommand.select(fields)
+    }
+
+    console.log(queryCommand)
+
+    // const total = queryCommand.reduce((t, el) => t + el, 0)
+    // console.log(total)
+
+    const page = req.query.page || 1
+    const limit = req.query.limit || 10
+    const skip = (page - 1) * limit
+    queryCommand.skip(skip).limit(limit)
+
+    queryCommand.exec()
+        .then(async(response) => {
+            const counts = await User.find(formatedQueries).countDocuments()
+            return res.json({
+                success: response ? true : false,
+                data: response ? response : 'Something went wrong',
+                counts,
+            })
+        })
+
+})
+
+const mockDataUsers = asyncHandler(async(req, res) => {
+    const response = await User.create(dataUsers)
+
+    return res.json({
         success: response ? true : false,
-        mes: response ? response : 'Something went wrong'
+        data: response ? response : 'Something went wrong'
     })
 })
 
@@ -324,5 +378,6 @@ module.exports = {
     updateAddressUser,
     updateCart,
     getUser,
+    mockDataUsers,
 
 }

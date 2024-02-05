@@ -1,38 +1,37 @@
 import { useParams, useNavigate, createSearchParams, useSearchParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useDebounce } from 'use-debounce'
 
 import * as apis from '../../apis'
-import { HotSale, ItemProduct, Pagiantion } from '../../companents'
+import { HotSale, ItemProduct, Pagiantion, InputSearch } from '../../companents'
 import { filters } from '../../ultis/contants'
-import icons from '../../ultis/icons'
 
 const Products = () => {
     const  { category }  = useParams()
     const [ data, setData ] = useState({})
     const [ filterStatus, setFilterStatus ] = useState(filters.length - 1)
-    const { IoClose } = icons
     const [ valueSearch, setValueSearch ] = useState('')
     const [ value ] = useDebounce(valueSearch, 1000)
     const navigate = useNavigate()
     const [ params ] = useSearchParams()
+    
+    const fetchDataProduct = async(data) => {
+        const response = await apis.getAllProducts(data)
+        if(response.success) setData(response)
+    }
 
     useEffect(() => {
         let dataPrams = {}
         for (let i of params.entries()) {
             dataPrams[i[0]] = i[1]
         }
+        if (value) dataPrams.title = value
         fetchDataProduct({category, ...dataPrams})
     }, [params, value])
 
     useEffect(() => {
         window.scrollTo(400, 400)
     }, [params])
-
-    const fetchDataProduct = async(data) => {
-        const response = await apis.getAllProducts(data)
-        setData({counts: response.counts, data: response.data.filter(el => el.title?.toLowerCase().includes(value))})
-    }
 
     const handleSetFilter = (filters) => { 
         setFilterStatus(filters.id)
@@ -47,6 +46,10 @@ const Products = () => {
             navigate(`/products/${category}`)
         }
     }
+
+    const setValue = useCallback((value) => {
+        setValueSearch(value)
+    }, [value])
 
     return (
         <div className='flex justify-center'>
@@ -72,14 +75,7 @@ const Products = () => {
                             ))}
                         </div>
 
-                        <div className='flex'>
-                            <input 
-                                value={valueSearch}
-                                onChange={e => setValueSearch(e.target.value)}
-                                className='bg-[#F3F4F6] w-[250px] py-2 pl-2 outline-none rounded-l-md' placeholder='Tìm kiếm'
-                            ></input>
-                            <span onClick={() => setValueSearch('')} className={`w-[40px] bg-[#F3F4F6] cursor-pointer flex justify-center rounded-r-md items-center ${valueSearch ? undefined : 'text-gray-300'}`}><IoClose size={20}/></span>
-                        </div>
+                        <InputSearch valueSearch={valueSearch} setValueSearch={setValue}/>
                     </div>
                 </div>
 

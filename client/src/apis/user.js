@@ -94,3 +94,18 @@ export const getInforUser = (_id) => {
         }
     })
 }
+
+export const getAllUsers = (data) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            const response = await axios({
+                url: 'user/get-all-users',
+                params: data,
+                method: 'get'
+            })
+            resolve(response.data)
+        } catch(e) {
+            reject(e)
+        } 
+    })
+}

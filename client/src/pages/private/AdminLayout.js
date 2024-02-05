@@ -13,7 +13,7 @@ const AdminLayout = () => {
 
     return (
         <div className='flex justify-center'>
-            <div className='w-[1220px] flex position gap-[30px]'>
+            <div className='w-[1500px] flex position gap-[30px] mt-[40px]'>
                 <div className='border w-[270px] fixed bg-[#F6FBFC] rounded-lg p-2'>
                     <AdminSidebar />
                 </div>

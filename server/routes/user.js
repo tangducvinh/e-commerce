@@ -17,5 +17,6 @@ router.delete('/delete-user', [verifyAccessToken, isAdmin], controllers.deleteUs
 router.put('/update-user', verifyAccessToken, controllers.updateUser)
 router.put('/update-user-by-admin/:uid', [verifyAccessToken, isAdmin], controllers.updateUserByAdmin)
 router.get('/get-user', controllers.getUser)
+router.get('/mock-users', controllers.mockDataUsers)
 
 module.exports = router

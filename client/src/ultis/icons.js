@@ -1,11 +1,11 @@
 import { LuMenuSquare } from "react-icons/lu"
 import { MdOutlineLocalOffer } from 'react-icons/md'
 import { IoChevronDownOutline, IoPersonCircleOutline, IoHeadsetOutline, IoWatchOutline, IoHomeOutline, IoCameraOutline, IoClose, IoTimeOutline } from "react-icons/io5"
-import { HiOutlineSearch } from "react-icons/hi"
+import { HiOutlineSearch, HiUserAdd } from "react-icons/hi"
 import { MdOutlineCancel, MdOutlineDashboardCustomize, MdManageSearch, MdOutlineCreate   } from "react-icons/md"
 import { FiPhone } from "react-icons/fi"
 import { TfiTruck } from "react-icons/tfi"
-import { BsHandbag, BsLaptop, BsUsbDrive } from "react-icons/bs"
+import { BsHandbag, BsLaptop, BsUsbDrive, BsThreeDots } from "react-icons/bs"
 import { HiOutlineDevicePhoneMobile, HiGift } from "react-icons/hi2"
 import { FaChevronRight, FaChevronLeft, FaAngleLeft, FaAngleRight, FaChevronDown  } from "react-icons/fa6"
 import { PiComputerTower, PiTelevisionSimple } from "react-icons/pi"
@@ -64,6 +64,8 @@ const icons = {
     RiBillLine,
     FaChevronRight,
     FaChevronDown,
+    HiUserAdd,
+    BsThreeDots,
 }
 
 export default icons
