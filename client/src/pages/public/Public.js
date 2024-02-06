@@ -8,8 +8,6 @@ import { useSelector } from 'react-redux'
 const Public = () => {
     const { isLoading } = useSelector(state => state.app)
 
-    console.log(isLoading)
-
     return (
         <div className='relative'>
             {isLoading && 

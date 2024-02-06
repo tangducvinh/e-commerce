@@ -109,3 +109,34 @@ export const getAllUsers = (data) => {
         } 
     })
 }
+
+export const deleteUser = (uid) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            const response = await axios({
+                url: 'user/delete-user',
+                params: uid,
+                method: 'delete'
+            })
+
+            resolve(response.data)
+        } catch(e) {
+            reject(e)
+        }
+    })
+}
+
+export const updateUserByAdmin = (data, uid) => {
+    return new Promise (async(resolve, reject) => {
+        try {
+            const response = await axios({
+                url: 'user/update-user-by-admin/' + uid,
+                data,
+                method: 'put'
+            })
+            resolve(response.data)
+        } catch (e) {
+            reject(e)
+        }
+    })
+}

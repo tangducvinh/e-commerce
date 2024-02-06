@@ -396,3 +396,21 @@ export const rules = [
     },
 ]
 
+export const EditInfors = [
+    {
+        placeholder: 'Nhập họ và tên',
+        label: 'HỌ VÀ TÊN (*)',
+        name: 'name'
+    },
+    {
+        placeholder: 'Nhập số điện thoại',
+        label: 'NHẬP SỐ ĐIỆN THOẠI (*)',
+        name: 'mobile',
+    },
+    {
+        placeholder: 'Nhập email (không bắt buộc)',
+        label: 'EMAIL',
+        name: 'email'
+    },
+]
+

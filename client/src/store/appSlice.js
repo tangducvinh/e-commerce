@@ -14,6 +14,9 @@ export const appSlice = createSlice({
         hotSales: [],
         dataTheme: [],
         isLoading: false,
+        showEditForm: false,
+        idUserEdit: null,
+        isChangeDataUsers: false,
     },
     reducers: {
         getCategory: (state, action) => {
@@ -21,6 +24,15 @@ export const appSlice = createSlice({
         },
         setLoading: (state, action) => {
             state.isLoading = action.payload
+        },
+        setShowEditForm: (state, action) => {
+            state.showEditForm = action.payload
+        },
+        setIdUserEdit: (state, action) => {
+            state.idUserEdit = action.payload
+        },
+        setIsChangeDataUsers: (state, action) => {
+            state.isChangeDataUsers = action.payload
         }
     },
     extraReducers: (builder) => {

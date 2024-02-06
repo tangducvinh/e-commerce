@@ -1,12 +1,36 @@
-import { memo, useState } from 'react'
+import { memo, useState, useEffect } from 'react'
+import swal from 'sweetalert'
+import { useDispatch } from 'react-redux'
 
 import icons from '../../ultis/icons'
 import avatar from '../../assets/imgs/avatar.png'
 import { rules } from '../../ultis/contants'
+import * as apis from '../../apis'
+import { appSlice } from '../../store/appSlice'
 
-const InforUserItem = ({ name, email, mobile, role, status = 'Hoạt động' }) => {   
+const InforUserItem = ({ name, email, mobile, role, status = 'Hoạt động', uid, handleChangeData }) => {   
     const { BsThreeDots } = icons
     const [ show, setShow ] = useState(false)
+    const dispatch = useDispatch()
+
+    const handleDeleteUser = async() => {
+        swal({
+            title: 'Xác nhận',
+            text: 'Bạn có thật sự muốn xoá tài khoản này?',
+            buttons: true,
+        }).then(async(result) => {
+            if (result) {
+                const response = await apis.deleteUser({_id: uid})
+                swal(response.success ? 'Congratulations' : 'Opps', response.mes, response.success ? 'success' : 'error')
+                handleChangeData()
+            }
+        })
+    }
+
+    const handleEditUser = () => {
+        dispatch(appSlice.actions.setShowEditForm(true))
+        dispatch(appSlice.actions.setIdUserEdit(uid))
+    }
 
     return (
         <div className={`flex items-center pl-2 border-l-[6px] rounded-md shadow-md py-2 ${role === '7' ? 'border-main' : role === '3' ? 'border-green-600' : 'border-blue-600'}`}>
@@ -23,8 +47,8 @@ const InforUserItem = ({ name, email, mobile, role, status = 'Hoạt động' })
 
                 {show && 
                     <div className='absolute w-[100px] bg-slate-100 shadow-md top-[35px] rounded-md flex flex-col z-10'>
-                        <button className='py-1 px-4 font-[500] border border-transparent hover:border rounded-md hover:border-gray-500'>Sửa</button>
-                        <button className='py-1 px-4 font-[500] border border-transparent hover:border rounded-md hover:border-gray-500'>Xoá</button>
+                        <button onClick={handleEditUser} className='py-1 px-4 font-[500] border border-transparent hover:border rounded-md hover:border-gray-500'>Sửa</button>
+                        <button onClick={handleDeleteUser} className='py-1 px-4 font-[500] border border-transparent hover:border rounded-md hover:border-gray-500'>Xoá</button>
                     </div>
                 }
             </div>

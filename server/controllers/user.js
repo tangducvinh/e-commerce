@@ -266,14 +266,10 @@ const getAllUsers = asyncHandler((req, res) => {
         queryCommand = queryCommand.select(fields)
     }
 
-    console.log(queryCommand)
-
-    // const total = queryCommand.reduce((t, el) => t + el, 0)
-    // console.log(total)
-
     const page = req.query.page || 1
-    const limit = req.query.limit || 10
+    const limit = req.query.limit || 15
     const skip = (page - 1) * limit
+
     queryCommand.skip(skip).limit(limit)
 
     queryCommand.exec()
@@ -289,6 +285,8 @@ const getAllUsers = asyncHandler((req, res) => {
 })
 
 const mockDataUsers = asyncHandler(async(req, res) => {
+    console.log(dataUsers)
+
     const response = await User.create(dataUsers)
 
     return res.json({
@@ -304,7 +302,7 @@ const deleteUser = asyncHandler(async(req, res) => {
 
     return res.status(200).json({
         success: response ? true : false,
-        deleted: response ? `User with email ${response.email} deleted` : `No user delete`
+        mes: response ? `Bạn đã xoá thành công tài khoản ${response.email}` : 'Thực hiện xoá không thành công vui lòng thử lại'
     })
 })
 
@@ -315,7 +313,7 @@ const updateUser = asyncHandler(async(req, res) => {
 
     return res.status(200).json({
         success: response ? true : false,
-        updateUser: response ? response : "Some thing went wrong"
+        updateUser: response ? response : "Something went wrong"
     })
 })
 
@@ -326,7 +324,7 @@ const updateUserByAdmin = asyncHandler(async(req, res) => {
     
     return res.status(200).json({
         success: response ? true : false,
-        updateUser: response ? response : 'Some thing went wrong'
+        mes: response ? 'Đã thay đổi thanh tin thành công' : 'Thay đổi thông tin thất bị vui lòng thử lại sau',
     })
 })
 

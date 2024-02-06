@@ -49,6 +49,7 @@ const Register = ({ data }) => {
                     navigate(`/${path.HOME}`)
                 } else {
                     swal('Opps', 'Thông tin đăng nhập không hợp lệ', 'error')
+                    dispatch(appSlice.actions.setLoading(false))
                 }
             }
         }

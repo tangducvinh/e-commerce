@@ -1,24 +1,21 @@
-import { useSearchParams, useNavigate, useParams, createSearchParams } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useSearchParams, useNavigate, useParams, createSearchParams, useLocation } from 'react-router-dom'
+import { useState, useEffect, memo } from 'react'
 
 import usePagination from '../../hooks/usePagination'
 import icons from '../../ultis/icons'
 
 const Pagination = ({ totalProductCount }) => {
-    const [ params] = useSearchParams()
-    const { category } = useParams()
+    const [ params ] = useSearchParams()
     const navigate = useNavigate()
     const { FaAngleLeft, FaAngleRight } = icons
     const [ page, setPage ] = useState(1)
+    const location = useLocation()
 
     const handleChoosePage = (el) => {
         if (Number(el)) {
-            const getParams = {}
-            for (let i of params.entries()) {
-                getParams[i[0]] = i[1]
-            }
+            const getParams = Object.fromEntries([...params])
             navigate({
-                pathname: `/products/${category}`,
+                pathname: location.pathname,
                 search: createSearchParams({
                     ...getParams,
                     page: el
@@ -63,4 +60,4 @@ const Pagination = ({ totalProductCount }) => {
     )
 }
 
-export default Pagination
+export default memo(Pagination)

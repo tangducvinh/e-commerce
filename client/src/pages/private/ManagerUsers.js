@@ -1,15 +1,20 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useDebounce } from 'use-debounce'
+import { useSearchParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import * as apis from '../../apis'
 import icons from '../../ultis/icons'
-import { InforUserItem, InputSearch, Pagiantion } from '../../companents'
+import { InforUserItem, InputSearch, Pagiantion, FormEditInfor } from '../../companents'
 
 const ManageUsers = () => {
     const [ dataUsers, setDataUsers ] = useState([])
     const { HiUserAdd } = icons
     const [ valueSearch, setValueSearch ] = useState('')
     const [ value ] = useDebounce(valueSearch, 800)
+    const [ getParams ] = useSearchParams()
+    const [ checkChangeData, setCheckChangeData ] = useState(false)
+    const { isChangeDataUsers } = useSelector(state => state.app)
 
     const fecthDataUsers = async(params) => {
         const response = await apis.getAllUsers(params)
@@ -17,17 +22,22 @@ const ManageUsers = () => {
     }
 
     useEffect(() => {
-        const params = {}
-        if (value) params.q = value
-        fecthDataUsers(params)
-    }, [value])
+        const paramsSearch = Object.fromEntries([...getParams])
+
+        if (value) paramsSearch.q = value
+        fecthDataUsers({...paramsSearch})
+    }, [value, getParams, checkChangeData, isChangeDataUsers])
 
     const setValue = useCallback((value) => {
         setValueSearch(value)
     }, [valueSearch])
 
+    const handleChangeData = useCallback(() => {
+        setCheckChangeData(prev => !prev)
+    }, [checkChangeData])
+
     return (
-        <div>
+        <div className='realtive'>
             <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-[30px] text-gray-600'>
                     <h3 className='text-[24px]'>Manage Users</h3>
@@ -57,7 +67,7 @@ const ManageUsers = () => {
                 <div className='mt-2'>
                     {dataUsers?.data?.map((item) => (
                         <div key={item._id} className='mb-3'>
-                            <InforUserItem name={item.name} email={item.email} mobile={item?.mobile} role={item.role} />
+                            <InforUserItem name={item.name} email={item.email} mobile={item?.mobile} role={item.role} uid={item._id} handleChangeData={handleChangeData}/>
                         </div>
                     ))}
                 </div>
@@ -66,6 +76,8 @@ const ManageUsers = () => {
             <div className='mt-10 flex justify-center'>
                 <Pagiantion totalProductCount={dataUsers.counts}/>
             </div>
+
+            <div className='h-[50px]'></div>
         </div>
     )
 }
