@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useDebounce } from 'use-debounce'
 
 import * as apis from '../../apis'
-import { HotSale, ItemProduct, Pagiantion, InputSearch } from '../../companents'
+import { HotSale, ItemProduct, Pagination, InputSearch } from '../../companents'
 import { filters } from '../../ultis/contants'
 
 const Products = () => {
@@ -97,7 +97,7 @@ const Products = () => {
                     ))}
                 </div>
 
-                <div className='mt-10 flex justify-center'><Pagiantion totalProductCount={data?.counts}/></div>
+                <div className='mt-10 flex justify-center'><Pagination totalProductCount={data?.counts}/></div>
 
                 <div className='h-[50px]'></div>
             </div>

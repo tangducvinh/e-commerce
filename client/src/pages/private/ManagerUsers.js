@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 import * as apis from '../../apis'
 import icons from '../../ultis/icons'
-import { InforUserItem, InputSearch, Pagiantion } from '../../companents'
+import { InforUserItem, InputSearch, Pagination } from '../../companents'
 
 const ManageUsers = () => {
     const [ dataUsers, setDataUsers ] = useState([])
@@ -74,7 +74,7 @@ const ManageUsers = () => {
             </div>
 
             <div className='mt-10 flex justify-center'>
-                <Pagiantion totalProductCount={dataUsers.counts}/>
+                <Pagination totalProductCount={dataUsers.counts}/>
             </div>
 
             <div className='h-[50px]'></div>
