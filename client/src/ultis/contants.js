@@ -414,3 +414,37 @@ export const EditInfors = [
     },
 ]
 
+export const inputSelectRole = {
+    label: 'role',
+    name: 'role',
+    options: [
+        {
+            value: '7',
+            text: 'QUẢN LÍ',
+        },
+        {
+            value: '3',
+            text: 'KHÁCH HÀNG',
+        },
+        {
+            value: '5',
+            text: 'NHÂN VIÊN',
+        },
+    ]
+}
+
+export const inputSelectStatusUser = {
+    label: 'tình trạng',
+    name: 'status',
+    options: [
+        {
+            value: false,
+            text: 'HOẠT ĐỘNG',
+        },
+        {
+            value: true,
+            text: 'BỊ CHẶN',
+        },
+    ]
+}
+

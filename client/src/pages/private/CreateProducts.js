@@ -1,8 +1,12 @@
 
 
+import { InputLogin } from '../../companents'
+
 const CreateProducts = () => {
     return (
-        <div>CreateProducts</div>
+        <div>
+            <InputLogin data={{label: 'title', placeholder: 'name', name: 'title'}}/>
+        </div>
     )
 }
 

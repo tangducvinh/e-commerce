@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 import * as apis from '../../apis'
 import icons from '../../ultis/icons'
-import { InforUserItem, InputSearch, Pagiantion, FormEditInfor } from '../../companents'
+import { InforUserItem, InputSearch, Pagiantion } from '../../companents'
 
 const ManageUsers = () => {
     const [ dataUsers, setDataUsers ] = useState([])
@@ -67,7 +67,7 @@ const ManageUsers = () => {
                 <div className='mt-2'>
                     {dataUsers?.data?.map((item) => (
                         <div key={item._id} className='mb-3'>
-                            <InforUserItem name={item.name} email={item.email} mobile={item?.mobile} role={item.role} uid={item._id} handleChangeData={handleChangeData}/>
+                            <InforUserItem name={item.name} email={item.email} status={item.status} mobile={item?.mobile} role={item.role} uid={item._id} handleChangeData={handleChangeData}/>
                         </div>
                     ))}
                 </div>

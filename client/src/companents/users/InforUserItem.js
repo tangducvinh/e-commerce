@@ -8,7 +8,7 @@ import { rules } from '../../ultis/contants'
 import * as apis from '../../apis'
 import { appSlice } from '../../store/appSlice'
 
-const InforUserItem = ({ name, email, mobile, role, status = 'Hoạt động', uid, handleChangeData }) => {   
+const InforUserItem = ({ name, email, mobile, role, status, uid, handleChangeData }) => {   
     const { BsThreeDots } = icons
     const [ show, setShow ] = useState(false)
     const dispatch = useDispatch()
@@ -41,7 +41,7 @@ const InforUserItem = ({ name, email, mobile, role, status = 'Hoạt động', u
             <span className='flex-2 text-[14px] font-[500]'>{email}</span>
             <span className='flex-2 text-[14px] font-[500]'>{mobile}</span>
             <span className='flex-2 text-[14px] font-[500]'>{rules.find(el => el.role === role).value}</span>
-            <span className={`flex-2 text-[14px] font-[500] ${status === 'Hoạt động' ? 'text-green-600' : 'text-red-600'}`}>{status.toUpperCase()}</span>
+            <span className={`flex-2 text-[14px] font-[500] ${!status ? 'text-green-600' : 'text-red-600'}`}>{!status ? 'HOẠT ĐỘNG' : 'BỊ CHẶN'}</span>
             <div onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)} className='relative w-[35px] cursor-pointer h-[35px] flex items-center justify-center mr-2 rounded-full hover:bg-gray'>
                 <BsThreeDots size={20} />
 

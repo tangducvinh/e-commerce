@@ -2,7 +2,7 @@ import { Outlet, Navigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 import path from '../../ultis/path'
-import { AdminSidebar, FormEditInfor } from '../../companents'
+import { AdminSidebar, FormEditInfor, Header } from '../../companents'
 import { appSlice } from '../../store/appSlice'
 
 const AdminLayout = () => {
@@ -24,8 +24,12 @@ const AdminLayout = () => {
                 </div>
             }
 
-            <div className='flex justify-center'>
-                <div className='w-[1500px] flex position gap-[30px] mt-[40px]'>
+            <div className='fixed w-full top-0'><Header /></div>
+
+            <div className='h-[104px]'></div>
+
+            <div className='flex justify-center items-center'>
+                <div className="flex gap-[30px] mt-[30px] w-[1500px]">
                     <div className='border w-[270px] fixed bg-[#F6FBFC] rounded-lg p-2'>
                         <AdminSidebar />
                     </div>

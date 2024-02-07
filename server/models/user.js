@@ -37,7 +37,7 @@ var userSchema = new mongoose.Schema({
         default: [],
     },
     wishlist: [{type: mongoose.Types.ObjectId, ref: 'Product'}],
-    isBlocked: {
+    status: {
         type: Boolean,
         default: false,
     },

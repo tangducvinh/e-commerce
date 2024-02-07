@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import swal from 'sweetalert'
 
-import { InputLogin } from '../../companents'
-import { EditInfors } from '../../ultis/contants'
+import { InputLogin, InputSelect } from '../../companents'
+import { EditInfors, inputSelectRole, inputSelectStatusUser } from '../../ultis/contants'
 import * as apis from '../../apis'
 import { appSlice } from '../../store/appSlice'
 import icons from '../../ultis/icons'
@@ -16,7 +16,7 @@ const FormEditInfor = () => {
 
     const fetchDataUser = async() => {
         const response = await apis.getInforUser(idUserEdit)
-        setValueInputs({name: response.name, email: response.email, mobile: response.mobile})
+        setValueInputs({name: response.name, email: response.email, mobile: response.mobile, status: response.status, role: response.role})
     }
 
     useEffect(() => {
@@ -47,6 +47,10 @@ const FormEditInfor = () => {
                     <InputLogin data={item} value={valueInputs[item.name]} setValue={setValueInputs}/>
                 ))}
             </div>
+
+            <InputSelect data={inputSelectRole} value={valueInputs.role} setValue={setValueInputs} />
+
+            <InputSelect data={inputSelectStatusUser} value={valueInputs.status} setValue={setValueInputs}/>
 
             <button 
                 onClick={handleChangeInforUser}
