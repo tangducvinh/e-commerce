@@ -2,14 +2,17 @@ import { Outlet, Navigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 import path from '../../ultis/path'
-import { AdminSidebar, FormEditInfor, Header } from '../../companents'
+import { AdminSidebar, FormEditInfor, Header, ShowChildren } from '../../companents'
 import { appSlice } from '../../store/appSlice'
 
 const AdminLayout = () => {
     const { isLoggedIn, dataCurrent } = useSelector(state => state.user)
-    const { showEditForm } = useSelector(state => state.app)
+    const { showEditForm, isShowChildren, children } = useSelector(state => state.app)
     const dispatch = useDispatch()
+
     if (!isLoggedIn || !dataCurrent || dataCurrent.role !== '7') return <Navigate to={`/${path.LOGIN}`} replace={true} />
+    
+
 
     return (
         <div className='relative'>
@@ -24,7 +27,13 @@ const AdminLayout = () => {
                 </div>
             }
 
-            <div className='fixed w-full top-0'><Header /></div>
+            {isShowChildren && 
+                <div className='fixed w-screen h-screen flex justify-center items-center bg-overlay z-10'>
+                    <ShowChildren children={children}/>
+                </div>
+            }
+
+            <div className='fixed w-full top-0 z-50'><Header /></div>
 
             <div className='h-[104px]'></div>
 

@@ -1,7 +1,7 @@
 
 const InputSelect = ({data, value, setValue}) => {
     return (
-        <div className='mt-5'>
+        <div className='mt-5 flex items-center gap-2'>
             <label for={data.name} className='text-gray-500 text-[12px]'>{`${data.label.toUpperCase()}: `}</label>
             <select 
                 onChange={(e) => setValue(prev => ({...prev, [data.name]: JSON.parse(e.target.value)}))}

@@ -1,11 +1,12 @@
 import { useState, useCallback, useEffect, Fragment } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
+import { useDispatch } from 'react-redux'
 
 import icons from '../../ultis/icons'
-import { InputSearch, InforProductItem, Pagination } from '../../companents'
+import { InputSearch, InforProductItem, Pagination, FormAddProduct} from '../../companents'
 import * as apis from '../../apis'
-
+import { appSlice } from '../../store/appSlice'
 
 const ManageProducts = () => {
     const { HiUserAdd } = icons
@@ -13,6 +14,7 @@ const ManageProducts = () => {
     const [ dataProducts, setDataProducts ] = useState()
     const [ params ] = useSearchParams()
     const [ value ] = useDebounce(valueSearch, 800)
+    const dispatch = useDispatch()
 
     const setValue = useCallback((value) => {
         setValueSearch(value)
@@ -29,6 +31,11 @@ const ManageProducts = () => {
         fecthDataProduct({...getParams})
     }, [params, value])
 
+    const handleAddProduct = () => {
+        dispatch(appSlice.actions.setShowChildren(true))
+        dispatch(appSlice.actions.setChildren(<FormAddProduct />))
+    }
+
     return (
         <div>
             <div className='flex items-center justify-between'>
@@ -40,7 +47,10 @@ const ManageProducts = () => {
                 <div className='flex items-center justify-between gap-5'>
                     <InputSearch setValueSearch={setValue} valueSearch={valueSearch}/>
 
-                    <button className='bg-blue-500 text-[#ffff] gap-2 flex py-2 px-4 rounded-md'>
+                    <button
+                        onClick={handleAddProduct} 
+                        className='bg-blue-500 text-[#ffff] gap-2 flex py-2 px-4 rounded-md'
+                    >
                         <HiUserAdd size={20}/>
                         <span className='text-[14px]'>Thêm</span>
                     </button>

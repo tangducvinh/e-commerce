@@ -17,6 +17,8 @@ export const appSlice = createSlice({
         showEditForm: false,
         idUserEdit: null,
         isChangeDataUsers: false,
+        isShowChildren: false,
+        children: null
     },
     reducers: {
         getCategory: (state, action) => {
@@ -33,6 +35,12 @@ export const appSlice = createSlice({
         },
         setIsChangeDataUsers: (state, action) => {
             state.isChangeDataUsers = action.payload
+        },
+        setShowChildren: (state, action) => {
+            state.isShowChildren = action.payload
+        },
+        setChildren: (state, action) => {
+            state.children = action.payload
         }
     },
     extraReducers: (builder) => {
