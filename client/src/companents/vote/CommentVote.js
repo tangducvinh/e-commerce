@@ -37,7 +37,7 @@ const CommentVote = ({ dataDetaiProduct }) => {
                 {filterStarComment === 0 
                     ? dataDetaiProduct?.ratings.map((item, index) => (
                         <div className='border-b-[1px] py-3 pb-3' key={index}>
-                            <ItemUserComment comment={item.comment} userName={item.postedBy.name} updatedAt={item.updatedAt} star={item.star}/>
+                            <ItemUserComment comment={item.comment} userName={item.postedBy?.name} updatedAt={item.updatedAt} star={item.star}/>
                         </div>
                     ))
                     : dataDetaiProduct?.ratings.filter(item => item.star === filterStarComment).length === 0 

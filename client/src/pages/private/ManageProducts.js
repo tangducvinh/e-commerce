@@ -27,12 +27,13 @@ const ManageProducts = () => {
 
     useEffect(() => {
         const getParams = Object.fromEntries([...params])
-        if (value) getParams.title = valueSearch
+        if (value) {
+            getParams.title = valueSearch
+        }
         fecthDataProduct({...getParams})
     }, [params, value])
 
     const handleAddProduct = () => {
-        dispatch(appSlice.actions.setShowChildren(true))
         dispatch(appSlice.actions.setChildren(<FormAddProduct />))
     }
 
@@ -79,7 +80,7 @@ const ManageProducts = () => {
             </div>
 
             <div className='mt-[30px] flex justify-center'>
-                <Pagination totalProductCount={dataProducts?.counts}/>
+                <Pagination changeValue={value} totalProductCount={dataProducts?.counts}/>
             </div>
 
             <div className='h-[50px]'></div>

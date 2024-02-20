@@ -3,8 +3,9 @@ import { useState, useEffect, memo } from 'react'
 
 import usePagination from '../../hooks/usePagination'
 import icons from '../../ultis/icons'
+import { MdPanoramaHorizontalSelect } from 'react-icons/md'
 
-const Pagination = ({ totalProductCount }) => {
+const Pagination = ({ totalProductCount, changeValue }) => {
     const [ params ] = useSearchParams()
     const navigate = useNavigate()
     const { FaAngleLeft, FaAngleRight } = icons
@@ -23,6 +24,19 @@ const Pagination = ({ totalProductCount }) => {
             })
         }
     }
+
+    useEffect(() => {
+        const getParams = Object.fromEntries([...params])
+        if (changeValue) {
+            navigate({
+                pathname: location.pathname,
+                search: createSearchParams({
+                    ...getParams,
+                    page: 1,
+                }).toString()
+            })
+        }
+    }, [changeValue])
 
     useEffect(() => {
         setPage(Number(params.get('page')) || 1)
