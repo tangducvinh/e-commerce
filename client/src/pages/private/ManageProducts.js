@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, Fragment } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import icons from '../../ultis/icons'
 import { InputSearch, InforProductItem, Pagination, FormAddProduct} from '../../companents'
@@ -15,10 +15,11 @@ const ManageProducts = () => {
     const [ params ] = useSearchParams()
     const [ value ] = useDebounce(valueSearch, 800)
     const dispatch = useDispatch()
+    const { render } = useSelector(state => state.product)
 
     const setValue = useCallback((value) => {
         setValueSearch(value)
-    }, [valueSearch])
+    }, [])
 
     const fecthDataProduct = async(passData) => {
         const response = await apis.getAllProducts(passData)
@@ -28,10 +29,10 @@ const ManageProducts = () => {
     useEffect(() => {
         const getParams = Object.fromEntries([...params])
         if (value) {
-            getParams.title = valueSearch
+            getParams.title = value
         }
         fecthDataProduct({...getParams})
-    }, [params, value])
+    }, [params, value, render])
 
     const handleAddProduct = () => {
         dispatch(appSlice.actions.setChildren(<FormAddProduct />))
@@ -73,7 +74,7 @@ const ManageProducts = () => {
 
                 {dataProducts?.data.map((el, index) => (
                     <Fragment key={el.title}>
-                        <InforProductItem image={el.images[0]} title={el.title} index={index} category={el.category} price={el.price.sale} sold={el.sold} quanlity={el.quanlity} rating={el.star}/>
+                        <InforProductItem pid={el._id} image={el.images[0]} title={el.title} index={index} category={el.category} price={el.price.sale || el.price.price} sold={el.sold} quanlity={el.quanlity} rating={el.star}/>
                     </Fragment>
                 ))}
 

@@ -5,10 +5,10 @@ const slugify = require('slugify')
 const createProduct = asyncHandler(async(req, res) => {
     if (Object.keys(req.body).length === 0) throw new Error('Missing inputs')
     if (req.body && req.body.title) req.body.slug = slugify(req.body.title)
-    const newProduct = await Product.create(req.body)
+    const response = await Product.create(req.body)
     return res.status(200).json({
-        success: newProduct ? true : false,
-        createdProduct: newProduct ? newProduct : "Can't create new product"
+        success: response ? true : false,
+        mes: response ? 'Đã thực hiện thông sản phẩm thành công' : 'Thực hiện thêm sản phẩm bị thất bại vui lòng thực hiện lại sau',
     })
 })
 
@@ -99,7 +99,7 @@ const deleteProduct = asyncHandler(async(req, res) => {
 
     res.status(200).json({
         success: response ? true : false,
-        mes: response ? `Deleted ${response._id}` : "Some thing went wrong"
+        mes: response ? 'Sản phẩm đã được xoá' : 'Thực hiện xoá không thành công vui lòng thử lại sau'
     })
 })
 

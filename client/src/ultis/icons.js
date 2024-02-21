@@ -16,6 +16,7 @@ import { SlScreenDesktop } from "react-icons/sl"
 import { GoArrowLeft } from "react-icons/go"
 import { FaCheck } from "react-icons/fa6"
 import { RiPercentLine, RiBillLine  } from "react-icons/ri"
+import { GoTrash } from "react-icons/go"
 
 const icons = {
     LuMenuSquare,
@@ -62,10 +63,10 @@ const icons = {
     MdManageSearch,
     MdOutlineCreate ,
     RiBillLine,
-    FaChevronRight,
     FaChevronDown,
     HiUserAdd,
     BsThreeDots,
+    GoTrash,
 }
 
 export default icons

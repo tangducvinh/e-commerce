@@ -1,28 +1,36 @@
 import { memo, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { FormEditProduct } from '../../companents'
 import icons from '../../ultis/icons'
 import { appSlice } from '../../store/appSlice'
+import { productSlice } from '../../store/productSlice'
+import * as apis from '../../apis'
+import swal from 'sweetalert'
 
-const InforProductItem = ({ index, title, category, price, sold, quanlity, rating, image}) => {
+const InforProductItem = ({pid, index, title, category, price, sold, quanlity, rating, image}) => {
     const { BsThreeDots, FaStar } = icons
     const [ show, setShow ] = useState(false)
     const dispatch = useDispatch()
+    const { render } = useSelector(state => state.product)
 
     const handleEditProduct = () => {
         dispatch(appSlice.actions.setChildren(<FormEditProduct />))
     }
 
-    const handleDeleteProduct = () => {
-
+    const handleDeleteProduct = async() => {
+        const response = await apis.deleteProduct(pid)
+        swal(response.success ? 'congratulations' : 'Oops', response.mes, response.success ? 'success' : 'error')
+        if (response.success) {
+            dispatch(productSlice.actions.setRender(!render))
+        }
     }
 
     return (
         <div className='flex items-center mx-3 py-4 border-b-[1px] mt-2 text-[14px] font-[500]'>
             <span className='w-[50px]'>{`#${index + 1}`}</span>
             <img className='w-[35px] h-[35px] mr-1' src={image} ></img>
-            <p className='flex-2'>{title.slice(0, 37)}</p>
+            <p className='flex-2'>{title?.slice(0, 37)}</p>
             <span className='flex-1'>{`${category.slice(0, 1).toUpperCase()}${category.slice(1)}`}</span>
             <span className='flex-1'>{sold}</span>
             <span className='flex-1'>{quanlity}</span>

@@ -27,7 +27,7 @@ const Products = () => {
         }
         if (value) dataPrams.title = value
         fetchDataProduct({category, ...dataPrams})
-    }, [params, value])
+    }, [params, value, category])
 
     useEffect(() => {
         window.scrollTo(400, 400)
@@ -49,7 +49,7 @@ const Products = () => {
 
     const setValue = useCallback((value) => {
         setValueSearch(value)
-    }, [value])
+    }, [])
 
     return (
         <div className='flex justify-center'>

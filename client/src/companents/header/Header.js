@@ -32,7 +32,7 @@ const Header = () => {
         setTimeout(async() => {
             const response = await apis.getCurrentUser()
 
-            if (!response.data.success) {
+            if (!response?.data.success) {
                 dispatch(userSlice.actions.logout())
                 swal('Oops', 'Phiên đăng nhập đã hết hạn vui lòng thực hiện đăng nhập lại', 'error').then(() => {
                     navigate(`/${path.LOGIN}`)

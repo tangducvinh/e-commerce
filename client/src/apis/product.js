@@ -46,3 +46,32 @@ export const ratings = (data) => {
         }
     })
 }
+
+export const createProduct = (data) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            const response = await axios({
+                url: 'product/create',
+                method: 'post',
+                data
+            })
+            resolve(response.data)
+        } catch(e) {
+            reject(e)
+        }
+    })
+}
+
+export const deleteProduct = (pid) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            const response = await axios({
+                url: 'product/' + pid,
+                method: 'delete',
+            })
+            resolve(response.data)
+        } catch (e) {
+            reject(e)
+        }
+    })
+}

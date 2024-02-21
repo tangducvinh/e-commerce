@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import swal from 'sweetalert'
 
 import icons from '../../ultis/icons'
 import { InputLogin, InputSelect } from '../../companents'
 import { appSlice } from '../../store/appSlice'
+import { productSlice } from '../../store/productSlice'
+import * as apis from '../../apis'
 
 const FormAddProduct = () => {
-
     const initData = {
-        name: '',
+        title: '',
         price: '',
         category: '',
         brand: '',
@@ -17,11 +19,14 @@ const FormAddProduct = () => {
         information: [],
         highlights: [],
         version: [],
+        images: [],
+        quanlity: '',
     }
 
     const dispatch = useDispatch()
     const { categorys } = useSelector(state => state.app)
-    const { IoClose } = icons
+    const { render } = useSelector(state => state.product)
+    const { IoClose, GoTrash } = icons
 
     const [ data, setData ] = useState(initData)
     const [ valueIncentive, setValueIncentive ] = useState({incentive: ''})
@@ -29,12 +34,18 @@ const FormAddProduct = () => {
     const [ valueInformation, setValueInformation ] = useState({information: ''})
     const [ valueHighlight, setValueHighlight ] = useState({highlight: ''})
     const [ valueVersion, setValueVersion ] = useState({data: '', price: ''})
+    const [ valueImage, setValueImage ] = useState({image: ''})
+    const [ showDeleteImage, setShowDeleteImage ] = useState(null)
 
     const handleAddIncentive = () => {
-        const newArray = data.incentives
-        newArray.push(valueIncentive.incentive)
-        setData(prev => ({...prev, incentives: newArray}))
-        setValueIncentive(prev => ({incentive: ''}))
+        if (valueIncentive.incentive) {
+            const newArray = data.incentives
+            newArray.push(valueIncentive.incentive)
+            setData(prev => ({...prev, incentives: newArray}))
+            setValueIncentive(prev => ({incentive: ''}))
+        } else {
+            swal('Oops', 'Bạn chưa nhập ưu đãi sản phẩm', 'error')
+        }
     }
 
     const handleDeleteIncetive = (index) => {
@@ -44,10 +55,14 @@ const FormAddProduct = () => {
     }
 
     const handleAddVariant = () => {
-        const newArray = data.variants
-        newArray.push(valueVariant)
-        setData(prev => ({...prev, variants: newArray}))
-        setValueVariant(prev => ({image: '', color: '', price: ''}))
+        if (valueVariant.image && valueVariant.color && valueVariant.price) {
+            const newArray = data.variants
+            newArray.push(valueVariant)
+            setData(prev => ({...prev, variants: newArray}))
+            setValueVariant(prev => ({image: '', color: '', price: ''}))
+        } else {
+            swal('Opps', 'Bạn chưa nhập đầy đủ thông tin phiên bản', 'error')
+        }
     }
 
     const handleDeleteVariant = (index) => {
@@ -57,10 +72,14 @@ const FormAddProduct = () => {
     }
 
     const handleAddInformation = () => {
-        const newArray = data.information
-        newArray.push(valueInformation.information)
-        setData(prev => ({...prev, information: newArray}))
-        setValueInformation(prev => ({information: ''}))
+        if (valueInformation.information) {
+            const newArray = data.information
+            newArray.push(valueInformation.information)
+            setData(prev => ({...prev, information: newArray}))
+            setValueInformation(prev => ({information: ''}))
+        } else {
+            swal('Opps', 'Bạn chưa nhập thông tin sản phẩm', 'error')
+        }
     }
 
     const handleDeleteInformation = (index) => {
@@ -70,10 +89,14 @@ const FormAddProduct = () => {
     }
 
     const handleAddHighlight = () => {
-        const newArray = data.highlights
-        newArray.push(valueHighlight.highlight)
-        setData(prev => ({...prev, highlights: newArray}))
-        setValueHighlight(prev => ({highlight: ''}))
+        if (valueHighlight.highlight) {
+            const newArray = data.highlights
+            newArray.push(valueHighlight.highlight)
+            setData(prev => ({...prev, highlights: newArray}))
+            setValueHighlight(prev => ({highlight: ''}))
+        } else {
+            swal('Opps', 'Bạn chưa nhập thông tin sản phẩm', 'error')
+        }
     }
 
     const handleDeleteHighlight = (index) => {
@@ -83,10 +106,14 @@ const FormAddProduct = () => {
     }
 
     const handleAddVersion = () => {
-        const newArray = data.version
-        newArray.push(valueVersion)
-        setData(prev => ({...prev, version: newArray}))
-        setValueVersion(prev => ({data: '', price: ''}))
+        if (valueVersion.data && valueVersion.price) {
+            const newArray = data.version
+            newArray.push(valueVersion)
+            setData(prev => ({...prev, version: newArray}))
+            setValueVersion(prev => ({data: '', price: ''}))
+        } else {
+            swal('Opps', 'Bạn chưa nhập đầy đủ thông tin dung lượng sản phẩm', 'error')
+        }
     }
 
     const handleDeleteVersion = (index) => {
@@ -95,6 +122,47 @@ const FormAddProduct = () => {
         setData(prev => ({...prev, version: newArray}))
     }
 
+    const handleAddImage = () => {
+        if (valueImage.image) {
+            const newArray = data.images
+            newArray.push(valueImage.image)
+            setData(prev => ({...prev, images: newArray}))
+            setValueImage(prev => ({image: ''}))
+        } else {
+            swal('Opps', 'Bạn chưa nhập link hình ảnh', 'error')
+        }
+    }
+
+    const handleDeleteImage = (index) => {
+        const newArray = data.images
+        newArray.splice(index, 1)
+        setData(prev => ({...prev, images: newArray}))
+    }
+
+    const handleCreateProduct = async() => {
+        if (data.title 
+            && data.price 
+            && data.category 
+            && data.brand 
+            && data.incentives.length > 0 
+            && data.variants.length > 0 
+            && data.information.length > 0 
+            && data.highlights.length > 0 
+            && data.version.length > 0 
+            && data.images.length > 0 
+            && data.quanlity) {
+                const dataPass = {...data, price: {price: data.price}, quanlity: Number(data.quanlity)}
+                console.log(dataPass)
+                const response = await apis.createProduct(dataPass)
+                swal(response.success ? 'Congratulations' : 'Opps', response.mes, response.success ? 'success' : 'error')
+                if (response.success) {
+                    dispatch(appSlice.actions.setChildren(null))
+                    dispatch(productSlice.actions.setRender(!render))
+                }
+        } else {
+            swal('Oops', 'Vui lòng nhập đầy đủ thông tin để thêm sản phẩm', 'error')
+        }
+    }
 
     const handleHiddenForm = () => {
         dispatch(appSlice.actions.setChildren(null))
@@ -108,13 +176,15 @@ const FormAddProduct = () => {
                 <button onClick={handleHiddenForm} className='absolute right-[5px]'><IoClose size={30} /></button>
             </div>
 
-            <InputLogin value={data.name} setValue={setData} data={{label: 'Tên sản phẩm', placeholder: 'Nhập tên sản phẩm', name: 'name'}}/>
+            <InputLogin value={data.title} setValue={setData} data={{label: 'Tên sản phẩm', placeholder: 'Nhập tên sản phẩm', name: 'title'}}/>
 
             <div className='flex items-center gap-[30px]'>
                 <InputLogin value={data.price} setValue={setData} data={{label: 'Giá sản phẩm', placeholder: 'Nhập giá sản phẩm', name: 'price'}}/>
                 <InputLogin value={data.brand} setValue={setData} data={{label: 'Hãng sẩn phẩm', placeholder: 'Nhập hãng sản phẩm', name: 'brand'}} />
-                <InputSelect value={data.category} setValue={setData} data={{name: 'category', label: 'category', options: categorys?.data.map(item => ({value: item.category, text: item.category}))}} root/>
+                <InputLogin value={data.quanlity} setValue={setData} data={{label: 'Số lượng sản phẩm', placeholder: 'Nhập số lượng sản phẩm', name: 'quanlity'}}/>
             </div>
+
+            <InputSelect value={data.category} setValue={setData} data={{name: 'category', label: 'category', options: categorys?.data?.map(item => ({value: item.category, text: item.category}))}} root/>
 
             <div className='flex flex-col gap-[20px]'>
                 <div>
@@ -177,6 +247,31 @@ const FormAddProduct = () => {
                 </div>
             </div>
 
+            <div>
+                <h2 className='text-[14px] font-bold'>Hình ảnh sản phẩm</h2>
+                <div className='flex gap-2 flex-wrap items-center ml-[20px]'>
+                    {data?.images.map((item, index) => (
+                        <div 
+                            onMouseEnter={() => setShowDeleteImage(index)}
+                            onMouseLeave={() => setShowDeleteImage(null)}
+                            className='w-[50px] h-[50px] relative rounded-md overflow-hidden'
+                        >
+                            <img className='object-cover w-full h-full' src={item}></img>
+                            {showDeleteImage === index && 
+                                <div onClick={() => handleDeleteImage(index)} className='w-full h-full absolute flex items-center cursor-pointer justify-center inset-0 bg-overlay'>
+                                    <GoTrash color="white" />
+                                </div>
+                            }
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div className='ml-4 flex items-center gap-3'>
+                <InputLogin value={valueImage.image} setValue={setValueImage} data={{label: `Hình ảnh`, placeholder: 'Nhập link hình ảnh sản phẩm', name: 'image'}}/>
+                <button onClick={handleAddImage} className='py-1 px-2 bg-blue-500 rounded-md text-white text-[14px]'>Thêm</button>
+            </div>
+
             <div className='flex flex-col gap-[20px]'>
                 <div>
                     <h2 className='text-[14px] font-bold'>Thông tin nổi bật của sản phẩm</h2>
@@ -217,6 +312,7 @@ const FormAddProduct = () => {
                 </div>
             </div>
 
+            <button onClick={handleCreateProduct} className='py-2 px-4 bg-main rounded-md text-white font-bold'>Tạo sản phẩm</button>
         </div>
     )
 }

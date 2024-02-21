@@ -173,7 +173,6 @@ const logout = asyncHandler(async(req, res) => {
 
 const forgotPassword = asyncHandler(async(req, res) => {
     const { email } = req.body
-    console.log(email)
     if (!email) {
         return res.json({
             sucess: false,
@@ -285,8 +284,6 @@ const getAllUsers = asyncHandler((req, res) => {
 })
 
 const mockDataUsers = asyncHandler(async(req, res) => {
-    console.log(dataUsers)
-
     const response = await User.create(dataUsers)
 
     return res.json({

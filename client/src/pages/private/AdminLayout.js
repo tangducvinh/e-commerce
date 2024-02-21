@@ -26,12 +26,12 @@ const AdminLayout = () => {
             }
 
             {children && 
-                <div className='fixed w-screen h-screen flex justify-center items-center bg-overlay z-10'>
+                <div className='fixed w-screen h-screen flex justify-center items-center bg-overlay z-50'>
                     <ShowChildren children={children}/>
                 </div>
             }
 
-            <div className='fixed w-full top-0 z-50'><Header /></div>
+            <div className='fixed w-full top-0 z-40'><Header /></div>
 
             <div className='h-[104px]'></div>
 

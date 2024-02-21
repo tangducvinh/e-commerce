@@ -30,11 +30,11 @@ const ManageUsers = () => {
 
     const setValue = useCallback((value) => {
         setValueSearch(value)
-    }, [valueSearch])
+    }, [])
 
     const handleChangeData = useCallback(() => {
         setCheckChangeData(prev => !prev)
-    }, [checkChangeData])
+    }, [])
 
     return (
         <div className='realtive'>

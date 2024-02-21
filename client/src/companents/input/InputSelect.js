@@ -9,7 +9,7 @@ const InputSelect = ({data, value, setValue, root = false}) => {
                     : (e) => setValue(prev => ({...prev, [data.name]: JSON.parse(e.target.value)}))}
                 className="text-[14px]" value={value} name={data.name} id={data.name}
             >
-                {data.options.map(item => (
+                {data.options?.map(item => (
                     <option key={item.value} value={item.value}>{item.text}</option>
                 ))}
             </select>

@@ -35,7 +35,6 @@ const {
     MdOutlineDashboardCustomize,
     FaRegUser,
     MdManageSearch,
-    MdOutlineCreate,
     RiBillLine,
     FaChevronRight,
     FaChevronDown,

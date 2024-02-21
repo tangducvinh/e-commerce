@@ -12,6 +12,7 @@ import {
 
 import { appSlice } from './appSlice'
 import { userSlice } from './userSlice'
+import { productSlice } from './productSlice'
 
 const commonConfig = {
     key: 'user',
@@ -26,7 +27,8 @@ const userConfig = {
 export const store = configureStore({
     reducer: {
         app: appSlice.reducer,
-        user: persistReducer(userConfig, userSlice.reducer)
+        user: persistReducer(userConfig, userSlice.reducer),
+        product: productSlice.reducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
