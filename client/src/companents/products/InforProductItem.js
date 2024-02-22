@@ -15,15 +15,23 @@ const InforProductItem = ({pid, index, title, category, price, sold, quanlity, r
     const { render } = useSelector(state => state.product)
 
     const handleEditProduct = () => {
-        dispatch(appSlice.actions.setChildren(<FormEditProduct />))
+        dispatch(appSlice.actions.setChildren(<FormEditProduct pid={pid} />))
     }
 
     const handleDeleteProduct = async() => {
-        const response = await apis.deleteProduct(pid)
-        swal(response.success ? 'congratulations' : 'Oops', response.mes, response.success ? 'success' : 'error')
-        if (response.success) {
-            dispatch(productSlice.actions.setRender(!render))
-        }
+        swal({
+            title: 'Are you sure',
+            text: 'Bạn có chắc chắn muốn xoá không?',
+            buttons: true,
+        }).then(async(result) => {
+            if (result) {
+                const response = await apis.deleteProduct(pid)
+                swal(response.success ? 'congratulations' : 'Oops', response.mes, response.success ? 'success' : 'error')
+                if (response.success) {
+                    dispatch(productSlice.actions.setRender(!render))
+                }
+            }
+        })
     }
 
     return (

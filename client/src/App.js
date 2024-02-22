@@ -35,7 +35,6 @@ function App() {
           <Route path={path.MANAGE_PRODUCTS} element={<ManageProducts />} />
           <Route path={path.MANAGE_USER} element={<ManagerUsers />} />
           <Route path={path.MANAGE_BILL} element={<ManageOders />} />
-          <Route path={path.CREATE_PRODUCT} element={<CreateProducts />} />
         </Route>
         <Route path={path.MEMBER} element={< MemberLayout/>}>
           <Route path={path.PERSONAL} element={< Personal />} />

@@ -152,7 +152,6 @@ const FormAddProduct = () => {
             && data.images.length > 0 
             && data.quanlity) {
                 const dataPass = {...data, price: {price: data.price}, quanlity: Number(data.quanlity)}
-                console.log(dataPass)
                 const response = await apis.createProduct(dataPass)
                 swal(response.success ? 'Congratulations' : 'Opps', response.mes, response.success ? 'success' : 'error')
                 if (response.success) {
@@ -169,7 +168,10 @@ const FormAddProduct = () => {
     }
 
     return (
-        <div className='w-[700px] max-h-[700px] overflow-y-auto bg-white rounded-md p-4 flex flex-col gap-[20px]'>
+        <div
+            onClick={(e) => e.stopPropagation()} 
+            className='w-[700px] max-h-[700px] overflow-y-auto bg-white rounded-md p-4 flex flex-col gap-[20px]'
+        >
             <div className="flex justify-center relative w-full items-center">
                 <h3 className='text-[20px] font-bold text-gray-700'>Thêm sản phẩm</h3>
 

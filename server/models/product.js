@@ -48,6 +48,9 @@ var productSchema = new mongoose.Schema({
     information: {
         type: Array,
     },
+    brand: {
+        type: String,
+    },
     variants: {
         type: Array,
     },

@@ -88,7 +88,7 @@ const updateProduct = asyncHandler(async(req, res) => {
 
     res.status(200).json({
         success: response ? true : false,
-        data: response ? response : "Something went wrong"
+        mes: response ? 'Thực hiện cập nhật thành công' : 'Thực hiện cập nhật thất bại vui lòng thử lại sau'
     })
 })
 

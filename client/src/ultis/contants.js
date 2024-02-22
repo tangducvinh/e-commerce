@@ -351,25 +351,11 @@ export const adminSidebar = [
     },
     {
         id: 3,
-        type: 'parent',
+        type: 'singer',
         text: 'Quản lí sản phẩm',
         icon: <MdManageSearch size={25}/>,
-        iconRight: <FaChevronRight size={17} />,
         iconDown: <FaChevronDown size={17} />,
-        subMenu: [
-            {
-                sid: 31,
-                type: 'childrent',
-                text: 'Tạo sẩn phẩm',
-                path: `/admin/${path.CREATE_PRODUCT}`,
-            },
-            {
-                sid: 32,
-                type: 'childrent',
-                text: 'Quản lí sản phẩm',
-                path: `/admin/${path.MANAGE_PRODUCTS}`
-            }
-        ]
+        path: `/admin/${path.MANAGE_PRODUCTS}`
     },
     {
         id: 4,

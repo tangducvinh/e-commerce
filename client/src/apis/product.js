@@ -75,3 +75,18 @@ export const deleteProduct = (pid) => {
         }
     })
 }
+
+export const updateProduct = (pid, data) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            const response = await axios({
+                url: 'product/update/' + pid,
+                data,
+                method: 'put',
+            })
+            resolve(response.data)
+        } catch(e) {
+            reject(e)
+        }
+    })
+}
