@@ -12,6 +12,7 @@ const path = {
     PRODUCTS: 'products/:category',
     DETAIL_PRODUCT: 'detail_product',
     DETAIL_PRODUCT_PID: 'detail_product/:pid',
+    PERSONAL: 'personal',
 
 
     //Admin
@@ -25,6 +26,9 @@ const path = {
     //Member
     MEMBER: 'member',
     PERSONAL: 'personal',
+    MYCART: 'mycart',
+    WISHLIST: 'wishlist',
+    HISTORY: 'history',
 }
 
 export default path

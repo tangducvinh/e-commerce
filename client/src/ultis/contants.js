@@ -36,8 +36,11 @@ const {
     FaRegUser,
     MdManageSearch,
     RiBillLine,
-    FaChevronRight,
     FaChevronDown,
+    MdOutlinePersonalInjury,
+    BsCart2,
+    GoHistory,
+    LiaClipboardListSolid
 } = icons
 
 export const iconSidebar = [
@@ -363,6 +366,37 @@ export const adminSidebar = [
         text: 'Quản lí hoá đơn',
         icon: <RiBillLine size={20} />,
         path: `/admin/${path.MANAGE_BILL}`,
+    }
+]
+
+export const profile = [
+    {
+        id: 1,
+        type: 'singer',
+        text: 'Thông tin cá nhân',
+        icon: <MdOutlinePersonalInjury size={20} />,
+        path: `/${path.MEMBER}/${path.PERSONAL}`
+    },
+    {
+        id: 2,
+        type: 'singer',
+        text: 'Giỏ hàng',
+        icon: <BsCart2 size={20} />,
+        path:  `/${path.MEMBER}/${path.MYCART}`
+    },
+    {
+        id: 3,
+        type: 'singer',
+        text: 'Danh sách yêu thích',
+        icon: <LiaClipboardListSolid size={25}/>,
+        path: `/${path.MEMBER}/${path.WISHLIST}`
+    },
+    {
+        id: 4,
+        type: 'singer',
+        text: 'Lịch sử mua hàng',
+        icon: <GoHistory size={20} />,
+        path: `/${path.MEMBER}/${path.HISTORY}`,
     }
 ]
 

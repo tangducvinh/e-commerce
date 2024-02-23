@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import path from '../../ultis/path'
 import { AdminSidebar, FormEditInfor, Header, ShowChildren } from '../../companents'
 import { appSlice } from '../../store/appSlice'
+import { adminSidebar } from '../../ultis/contants'
 
 const AdminLayout = () => {
     const { isLoggedIn, dataCurrent } = useSelector(state => state.user)
@@ -38,7 +39,7 @@ const AdminLayout = () => {
             <div className='flex justify-center items-center'>
                 <div className="flex gap-[30px] mt-[30px] w-[1500px]">
                     <div className='border w-[270px] fixed bg-[#F6FBFC] rounded-lg p-2'>
-                        <AdminSidebar />
+                        <AdminSidebar data={adminSidebar} />
                     </div>
 
                     <div className='w-[270px]'></div>

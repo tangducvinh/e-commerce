@@ -1,22 +1,18 @@
 import { NavLink } from 'react-router-dom'
 import { Fragment, useState } from 'react'
 
-import { adminSidebar } from '../../ultis/contants'
-
-
-const AdminSidebar = () => {
+const AdminSidebar = ({data}) => {
     const [ showSub, setShowSub ] = useState([])
 
     const handleSetShow = (id) => {
         if (showSub?.some(item => item === id)) {
-            console.log(id)
             setShowSub(prev => prev.filter(el => el !== id))
         } else setShowSub(prev => [...prev, id])
     }
 
     return (
         <div>
-            {adminSidebar.map(item => (
+            {data.map(item => (
                <Fragment key={item.id}>
                     {item.type === 'singer' && 
                         <NavLink to={item.path} className={({isActive}) => isActive ? 'flex text-[15px] items-center rounded-xl py-2 text-main px-4 border-main border bg-[#FFEEEE]' : 'flex border text-[15px] border-transparent items-center py-2 px-4' }>

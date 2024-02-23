@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import swal from 'sweetalert'
 
 import icons from '../../ultis/icons'
@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import path from '../../ultis/path'
 import { userSlice } from '../../store/userSlice'
 import * as apis from '../../apis'
+import { IoOptions } from 'react-icons/io5'
 
 const Header = () => {
     const { 
@@ -27,6 +28,7 @@ const Header = () => {
     const { dataCurrent, isLoggedIn } = useSelector(state => state.user)
     const name = dataCurrent?.name.split(' ')
     const [ show, setShow ] = useState(false)
+    const optionElement = useRef()
 
     const fecthDataCurrentUser = () => {
         setTimeout(async() => {
@@ -50,6 +52,19 @@ const Header = () => {
     const handleLogout = () => {
         dispatch(userSlice.actions.logout())
     }
+
+    useEffect(() => {
+        const handleHiddenOption = (e) => {
+            const result = optionElement.current?.contains(e.target)
+            if (!result) {
+                setShow(false)
+            }
+        }
+
+        document.addEventListener('click', handleHiddenOption)
+
+        return () => document.removeEventListener('click', handleHiddenOption)
+    }, [])
 
     return (
         <div>
@@ -104,7 +119,8 @@ const Header = () => {
 
                     {isLoggedIn ? 
                         <div 
-                            onClick={() => setShow(prev => !prev)}
+                            ref={optionElement}
+                            onClick={(e) => setShow(prev => !prev)}
                             className="text-white bg-bg-btn rounded-xl px-2 flex flex-col items-center cursor-pointer relative"
                         >
                             <IoPersonCircleOutline size={25}/>
@@ -112,7 +128,10 @@ const Header = () => {
 
                             {show && 
                                 <div className='w-[250px] bg-white z-50 absolute right-0 rounded-md shadow-xl top-[130%] p-2'>
-                                    <Link to={dataCurrent?.role === '3' ? `/${path.MEMBER}/${path.PERSONAL}` : dataCurrent?.role === '7' && `/${path.ADMIN}/${path.DASHBOARD}`} className='text-main mb-2 px-3 py-2 block w-full border border-main rounded-xl select-none'>Profile</Link>
+                                    <Link to={dataCurrent?.role === '3' ? `/${path.MEMBER}/${path.PERSONAL}` : dataCurrent?.role === '7' && `/${path.ADMIN}/${path.PERSONAL}`} className='text-main mb-2 px-3 py-2 block w-full border border-main rounded-xl select-none'>Thông tin cá nhân</Link>
+                                    {dataCurrent.role === '7' && 
+                                        <Link to={`/${path.ADMIN}/${path.DASHBOARD}`} className='text-main mb-2 px-3 py-2 block w-full border border-main rounded-xl select-none'>Trang quản lí</Link>
+                                    }
                                     <Link to={`/${path.LOGIN}`} onClick={handleLogout} className='text-main px-3 py-2 block w-full border border-main rounded-xl select-none'>Đăng xuất</Link>
                                 </div>
                             }

@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 
 import { Public, Home, Products, DetailProduct, Register, FinalRegister, ForgotPassword, ChangePassword } from './pages/public'
-import { AdminLayout, Dashboard, ManageOders, ManageProducts, ManagerUsers, CreateProducts } from './pages/private'
-import { MemberLayout, Personal } from './pages/member'
+import { AdminLayout, Dashboard, ManageOders, ManageProducts, ManagerUsers } from './pages/private'
+import { MemberLayout, Personal, MyCart, WishList, History } from './pages/member'
 import path from './ultis/path'
 import { fecthCategory } from './store/appSlice'
 import { dataRegister, dataLogin } from './ultis/contants'
@@ -38,7 +38,10 @@ function App() {
         </Route>
         <Route path={path.MEMBER} element={< MemberLayout/>}>
           <Route path={path.PERSONAL} element={< Personal />} />
-        </Route>
+          <Route path={path.MYCART} element={< MyCart />} />
+          <Route path={path.WISHLIST} element={< WishList />} />
+          <Route path={path.HISTORY} element={< History />} />
+        </Route> 
         <Route path={path.FINAL_REGISTER} element={<FinalRegister />}/>
       </Routes>
     </div>
