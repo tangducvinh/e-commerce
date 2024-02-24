@@ -305,12 +305,13 @@ const deleteUser = asyncHandler(async(req, res) => {
 
 const updateUser = asyncHandler(async(req, res) => {
     const { _id } = req.user
-    if(!_id || Object.keys(req.body).length === 0) throw new Error('Missing inputs')
-    const response = await User.findByIdAndUpdate(_id, req.body, {new: true}).select('-password -role')
+    const { mobile, name } = req.body 
+    const response = await User.findByIdAndUpdate(_id, {mobile, name}, {new: true}).select('-refreshToken -password -role')
 
     return res.status(200).json({
         success: response ? true : false,
-        updateUser: response ? response : "Something went wrong"
+        data: response,
+        mes: response ? 'Thực hiện thay đổi thông tin thành công' : 'Thực hiện thay đổi thông tin thất bại vui lòng thử lại sau'
     })
 })
 

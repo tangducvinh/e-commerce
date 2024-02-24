@@ -1,7 +1,9 @@
 
 
 
-const MyCart = () => {
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
+
+const MyCart = (pros) => {
     return (
         <div>
             My cart
@@ -9,4 +11,4 @@ const MyCart = () => {
     )
 }
 
-export default MyCart
+export default withBaseCompanent(MyCart)

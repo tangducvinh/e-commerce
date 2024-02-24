@@ -140,3 +140,9 @@ export const updateUserByAdmin = (data, uid) => {
         }
     })
 }
+
+export const updateUser = async(data) => await axios({
+    url: 'user/update-user',
+    data,
+    method: 'put',
+})

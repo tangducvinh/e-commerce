@@ -24,7 +24,9 @@ const MenberLayout = () => {
 
                     <div className='w-[270px]'></div>
 
-                    <Outlet />
+                    <div className='flex flex-auto'>
+                        <Outlet />
+                    </div>
                 </div>
             </div>
         </div>

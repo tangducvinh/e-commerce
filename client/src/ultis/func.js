@@ -36,7 +36,7 @@ export const validate = (data) => {
                 break
             case 'mobile':
                 if (value[1].length !== 10 || value[1].slice(0, 1) !== '0') {
-                    return 'Vui lòng nhập đÚng số điện thoại'
+                    return 'Vui lòng nhập đúng số điện thoại'
                 }
                 break
             default:
