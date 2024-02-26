@@ -7,8 +7,8 @@ import { Button } from '../../companents'
 import { Link, useNavigate } from 'react-router-dom'
 import path from '../../ultis/path'
 import { userSlice } from '../../store/userSlice'
+import { productSlice } from '../../store/productSlice'
 import * as apis from '../../apis'
-import { IoOptions } from 'react-icons/io5'
 
 const Header = () => {
     const { 
@@ -26,6 +26,7 @@ const Header = () => {
     const navigate = useNavigate()
 
     const { dataCurrent, isLoggedIn } = useSelector(state => state.user)
+    const { cart } = useSelector(state => state.product)
     const name = dataCurrent?.name.split(' ')
     const [ show, setShow ] = useState(false)
     const optionElement = useRef()
@@ -114,7 +115,7 @@ const Header = () => {
                         <Button icon={<FiPhone size={25} />} text1={'Gọi mua hàng'} text2={'1800.7777'}></Button>
                         <Button icon={<MdOutlineLocalOffer size={25} />} text1={'Cửa hàng'} text2={'gần bạn'}></Button>
                         <Button icon={<TfiTruck size={25} />} text1={'Tra cứu'} text2={'đơn hàng'}></Button>
-                        <Button icon={<BsHandbag size={25} />} text1={'Giỏ'} text2={'hàng'}></Button>
+                        <Button icon={<BsHandbag size={25} />} text1={'Giỏ'} amount={cart?.reduce((total, current) => total + current.amount, 0) || 0} text2={'hàng'}></Button>
                     </div>
 
                     {isLoggedIn ? 

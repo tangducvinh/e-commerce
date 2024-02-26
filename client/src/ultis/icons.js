@@ -1,13 +1,13 @@
 import { LuMenuSquare } from "react-icons/lu"
 import { MdOutlineLocalOffer } from 'react-icons/md'
-import { IoChevronDownOutline, IoPersonCircleOutline, IoHeadsetOutline, IoWatchOutline, IoHomeOutline, IoCameraOutline, IoClose, IoTimeOutline } from "react-icons/io5"
+import { IoChevronDownOutline, IoPersonCircleOutline, IoHeadsetOutline, IoWatchOutline, IoHomeOutline, IoCameraOutline, IoClose, IoTimeOutline, IoShieldCheckmarkOutline } from "react-icons/io5"
 import { HiOutlineSearch, HiUserAdd } from "react-icons/hi"
 import { MdOutlineCancel, MdOutlineDashboardCustomize, MdManageSearch, MdOutlineCreate, MdOutlinePersonalInjury } from "react-icons/md"
 import { FiPhone } from "react-icons/fi"
 import { TfiTruck } from "react-icons/tfi"
 import { BsHandbag, BsLaptop, BsUsbDrive, BsThreeDots } from "react-icons/bs"
 import { HiOutlineDevicePhoneMobile, HiGift } from "react-icons/hi2"
-import { FaChevronRight, FaChevronLeft, FaAngleLeft, FaAngleRight, FaChevronDown  } from "react-icons/fa6"
+import { FaChevronRight, FaChevronLeft, FaAngleLeft, FaAngleRight, FaChevronDown, FaCircleCheck  } from "react-icons/fa6"
 import { PiComputerTower, PiTelevisionSimple } from "react-icons/pi"
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai"
 import { FaStar, FaRegHeart, FaTabletAlt, FaCartPlus, FaSortAmountDown, FaSortAmountUp, FaRegEye, FaRegUser, FaClipboardList  } from "react-icons/fa"
@@ -21,6 +21,8 @@ import { BsCart2 } from 'react-icons/bs'
 import { LiaClipboardListSolid } from 'react-icons/lia'
 
 const icons = {
+    FaCircleCheck,
+    IoShieldCheckmarkOutline,
     LiaClipboardListSolid,
     GoHistory,
     BsCart2,

@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, memo } from 'react'
 import { useSelector } from 'react-redux'
 import swal from 'sweetalert'
 
@@ -7,8 +7,10 @@ import * as apis from '../../apis'
 import icons from '../../ultis/icons'
 import { SlickProduct, FormVote, ResultVote, CommentVote } from '../../companents'
 import path from '../../ultis/path'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
+import { productSlice } from '../../store/productSlice'
 
-const DetailProduct = () => {
+const DetailProduct = ({dispatch}) => {
     const navigate = useNavigate()
     const { isLoggedIn } = useSelector(state => state.user)
     const { pid } = useParams()
@@ -61,7 +63,9 @@ const DetailProduct = () => {
         else setShowForm(true)
     }
 
-    console.log(dataDetaiProduct?.ratings)
+    const handleAddToCart = () => {
+        dispatch(productSlice.actions.addCart(pid))
+    }
 
     return (
         <div className='flex justify-center relative'>
@@ -191,7 +195,9 @@ const DetailProduct = () => {
                         <div className='mt-4'>
                             <div className='flex gap-3'>
                                 <button className='flex-8 bg-main rounded-xl text-white font-bold h-[60px]'>MUA NGAY</button>
-                                <div className='flex-2 rounded-xl border-2 border-main flex justify-center items-center flex-col cursor-pointer'>
+                                <div
+                                    onClick={handleAddToCart} 
+                                    className='flex-2 rounded-xl border-2 border-main flex justify-center items-center flex-col cursor-pointer'>
                                     <FaCartPlus size={25} color='#E40404'/>
                                     <span className='text-[9px] text-[#E40404]'>Thêm giỏ hàng</span>
                                 </div>
@@ -228,4 +234,4 @@ const DetailProduct = () => {
     )
 }
 
-export default DetailProduct
+export default withBaseCompanent(memo(DetailProduct))
