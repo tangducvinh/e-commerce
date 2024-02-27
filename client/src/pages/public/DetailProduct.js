@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useEffect, useState, memo } from 'react'
 import { useSelector } from 'react-redux'
 import swal from 'sweetalert'
@@ -8,11 +8,10 @@ import icons from '../../ultis/icons'
 import { SlickProduct, FormVote, ResultVote, CommentVote } from '../../companents'
 import path from '../../ultis/path'
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
-import { productSlice } from '../../store/productSlice'
+import { userSlice } from '../../store/userSlice'
 
-const DetailProduct = ({dispatch}) => {
-    const navigate = useNavigate()
-    const { isLoggedIn } = useSelector(state => state.user)
+const DetailProduct = ({dispatch, navigate}) => {
+    const { isLoggedIn, dataCurrent } = useSelector(state => state.user)
     const { pid } = useParams()
     const [ dataDetaiProduct, setDataDetaiProduct ] = useState(null)
     const { FaStar, HiGift, FaCartPlus, FaCheck } = icons
@@ -63,8 +62,24 @@ const DetailProduct = ({dispatch}) => {
         else setShowForm(true)
     }
 
-    const handleAddToCart = () => {
-        dispatch(productSlice.actions.addCart(pid))
+    const handleAddToCart = async() => {
+        if (isLoggedIn) {
+            if (dataCurrent?.role === '3') {
+                const response = await apis.updateCart({pid, color: dataDetaiProduct?.variants[variant].color})
+                dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
+                swal(response.data.success ? 'Congratulation' : 'Oops', response.data.mes, response.data.success ? 'success' : 'error')
+            }
+        } else {
+            swal({
+                title: 'Opps',
+                text: 'Vui lòng đăng nhập để thêm giỏ hàng',
+                icon: 'error',
+                buttons: true,
+                showCancelButton: true,
+            }).then((rs) => {
+                if (rs) navigate(`/${path.LOGIN}`)
+            })
+        }
     }
 
     return (

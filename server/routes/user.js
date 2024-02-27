@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { verify } = require('jsonwebtoken')
 const controllers = require('../controllers/user')
 const { verifyAccessToken, isAdmin } = require('../middlewares/verifyToken')
 
@@ -10,6 +11,7 @@ router.post('/refreshToken', controllers.refreshAccessToken)
 router.get('/logout', controllers.logout)
 router.post('/forgot-password', controllers.forgotPassword)
 router.put('/update-cart', [verifyAccessToken], controllers.updateCart)
+router.delete('/delete-cart', [verifyAccessToken], controllers.deleteProductCart)
 router.put('/update-address',[verifyAccessToken], controllers.updateAddressUser)
 router.post('/reset-password', controllers.checkTokenResetPassword)
 router.get('/get-all-users', [verifyAccessToken, isAdmin], controllers.getAllUsers)

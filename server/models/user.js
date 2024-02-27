@@ -27,10 +27,8 @@ var userSchema = new mongoose.Schema({
         enum: [7, 3],
         default: 3,
     },
-    cart:{
-        product: {type: mongoose.Types.ObjectId, ref: 'Product'},
-        quantity: Number,
-        color: String,
+    cart: {
+        type: Array,
     },
     address:{
         type: Array,

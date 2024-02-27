@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import swal from 'sweetalert'
 
 import icons from '../../ultis/icons'
@@ -7,8 +7,8 @@ import { Button } from '../../companents'
 import { Link, useNavigate } from 'react-router-dom'
 import path from '../../ultis/path'
 import { userSlice } from '../../store/userSlice'
-import { productSlice } from '../../store/productSlice'
 import * as apis from '../../apis'
+import { dataRegister } from '../../ultis/contants'
 
 const Header = () => {
     const { 
@@ -67,6 +67,8 @@ const Header = () => {
         return () => document.removeEventListener('click', handleHiddenOption)
     }, [])
 
+    console.log(dataCurrent)
+
     return (
         <div>
             <div className="h-10 bg-gray flex justify-center items-center">
@@ -113,9 +115,8 @@ const Header = () => {
 
                     <div className="flex gap-1 mx-1">
                         <Button icon={<FiPhone size={25} />} text1={'Gọi mua hàng'} text2={'1800.7777'}></Button>
-                        <Button icon={<MdOutlineLocalOffer size={25} />} text1={'Cửa hàng'} text2={'gần bạn'}></Button>
-                        <Button icon={<TfiTruck size={25} />} text1={'Tra cứu'} text2={'đơn hàng'}></Button>
-                        <Button icon={<BsHandbag size={25} />} text1={'Giỏ'} amount={cart?.reduce((total, current) => total + current.amount, 0) || 0} text2={'hàng'}></Button>
+                        <Button icon={<TfiTruck size={25} />} text1={'Cửa hàng'} text2={'gần bạn'}></Button>
+                        <Button icon={<BsHandbag size={25} />} path={`/${path.MEMBER}/${path.MYCART}`} text1={'Giỏ'} amount={dataCurrent?.cart?.reduce((total, current) => total + current.quanlity, 0) || 0} text2={'hàng'}></Button>
                     </div>
 
                     {isLoggedIn ? 

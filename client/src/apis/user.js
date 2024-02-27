@@ -146,3 +146,15 @@ export const updateUser = async(data) => await axios({
     data,
     method: 'put',
 })
+
+export const updateCart = async(data) => await axios({
+    url: 'user/update-cart',
+    data,
+    method: 'put',
+})
+
+export const deleteProductCart = async(data) => await axios({
+    url: 'user/delete-cart',
+    data,
+    method: 'delete'
+})
