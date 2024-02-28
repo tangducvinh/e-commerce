@@ -116,7 +116,13 @@ const login = asyncHandler(async (req, res) => {
 
 const getCurrent = asyncHandler(async (req, res) => {
     const { _id } = req.user
-    const user = await User.findById(_id).select('-refreshToken -password')
+    const user = await User.findById(_id).select('-refreshToken -password').populate({
+        path: 'cart',
+        populate: {
+            path: 'product',
+            select: 'images price title quanlity'
+        }
+    })
     return res.status(200).json({
         success: user ? true : false,
         rs: user ? user : "User not found"
@@ -343,20 +349,19 @@ const updateCart = asyncHandler(async(req, res) => {
     const { pid, color } = req.body
     if (!pid) throw new Error('Missing inputs')
     const user = await User.findById(_id).select('cart')
-    const alreadyProduct = user?.cart?.filter(item => item.pid === pid)
-
+    const alreadyProduct = user?.cart?.filter(item => item?.product?.toString() === pid)
     const currentProduct = alreadyProduct.find(item => item.color === color)
 
     if (!currentProduct) {
-        const response = await User.findByIdAndUpdate(_id, {$push: {cart: {pid, quanlity: 1, color}}}, {new: true})
+        const response = await User.findByIdAndUpdate(_id, {$push: {cart: {product: pid, quanlity: 1, color}}}, {new: true})
         return res.json({
             success: response ? true : false,
             data: response ? response : 'yet',
             mes: response ? 'Thêm sản phẩm vào giỏ hàng thành công' : 'Thêm sản phẩm vào giỏ hàng thất bại vui lòng thử lại sau'
         })
     } else {
-        await User.findByIdAndUpdate(_id, {$pull: {cart: {pid, color}}}, {new: true})
-        const response = await User.findByIdAndUpdate(_id, {$push: {cart: {pid, quanlity: currentProduct.quanlity + 1, color}}}, {new: true})
+        await User.findByIdAndUpdate(_id, {$pull: {cart: {product: pid, color}}}, {new: true})
+        const response = await User.findByIdAndUpdate(_id, {$push: {cart: {product: pid, quanlity: currentProduct.quanlity + 1, color}}}, {new: true})
         return res.status(200).json({
             success: response ? true : false,
             data: response ? response : 'yet',
@@ -367,6 +372,7 @@ const updateCart = asyncHandler(async(req, res) => {
 
 const deleteProductCart = asyncHandler(async(req, res) => {
     const { pid, color } = req.body
+
     const { _id } = req.user
     if (!pid) {
         return res.json({
@@ -375,7 +381,13 @@ const deleteProductCart = asyncHandler(async(req, res) => {
         })
     }
 
-    const response = await User.findByIdAndUpdate(_id, {$pull: {cart: {pid, color}}}, {new: true})
+    const response = await User.findByIdAndUpdate(_id, {$pull: {cart: {product: pid, color}}}, {new: true}).populate({
+        path: 'cart',
+        populate: {
+            path: 'product',
+            select: 'images price quanlity title'
+        }
+    })
 
     return res.json({
         success: response ? true : false,

@@ -11,10 +11,12 @@ const MenberLayout = () => {
     if (!isLoggedIn || !dataCurrent ) return <Navigate to={`/${path.LOGIN}`} replace={true} />
 
     return (
-        <div>
-            <div>
+        <div className='relative'>
+            <div className='fixed w-full z-40'>
                 <Header />
             </div>
+
+            <div className='h-[104px]'></div>
 
             <div className='flex justify-center'>
                 <div className='w-[1220px] mt-[20px] flex gap-[30px]'>

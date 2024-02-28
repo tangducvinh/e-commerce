@@ -67,8 +67,6 @@ const Header = () => {
         return () => document.removeEventListener('click', handleHiddenOption)
     }, [])
 
-    console.log(dataCurrent)
-
     return (
         <div>
             <div className="h-10 bg-gray flex justify-center items-center">
@@ -116,7 +114,7 @@ const Header = () => {
                     <div className="flex gap-1 mx-1">
                         <Button icon={<FiPhone size={25} />} text1={'Gọi mua hàng'} text2={'1800.7777'}></Button>
                         <Button icon={<TfiTruck size={25} />} text1={'Cửa hàng'} text2={'gần bạn'}></Button>
-                        <Button icon={<BsHandbag size={25} />} path={`/${path.MEMBER}/${path.MYCART}`} text1={'Giỏ'} amount={dataCurrent?.cart?.reduce((total, current) => total + current.quanlity, 0) || 0} text2={'hàng'}></Button>
+                        <Button icon={<BsHandbag size={28} />} path={`/${path.MEMBER}/${path.MYCART}`} text1={'Giỏ'} amount={dataCurrent?.cart?.reduce((total, current) => total + current.quanlity, 0) || 0} text2={'hàng'}></Button>
                     </div>
 
                     {isLoggedIn ? 
