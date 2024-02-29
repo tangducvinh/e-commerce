@@ -20,5 +20,6 @@ router.put('/update-user', verifyAccessToken, controllers.updateUser)
 router.put('/update-user-by-admin/:uid', [verifyAccessToken, isAdmin], controllers.updateUserByAdmin)
 router.get('/get-user', controllers.getUser)
 router.get('/mock-users', controllers.mockDataUsers)
+router.put('/update-quanlity-product-cart', [verifyAccessToken], controllers.updateQuanlityProductCart)
 
 module.exports = router

@@ -370,6 +370,35 @@ const updateCart = asyncHandler(async(req, res) => {
     }
 })
 
+const updateQuanlityProductCart = asyncHandler(async(req, res) => {
+    const { _id } = req.user
+    const { pid, color, status } = req.body
+
+    if (!pid || !status || !color) return res.json({success: false, mes: "Missing input"})
+
+    const user = await User.findById(_id).select('cart')
+    let order
+    user.cart.forEach((item, index) => {
+        if (item.product.toString() === pid) {
+            console.log('hello')
+            order = index
+        }
+    })
+
+    const response = await User.findByIdAndUpdate(_id, {$inc: {[`cart.${order}.quanlity`]: Number(status)}}, {new: true}).populate({
+        path: 'cart',
+        populate: {
+            path: 'product',
+            select: 'images title quanlity price'
+        }
+    })
+
+    return res.json({
+        success: response ? true : false,
+        data: response ? response : 'no data',
+    })
+})
+
 const deleteProductCart = asyncHandler(async(req, res) => {
     const { pid, color } = req.body
 
@@ -414,4 +443,5 @@ module.exports = {
     getUser,
     mockDataUsers,
     deleteProductCart,
+    updateQuanlityProductCart,
 }

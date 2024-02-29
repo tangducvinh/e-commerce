@@ -1,14 +1,32 @@
-import { memo, useState } from 'react'
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 import icons from '../../ultis/icons'
+import * as apis from '../../apis'
+import { userSlice } from '../../store/userSlice'
 
-const ItemProductMyCart = ({ isChecked, image, name, price, discount, quanlity, color, onCheck, pid, onDeleteProduct }) => {
+const ItemProductMyCart = ({ isChecked, image, name, price, discount, quanlity, color, onCheck, pid, onDeleteProduct, dispatch }) => {
+
+    const handlePlusQuanlity = async() => {
+        const response = await apis.updateQuanlityProductCart({pid, color, status: 1})
+
+        if (response.data.success) {
+            dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
+        }
+    }
+
+    const handleMinusQuanlity = async() => {
+        const response = await apis.updateQuanlityProductCart({pid, color, status: -1})
+
+        if (response.data.success) {
+            dispatch(userSlice.actions.setDataUserCurrent(response.data.data)) 
+        }
+    }
 
     const { GoTrash, IoShieldCheckmarkOutline, FaCircleCheck } = icons
     return (
-        <div className='flex w-[600px] border-[1px] rounded-md px-2 py-4'>
+        <div className='flex border-[1px] rounded-md px-2 py-4'>
             <button onClick={() => onCheck(pid)} className='w-[20px] h-[20px] rounded-full border-2 relative flex items-center justify-center'>
                 {isChecked && < FaCircleCheck color='red' />}
             </button>
@@ -29,9 +47,9 @@ const ItemProductMyCart = ({ isChecked, image, name, price, discount, quanlity, 
                             </div>
                             
                             <div className='flex items-center gap-2'>
-                                <button className='w-[30px] h-[30px] bg-[#F3F3F3]'>&#8722;</button>
+                                <button onClick={handleMinusQuanlity} className='w-[30px] h-[30px] bg-[#F3F3F3]'>&#8722;</button>
                                 <span className='text-[13px]'>{quanlity}</span>
-                                <button className='w-[30px] h-[30px] bg-[#F3F3F3]'>&#43;</button>
+                                <button onClick={handlePlusQuanlity} className='w-[30px] h-[30px] bg-[#F3F3F3]'>&#43;</button>
                             </div>
                         </div>
                     </div>

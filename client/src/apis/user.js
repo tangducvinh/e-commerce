@@ -158,3 +158,9 @@ export const deleteProductCart = async(data) => await axios({
     data,
     method: 'delete'
 })
+
+export const updateQuanlityProductCart = async(data) => await axios({
+    url: 'user/update-quanlity-product-cart',
+    data,
+    method: 'put'
+})

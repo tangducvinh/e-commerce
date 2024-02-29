@@ -27,7 +27,7 @@ const Header = () => {
 
     const { dataCurrent, isLoggedIn } = useSelector(state => state.user)
     const { cart } = useSelector(state => state.product)
-    const name = dataCurrent?.name.split(' ')
+    const name = dataCurrent?.name?.split(' ')
     const [ show, setShow ] = useState(false)
     const optionElement = useRef()
 
