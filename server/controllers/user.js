@@ -379,8 +379,7 @@ const updateQuanlityProductCart = asyncHandler(async(req, res) => {
     const user = await User.findById(_id).select('cart')
     let order
     user.cart.forEach((item, index) => {
-        if (item.product.toString() === pid) {
-            console.log('hello')
+        if (item.product.toString() === pid && item.color === color) {
             order = index
         }
     })

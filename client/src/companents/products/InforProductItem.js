@@ -37,7 +37,7 @@ const InforProductItem = ({pid, index, title, category, price, sold, quanlity, r
     return (
         <div className='flex items-center mx-3 py-4 border-b-[1px] mt-2 text-[14px] font-[500]'>
             <span className='w-[50px]'>{`#${index + 1}`}</span>
-            <img className='w-[35px] h-[35px] mr-1' src={image} ></img>
+            <img className='w-[35px] h-[35px] mr-1' src={image} alt='anh' ></img>
             <p className='flex-2'>{title?.slice(0, 37)}</p>
             <span className='flex-1'>{`${category.slice(0, 1).toUpperCase()}${category.slice(1)}`}</span>
             <span className='flex-1'>{sold}</span>

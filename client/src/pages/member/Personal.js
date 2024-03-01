@@ -9,7 +9,7 @@ import { validate } from '../../ultis/func'
 
 const Personal = () => {
     const { dataCurrent } = useSelector(state => state.user)
-    const [data, setData ] = useState(null)
+    const [ data, setData ] = useState(null)
     const [ showUpdate, setShowUpdate ] = useState(false)
     const dispatch = useDispatch()
 
@@ -18,7 +18,7 @@ const Personal = () => {
             name: dataCurrent?.name,
             mobile: dataCurrent?.mobile
         })
-    }, [])
+    }, [dataCurrent])
 
     useEffect(() => {
         if(data) {
@@ -28,7 +28,7 @@ const Personal = () => {
                 setShowUpdate(false)
             }
         } 
-    }, [data?.name, data?.mobile, dataCurrent?.name, dataCurrent?.mobile])
+    }, [data, data?.name, data?.mobile, dataCurrent?.name, dataCurrent?.mobile])
 
     const handleUpdateUser = async() => {
         if (showUpdate) {
@@ -55,9 +55,9 @@ const Personal = () => {
                 <p>{dataCurrent?.email}</p>
             </div>
 
-            <InputLogin value={data?.name} setValue={setData} style={'w-[50%]'} data={{label: 'Tên', placeholder: 'Nhập tên: ', name: 'name'}}/>
+            <InputLogin value={data?.name} setValue={setData} style={{css: 'w-[50%]'}} data={{label: 'Tên', placeholder: 'Nhập tên: ', name: 'name'}}/>
 
-            <InputLogin value={data?.mobile} setValue={setData} style={'w-[50%]'} data={{label: 'Điện thoại', placeholder: 'Nhập số điện thoại: ', name: 'mobile'}} />
+            <InputLogin value={data?.mobile} setValue={setData} style={{css: 'w-[50%]'}} data={{label: 'Điện thoại', placeholder: 'Nhập số điện thoại: ', name: 'mobile'}} />
 
             <div className='w-[50%] flex justify-end'>
                 <button onClick={handleUpdateUser} className={`text-white py-1 px-4 font-medium rounded-md ${showUpdate ? 'bg-main' : 'bg-slate-300'}`}>Cập nhật</button>

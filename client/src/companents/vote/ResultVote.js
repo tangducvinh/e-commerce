@@ -13,7 +13,7 @@ const ResultVote = ({ dataDetaiProduct }) => {
                     {renderStar(Number(dataDetaiProduct?.totalRatings.rate)).map((item, index) => (<span key={index}>{item}</span>))}
                 </div>
 
-                <a href='#'>{`${dataDetaiProduct?.totalRatings.totalUser} đánh giá`}</a>
+                <p>{`${dataDetaiProduct?.totalRatings.totalUser} đánh giá`}</p>
             </div>
 
             <div className='flex flex-7 justify-center'>

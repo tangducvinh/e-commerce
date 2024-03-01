@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, createSearchParams, useLocation } from 'react-router-dom'
 import { useEffect, useState, memo } from 'react'
 import { useSelector } from 'react-redux'
 import swal from 'sweetalert'
@@ -21,6 +21,7 @@ const DetailProduct = ({dispatch, navigate}) => {
     const [ dataProducts, setDataProducts ] = useState(null)
     const [ showForm, setShowForm ] = useState(false)
     const [ loadComment, setLoadComment ] = useState(false)
+    const location = useLocation()
 
     const renderStarVisible = [
         <FaStar color='#f59e0b'/>, 
@@ -77,7 +78,10 @@ const DetailProduct = ({dispatch, navigate}) => {
                 buttons: true,
                 showCancelButton: true,
             }).then((rs) => {
-                if (rs) navigate(`/${path.LOGIN}`)
+                if (rs) navigate({
+                    pathname: `/${path.LOGIN}`,
+                    search: createSearchParams({redirect: location.pathname}).toString()
+                })
             })
         }
     }

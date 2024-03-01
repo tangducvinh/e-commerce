@@ -1,4 +1,4 @@
-import { memo, useState, useEffect } from 'react'
+import { memo, useState } from 'react'
 import swal from 'sweetalert'
 import { useDispatch } from 'react-redux'
 
@@ -35,7 +35,7 @@ const InforUserItem = ({ name, email, mobile, role, status, uid, handleChangeDat
     return (
         <div className={`flex items-center pl-2 border-l-[6px] rounded-md shadow-md py-2 ${role === '7' ? 'border-main' : role === '3' ? 'border-green-600' : 'border-blue-600'}`}>
             <div className='w-[45px]'>
-                <img src={avatar} className='w-8 h-8 rounded-full'></img>
+                <img src={avatar} alt='avatar' className='w-8 h-8 rounded-full'></img>
             </div>
             <span className='flex-2 text-[14px] font-[500]'>{name}</span>
             <span className='flex-2 text-[14px] font-[500]'>{email}</span>

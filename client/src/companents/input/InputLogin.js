@@ -1,11 +1,11 @@
 import { memo, useState } from 'react'
 import clsx from 'clsx'
 
-const InputLogin = ({ data, index, description, value, setValue, style }) => {
+const InputLogin = ({ data, index, description, value, setValue, style = {css: 'w-full'} }) => {
     const [ show, setShow ] = useState(false)
 
     return (
-        <div className={clsx("relative w-full", style)}>
+        <div className={clsx("relative", style.css)}>
             <label 
                 className={`text-[11px] absolute w-full mt-8 animate-slice-top bottom-2 ${show ? 'block text-main' : value?.length > 0 ? 'block text-[#999]' : 'hidden'}`}
             >{data.label}</label>

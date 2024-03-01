@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
 import { memo, useState, useEffect } from 'react'
 import swal from 'sweetalert'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 
 import { InputLogin } from '../../companents'
 import * as apis from '../../apis'
@@ -10,11 +9,11 @@ import path from '../../ultis/path'
 import { userSlice } from '../../store/userSlice'
 import { validate } from '../../ultis/func'
 import { appSlice } from '../../store/appSlice'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 
-const Register = ({ data }) => {
+const Register = ({ data, navigate, dispatch }) => {
     const [ value, setValue ] = useState({})
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const [ searchParams ] = useSearchParams()
 
     useEffect(() => {
         setValue(data.initData)
@@ -46,7 +45,7 @@ const Register = ({ data }) => {
                 if (response.success) {
                     dispatch(appSlice.actions.setLoading(false))
                     dispatch(userSlice.actions.register({isLoggedIn: true, userData: response.userData, token: response.accessToken}))
-                    navigate(`/${path.HOME}`)
+                    searchParams.get('redirect') ? navigate(searchParams.get('redirect')) : navigate(`/${path.HOME}`)
                 } else {
                     swal('Opps', 'Thông tin đăng nhập không hợp lệ', 'error')
                     dispatch(appSlice.actions.setLoading(false))
@@ -101,4 +100,4 @@ const Register = ({ data }) => {
     )
 }
 
-export default memo(Register)
+export default withBaseCompanent(memo(Register))

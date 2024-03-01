@@ -43,7 +43,7 @@ const CommentVote = ({ dataDetaiProduct }) => {
                     : dataDetaiProduct?.ratings.filter(item => item.star === filterStarComment).length === 0 
                         ? <div className='flex justify-center mt-8 mb-8'>
                             <div className='flex flex-col items-center'>
-                                <img src={imageEmpty}></img>
+                                <img src={imageEmpty} alt='profile'></img>
                                 <p className='text-[#4A4A4A] text-[14px] mt-4'>Hiện chưa có đánh giá nào thoả mãn</p>
                             </div>
                         </div>

@@ -6,6 +6,7 @@ import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 import icons from '../../ultis/icons'
 import * as apis from '../../apis'
 import { userSlice } from '../../store/userSlice'
+import path from '../../ultis/path'
 
 const MyCart = ({ dispatch}) => {
     const { dataCurrent } = useSelector(state => state.user)
@@ -13,12 +14,12 @@ const MyCart = ({ dispatch}) => {
     const { FaCircleCheck } = icons
     const [ total, setTotal] = useState(0)
 
-    const handleCheck = useCallback((pid) => {
-        let newArray = checks
-        if (newArray.some(item => item === pid)) {
-            newArray = newArray.filter(item => item !== pid)
+    const handleCheck = useCallback((id) => {
+        let newArray = checks 
+        if (newArray.some(item => item === id)) {
+            newArray = newArray.filter(item => item !== id)
         } else {
-            newArray = [...checks, pid]
+            newArray = [...checks, id]
         }
         setChecks(newArray)
     }, [checks])
@@ -31,8 +32,8 @@ const MyCart = ({ dispatch}) => {
 
             for (let el of dataCurrent.cart) {
                 const newArray = checks
-                if (!checks.some(item => item === el.product._id)) {
-                    newArray.push(el.product._id)
+                if (!checks.some(item => item === el._id)) {
+                    newArray.push(el._id)
                 }
             }
 
@@ -44,18 +45,23 @@ const MyCart = ({ dispatch}) => {
         const response = await apis.deleteProductCart(data)
 
         if (response.data.success) {
-            setChecks(prev => prev.filter(item => item !== data.pid))
+            setChecks(prev => prev.filter(item => item !== data.id))
             dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
         }
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
-        let newArray = dataCurrent.cart.filter(item => checks.some(el => el === item.product._id))
-        newArray = newArray.map(item => Number(item.product.price.sale?.slice(0, item.product.price.sale.length - 1).split('.').join('')) || Number(item.product.price.price?.slice(0, item.product.price.price.length - 1).split('.').join('')))
-        
-        const sum = newArray.reduce((rs, el) => (rs + el), 0)
+        let newArray = dataCurrent.cart.filter(item => checks.some(el => el === item._id))
+        newArray = newArray.map(item => {
+            if (item.product.price.sale) {
+                return {price: Number(item.product.price.sale?.slice(0, item.product.price.sale.length - 1).split('.').join('')), quanlity: item.quanlity}
+            } else {
+                return {price: Number(item.product.price.price?.slice(0, item.product.price.price.length - 1).split('.').join('')), quanlity: item.quanlity}
+            }
+        })
+        const sum = newArray.reduce((rs, el) => (rs + el.price * el.quanlity), 0)
         setTotal(sum)
-    }, [checks])
+    }, [checks, dataCurrent])
 
     return (
         <div className='relative'>
@@ -87,8 +93,10 @@ const MyCart = ({ dispatch}) => {
                             index={index}
                             onCheck={handleCheck}
                             pid={item.product?._id}
-                            isChecked={checks.some(el => el === item.product._id)}
+                            isChecked={checks.some(el => el === item._id)}
                             onDeleteProduct={handleDeleteProduct}
+                            path={`/${path.DETAIL_PRODUCT}/${item.product._id}`}
+                            id={item._id}
                         />
                     </Fragment>
                 ))}

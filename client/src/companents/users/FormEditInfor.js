@@ -14,13 +14,13 @@ const FormEditInfor = () => {
     const dispatch = useDispatch()
     const { idUserEdit, isChangeDataUsers } = useSelector(state => state.app)
 
-    const fetchDataUser = async() => {
-        const response = await apis.getInforUser(idUserEdit)
+    const fetchDataUser = async(id) => {
+        const response = await apis.getInforUser(id)
         setValueInputs({name: response.name, email: response.email, mobile: response.mobile, status: response.status, role: response.role})
     }
 
     useEffect(() => {
-        fetchDataUser()
+        fetchDataUser(idUserEdit)
     }, [idUserEdit])
 
     const handleChangeInforUser = async() => {

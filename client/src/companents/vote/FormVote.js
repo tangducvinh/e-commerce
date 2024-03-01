@@ -40,7 +40,7 @@ const FormVote = ({name, setShowForm, pid, setLoadComment}) => {
             </div>
 
             <div className='flex mt-2'>
-                <img src={iconvote} atl='iconvote' className='w-[100px] h-[100px] object-cover'></img>
+                <img src={iconvote} alt='icon' className='w-[100px] h-[100px] object-cover'></img>
 
                 <p className='text-[20px] text-[#4A4A4A] font-semibold mt-4'>{name}</p>
             </div>

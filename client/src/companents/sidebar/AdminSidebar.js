@@ -20,7 +20,7 @@ const AdminSidebar = ({data}) => {
                             <span >{item.text}</span>
                         </NavLink>
                     }   
-                    {item.type == 'parent' && 
+                    {item.type === 'parent' && 
                         <div>
                             <div 
                                 onClick={() => handleSetShow(item.id)}

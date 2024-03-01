@@ -226,7 +226,7 @@ const FormEditProduct = ({pid}) => {
                 <ul className='ml-[20px] flex flex-col gap-2'>
                     {data?.variants.map((item, index) => (
                         <li className='text-[14px] flex items-center gap-3' key={item}>
-                            <img className='w-[40px] h-[40px] object-cover rounded-md' src={item.image}></img>
+                            <img className='w-[40px] h-[40px] object-cover rounded-md' alt='anh' src={item.image}></img>
                             <span>{`Màu sắc: ${item.color}`}</span>
                             <span>{`Giá: ${item.price}`}</span>
                             <button onClick={() => handleDeleteVariant(index)} ><IoClose color="red" size={20} /></button>
@@ -272,7 +272,7 @@ const FormEditProduct = ({pid}) => {
                             onMouseLeave={() => setShowDeleteImage(null)}
                             className='w-[50px] h-[50px] relative rounded-md overflow-hidden'
                         >
-                            <img className='object-cover w-full h-full' src={item}></img>
+                            <img className='object-cover w-full h-full' alt='anh' src={item}></img>
                             {showDeleteImage === index && 
                                 <div onClick={() => handleDeleteImage(index)} className='w-full h-full absolute flex items-center cursor-pointer justify-center inset-0 bg-overlay'>
                                     <GoTrash color="white" />
