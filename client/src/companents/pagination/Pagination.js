@@ -1,16 +1,14 @@
-import { useSearchParams, useNavigate, useParams, createSearchParams, useLocation } from 'react-router-dom'
+import { useSearchParams, createSearchParams } from 'react-router-dom'
 import { useState, useEffect, memo } from 'react'
 
 import usePagination from '../../hooks/usePagination'
 import icons from '../../ultis/icons'
-import { MdPanoramaHorizontalSelect } from 'react-icons/md'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 
-const Pagination = ({ totalProductCount, changeValue }) => {
+const Pagination = ({ totalProductCount, changeValue, location, navigate }) => {
     const [ params ] = useSearchParams()
-    const navigate = useNavigate()
     const { FaAngleLeft, FaAngleRight } = icons
     const [ page, setPage ] = useState(1)
-    const location = useLocation()
 
     const handleChoosePage = (el) => {
         if (Number(el)) {
@@ -36,7 +34,7 @@ const Pagination = ({ totalProductCount, changeValue }) => {
                 }).toString()
             })
         }
-    }, [changeValue])
+    }, [changeValue, location.pathname, navigate, params])
 
     useEffect(() => {
         setPage(Number(params.get('page')) || 1)
@@ -74,4 +72,4 @@ const Pagination = ({ totalProductCount, changeValue }) => {
     )
 }
 
-export default memo(Pagination)
+export default withBaseCompanent(memo(Pagination))

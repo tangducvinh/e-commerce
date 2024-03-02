@@ -5,7 +5,8 @@ export const userSlice = createSlice({
     initialState: {
         isLoggedIn: false,
         token: null,
-        dataCurrent: null
+        dataCurrent: null,
+        dataCartCheckout: [],
     },
     reducers: {
         register: (state, action) => {
@@ -19,6 +20,9 @@ export const userSlice = createSlice({
         },
         setDataUserCurrent: (state, action) => {
             state.dataCurrent = action.payload
+        },
+        setDataCartCheckout: (state, action) => {
+            state.dataCartCheckout = action.payload
         }
     },
 })

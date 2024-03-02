@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import swal from 'sweetalert'
 
 import icons from '../../ultis/icons'
@@ -8,7 +8,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import path from '../../ultis/path'
 import { userSlice } from '../../store/userSlice'
 import * as apis from '../../apis'
-import { dataRegister } from '../../ultis/contants'
 
 const Header = () => {
     const { 
@@ -26,7 +25,6 @@ const Header = () => {
     const navigate = useNavigate()
 
     const { dataCurrent, isLoggedIn } = useSelector(state => state.user)
-    const { cart } = useSelector(state => state.product)
     const name = dataCurrent?.name?.split(' ')
     const [ show, setShow ] = useState(false)
     const optionElement = useRef()
@@ -47,7 +45,9 @@ const Header = () => {
     }
 
     useEffect(() => {
-        if (isLoggedIn) fecthDataCurrentUser()
+        if (isLoggedIn) {
+            fecthDataCurrentUser()
+        }
     }, [isLoggedIn])
 
     const handleLogout = () => {

@@ -1,6 +1,6 @@
 import { LuMenuSquare } from "react-icons/lu"
 import { MdOutlineLocalOffer } from 'react-icons/md'
-import { IoChevronDownOutline, IoPersonCircleOutline, IoHeadsetOutline, IoWatchOutline, IoHomeOutline, IoCameraOutline, IoClose, IoTimeOutline, IoShieldCheckmarkOutline } from "react-icons/io5"
+import { IoChevronDownOutline, IoChevronUpOutline, IoPersonCircleOutline, IoHeadsetOutline, IoWatchOutline, IoHomeOutline, IoCameraOutline, IoClose, IoTimeOutline, IoShieldCheckmarkOutline } from "react-icons/io5"
 import { HiOutlineSearch, HiUserAdd } from "react-icons/hi"
 import { MdOutlineCancel, MdOutlineDashboardCustomize, MdManageSearch, MdOutlineCreate, MdOutlinePersonalInjury } from "react-icons/md"
 import { FiPhone } from "react-icons/fi"
@@ -21,6 +21,7 @@ import { BsCart2 } from 'react-icons/bs'
 import { LiaClipboardListSolid } from 'react-icons/lia'
 
 const icons = {
+    IoChevronUpOutline,
     FaCircleCheck,
     IoShieldCheckmarkOutline,
     LiaClipboardListSolid,

@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux'
 import { useState, useCallback, Fragment, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 import { ItemProductMyCart } from '../../companents'
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
@@ -8,7 +9,7 @@ import * as apis from '../../apis'
 import { userSlice } from '../../store/userSlice'
 import path from '../../ultis/path'
 
-const MyCart = ({ dispatch}) => {
+const MyCart = ({ dispatch, navigate}) => {
     const { dataCurrent } = useSelector(state => state.user)
     const [ checks, setChecks ] = useState([])
     const { FaCircleCheck } = icons
@@ -63,6 +64,14 @@ const MyCart = ({ dispatch}) => {
         setTotal(sum)
     }, [checks, dataCurrent])
 
+    const handleCheckout = () => {
+        if (checks.length > 0) {
+            let newArray = dataCurrent.cart.filter(item => checks.some(el => el === item._id))
+            dispatch(userSlice.actions.setDataCartCheckout(newArray))
+            navigate(`/${path.CHECKOUT}`)
+        }
+    }
+
     return (
         <div className='relative'>
             <h1 className='font-bold text-[24px] text-gray-600'>Giỏ hàng của bạn</h1>
@@ -110,7 +119,13 @@ const MyCart = ({ dispatch}) => {
                     <p className='text-main text-[16px] font-semibold'>{`${total.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})}`}</p>
                 </div>
 
-                <button className='py-2 px-4 text-white bg-main text-[16px] rounded-md'>{`Mua ngay (${checks.length})`}</button>
+                <button 
+                    onClick={handleCheckout}
+                    to={`/${path.CHECKOUT}`}
+                    className='py-2 px-4 text-white bg-main text-[16px] rounded-md'
+                >
+                    {`Mua ngay (${checks.length})`}
+                </button>
             </div>
         </div>
     )

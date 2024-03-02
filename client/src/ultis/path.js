@@ -13,6 +13,7 @@ const path = {
     DETAIL_PRODUCT: 'detail_product',
     DETAIL_PRODUCT_PID: 'detail_product/:pid',
     PERSONAL: 'personal',
+    CHECKOUT: 'check_out',
 
 
     //Admin
