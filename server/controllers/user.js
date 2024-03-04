@@ -259,8 +259,6 @@ const getAllUsers = asyncHandler((req, res) => {
     }
     let queryCommand = User.find(formatedQueries)
 
-    console.log(queryCommand)
-    
     if (req.query.sort) {
         const sortBy = req.query.sort.split(',').join(' ')
         queryCommand = queryCommand.sort(sortBy)
@@ -311,8 +309,18 @@ const deleteUser = asyncHandler(async(req, res) => {
 
 const updateUser = asyncHandler(async(req, res) => {
     const { _id } = req.user
-    const { mobile, name } = req.body 
-    const response = await User.findByIdAndUpdate(_id, {mobile, name}, {new: true}).select('-refreshToken -password -role')
+    const { mobile, name, address, addressDefault } = req.body 
+
+    console.log(addressDefault)
+    const response = await User.findByIdAndUpdate(_id, {mobile, name, address, addressDefault}, {new: true})
+        .select('-refreshToken -password -role')
+        .populate({
+            path: 'cart',
+            populate: {
+                path: 'product',
+                select: 'images title quanlity color price'
+            }
+        })
 
     return res.status(200).json({
         success: response ? true : false,
@@ -334,15 +342,36 @@ const updateUserByAdmin = asyncHandler(async(req, res) => {
 
 const updateAddressUser = asyncHandler(async(req, res) => {
     const { _id } = req.user
+    const { city, county, ward, street } = req.body
 
-    if (!req.body.address) throw new Error('Missing input')
-    const response = await User.findByIdAndUpdate(_id, {$push: {address: req.body.address}}, {new: true})
+    if (!_id || !city || !county || !street) throw new Error('Missing input')
+    const response = await User.findByIdAndUpdate(_id, {$push: {address: {city, county, ward, street}}}, {new: true})
 
     return res.status(200).json({
-        status: response ? true : false,
+        success: response ? true : false,
         data: response ? response : 'Cant\'t upload address user',
+        mes: response ? 'Thêm địa chỉ thành công' : 'Thực hiện thêm địa chỉ thất bại'
     })
 })
+
+// const deleteAddressUser = asyncHandler(async(req, res) => {
+//     const { _id } = req.user
+//     const { city, ward, county, street } = req.body
+//     if (!_id || !city || !ward || !street || !county) {
+//         return res.json({
+//             success: false,
+//             mes: 'Missing input'
+//         })
+//     }
+
+//     const response = await User.findByIdAndUpdate(_id, {$pull: {address: {city, ward, county, street}}}, {new: true})
+
+//     return res.json({
+//         success: response ? true : false,
+//         data: response ? response : 'No data',
+//         mes: response ? 'Thực hiện xoá thành công' : 'Thực hiện xoá thất bại'
+//     })
+// })
 
 const updateCart = asyncHandler(async(req, res) => {
     const { _id } = req.user

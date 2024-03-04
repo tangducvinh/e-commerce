@@ -164,3 +164,9 @@ export const updateQuanlityProductCart = async(data) => await axios({
     data,
     method: 'put'
 })
+
+// export const updataAddress = async(data) => await axios({
+//     url: 'user/update-address',
+//     data,
+//     method: 'put'
+// })

@@ -3,11 +3,12 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 import path from '../../ultis/path'
 import { profile } from '../../ultis/contants'
-import { AdminSidebar } from '../../companents'
+import { AdminSidebar, ShowChildren } from '../../companents'
 import { Header } from '../../companents'
 
 const MenberLayout = () => {
     const { isLoggedIn, dataCurrent } = useSelector(state => state.user)
+    const { children } = useSelector(state => state.app)
     if (!isLoggedIn || !dataCurrent ) return <Navigate to={`/${path.LOGIN}`} replace={true} />
 
     return (
@@ -15,6 +16,8 @@ const MenberLayout = () => {
             <div className='fixed w-full z-40'>
                 <Header />
             </div>
+
+            {children && <ShowChildren children={children}/>}
 
             <div className='h-[104px]'></div>
 

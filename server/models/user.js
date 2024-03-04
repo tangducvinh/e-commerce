@@ -32,10 +32,15 @@ var userSchema = new mongoose.Schema({
         quanlity: {type: Number},
         color: {type: String},
     }],
-    address:{
-        type: Array,
-        default: [],
-    },
+    addressDefault: {type: Object},
+    address:[
+        {
+            city: {type: String},
+            county: {type: String},
+            ward: {type: String},
+            street: {type: String},
+        }
+    ],
     wishlist: [{type: mongoose.Types.ObjectId, ref: 'Product'}],
     status: {
         type: Boolean,

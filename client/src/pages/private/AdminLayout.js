@@ -27,9 +27,7 @@ const AdminLayout = () => {
             }
 
             {children && 
-                <div onClick={() => dispatch(appSlice.actions.setChildren(null))} className='fixed w-screen h-screen flex justify-center items-center bg-overlay z-50'>
-                    <ShowChildren children={children}/>
-                </div>
+                <ShowChildren children={children}/>
             }
 
             <div className='fixed w-full top-0 z-40'><Header /></div>
