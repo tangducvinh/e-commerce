@@ -3,10 +3,10 @@ import { Header } from '../../companents'
 import { ShowLoading } from '../../companents/Modal'
 import { useSelector } from 'react-redux'
 
-
+import { ShowChildren } from '../../companents'
 
 const Public = () => {
-    const { isLoading } = useSelector(state => state.app)
+    const { isLoading, children } = useSelector(state => state.app)
 
     return (
         <div className='relative'>
@@ -17,6 +17,8 @@ const Public = () => {
                     </div>
                 </div>
             }
+
+            {children && <ShowChildren children={children}/>}
 
             <Header />
 

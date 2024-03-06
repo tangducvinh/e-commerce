@@ -4,13 +4,13 @@ const asyncHandler = require('express-async-handler')
 
 const createOrder = asyncHandler(async(req, res) => {
     const { _id } = req.user
-    const userCart = await User.findById(_id).select('cart').populate('cart.product', 'title price')
+    const { products, total } = req.body
 
-
+    const result = await Order.create({products, total, postedBy: _id})
 
     return res.status(200).json({
-        success: userCart ? true : false,
-        data: userCart ? userCart : 'Can\'t create new order',
+        success: result ? true : false,
+        data: result ? result : 'Can\'t create new order',
     })
  
 })

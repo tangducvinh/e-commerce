@@ -1,16 +1,18 @@
 import { useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 
-import { ItemProductCheckout, InputLogin } from '../../companents'
+import { ItemProductCheckout, InputLogin, FormPaymentMethod } from '../../companents'
 import icons from '../../ultis/icons'
 import { Link } from 'react-router-dom'
 import path from '../../ultis/path'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
+import { appSlice } from '../../store/appSlice'
 
-const Checkout = () => {
+const Checkout = ({ dispatch }) => {
     const { GoArrowLeft, IoChevronDownOutline, IoChevronUpOutline } = icons
     const { dataCartCheckout, dataCurrent } = useSelector(state => state.user)
     const [ show, setShow ] = useState(1)
-    const [ value, setValue ] = useState({name: dataCurrent.name, mobile: dataCurrent.mobile, email: dataCurrent.email})
+    const [ value, setValue ] = useState({name: dataCurrent?.name, mobile: dataCurrent?.mobile, email: dataCurrent?.email})
     const [ valueAddress, setValueAddress ] = useState({city: '', county: '', ward: '', street: '', note: ''})
     const [ total, setTotal ] = useState(0)
 
@@ -25,6 +27,20 @@ const Checkout = () => {
         const sum = newArray.reduce((rs, current) => rs + current.price * current.quantity, 0)
         setTotal(sum)
     }, [dataCartCheckout])
+
+    useEffect(() => {
+        setValueAddress(prev => ({
+            ...prev,
+            city: dataCurrent?.addressDefault.city,
+            county: dataCurrent?.addressDefault.county,
+            ward: dataCurrent?.addressDefault.ward,
+            street: dataCurrent?.addressDefault.street
+        }))
+    }, [dataCurrent])
+
+    const handlePayment = () => {
+        dispatch(appSlice.actions.setChildren(<FormPaymentMethod amount={total} />))
+    }
 
     return (
         <div className='flex justify-center'>
@@ -99,13 +115,13 @@ const Checkout = () => {
                     <div className='rounded-md border-[1px] p-4 py-10 flex flex-col gap-[30px] mt-2'>
                         <div className='flex gap-[20px] items-center'>
                             <InputLogin 
-                                value={value.city} 
+                                value={valueAddress.city} 
                                 setValue={setValue} 
                                 data={{label: 'TỈNH / THÀNH PHỐ', name: 'city', placeholder: 'Nhập tỉnh/thành phố : '}} 
                                 style={{css: 'w-[50%]', color: 'border-blue-600', label: 'text-blue-600'}}
                             />
                             <InputLogin 
-                                value={value.county} 
+                                value={valueAddress.county} 
                                 setValue={setValue} 
                                 data={{label: 'QUẬN / HUYỆN', name: 'county', placeholder: 'Nhập quận/huyện: '}} 
                                 style={{css: 'w-[50%]', color: 'border-blue-600', label: 'text-blue-600'}}
@@ -113,20 +129,20 @@ const Checkout = () => {
                         </div>
                         <div className='flex gap-[20px] items-center'>
                             <InputLogin 
-                                value={value.ward} 
+                                value={valueAddress.ward} 
                                 setValue={setValue} 
                                 data={{label: 'PHƯỜNG / XÃ', name: 'ward', placeholder: 'Nhập phường/xã: '}} 
                                 style={{css: 'w-[50%]', color: 'border-blue-600', label: 'text-blue-600'}}
                             />
                             <InputLogin 
-                                value={value.street} 
+                                value={valueAddress.street} 
                                 setValue={setValue} 
                                 data={{label: 'ĐỊA CHỈ', name: 'street', placeholder: 'Số nhà, tên đường: '}} 
                                 style={{css: 'w-[50%]', color: 'border-blue-600', label: 'text-blue-600'}}
                             />
                         </div>
                         <InputLogin 
-                            value={value.note} 
+                            value={valueAddress.note} 
                             setValue={setValue} 
                             data={{label: 'GHI CHÚ', placeholder: 'Ghi chú khác nếu có: ', name: 'note'}} 
                             style={{color: 'border-blue-600', label: 'text-blue-600'}}
@@ -147,12 +163,14 @@ const Checkout = () => {
                         <p className='text-[16px] font-bold'>Tổng tiền tạm thời: </p>
                         <spam className='text-main text-[16px] font-bold'>{total.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})}</spam>
                     </div>
-                    <button className='bg-main rounded-md w-full py-2 text-white mt-2'>Tiếp tục</button>
+                    <button 
+                        onClick={handlePayment}
+                        className='bg-main rounded-md w-full py-2 text-white mt-2'
+                    >Tiếp tục</button>
                 </div>
-
             </div>
         </div>
     )
 }
 
-export default Checkout
+export default withBaseCompanent(Checkout)
