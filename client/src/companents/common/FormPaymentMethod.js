@@ -4,8 +4,9 @@ import Paypal from './Paypal'
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 import { appSlice } from '../../store/appSlice'
 import icons from '../../ultis/icons'
+import { productSlice } from '../../store/productSlice'
 
-const FormPaymentMethod = ({dispatch, amount}) => {
+const FormPaymentMethod = ({dispatch, amount, products, note}) => {
     const { IoClose } = icons
 
     return (
@@ -23,7 +24,7 @@ const FormPaymentMethod = ({dispatch, amount}) => {
 
             <div className='flex justify-center'>
                 <div className='w-[300px]'>
-                    <Paypal amount={Math.round(amount / 24000)}></Paypal>
+                    <Paypal amount={Math.round(amount / 24000)} products={products} note={note} ></Paypal>
                 </div>
             </div>
         </div>

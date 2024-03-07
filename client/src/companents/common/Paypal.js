@@ -1,9 +1,18 @@
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useEffect } from 'react'
 import { usePayPalScriptReducer, PayPalButtons } from '@paypal/react-paypal-js'
+import swal from 'sweetalert'
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom";
 
-const Checkout = ({ currency, amount}) => {
+import * as apis from '../../apis'
+import { appSlice } from '../../store/appSlice'
+import path from '../../ultis/path'
+
+const Checkout = ({ currency, amount, products, note}) => {
     const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
+    const dispatch1 = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
         dispatch({
@@ -31,15 +40,28 @@ const Checkout = ({ currency, amount}) => {
 
     const onApproveOrder = (data,actions) => {
         return actions.order.capture().then(async(response) => {
-            // const name = details.payer.name.given_name;
-            // alert(`Transaction completed by ${name}`);
+            if (response.status === 'COMPLETED') {
+                const newArray = products.map(item => ({product: item.product._id, quantity: item.quanlity, color: item.color}))
 
-            console.log(response)
+                const dataPass = {
+                    products: newArray,
+                    total: amount * 24000,
+                    note: note,
+                }
 
-            // if (response.status === 'COMPLETED') {
-            //     console.log(response)
-            // }
-        });
+                const result = await apis.createOrder(dataPass)
+                dispatch1(appSlice.actions.setChildren(null))
+                swal(result.data.success ? 'Congratulations': 'OOps', result.data.mes, result.data.success ? 'success' : 'error').then(() => {
+                    navigate(`/${path.HOME}`)
+                })
+
+                if (result.data.success) {
+                    const listProducts = newArray.map(item => ({pid: item.product, color: item.color}))
+                    const rs = await apis.deleteProductCart({data: listProducts})
+                    console.log(rs)
+                }
+            }
+        })
     }
 
     return (
@@ -61,7 +83,7 @@ const Checkout = ({ currency, amount}) => {
     );
 }
 
-const Paypal = ({amount, currency}) => {
+const Paypal = ({amount, currency, products, note}) => {
     const initialOptions = {
         clientId: 'test',
         currency: "USD",
@@ -70,7 +92,7 @@ const Paypal = ({amount, currency}) => {
     
     return (
         <PayPalScriptProvider options={initialOptions}>
-            <Checkout amount={amount} currency={currency || 'USD'} />
+            <Checkout amount={amount} products={products} note={note} currency={currency || 'USD'} />
         </PayPalScriptProvider>
     );
 }

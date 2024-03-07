@@ -9,12 +9,13 @@ import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 import { appSlice } from '../../store/appSlice'
 
 const Checkout = ({ dispatch }) => {
-    const { GoArrowLeft, IoChevronDownOutline, IoChevronUpOutline } = icons
+    const { GoArrowLeft, IoChevronDownOutline, IoChevronUpOutline, FaCircleCheck, IoClose } = icons
     const { dataCartCheckout, dataCurrent } = useSelector(state => state.user)
     const [ show, setShow ] = useState(1)
     const [ value, setValue ] = useState({name: dataCurrent?.name, mobile: dataCurrent?.mobile, email: dataCurrent?.email})
     const [ valueAddress, setValueAddress ] = useState({city: '', county: '', ward: '', street: '', note: ''})
     const [ total, setTotal ] = useState(0)
+    const [ checkAddress, setCheckAddress ] = useState(null)
 
     useEffect(() => {
         const newArray = dataCartCheckout.map(item => {
@@ -38,9 +39,33 @@ const Checkout = ({ dispatch }) => {
         }))
     }, [dataCurrent])
 
+    useEffect(() => {
+        if (checkAddress !== null) {
+            setValueAddress(prev => ({
+                ...prev,
+                city: dataCurrent?.address[checkAddress]?.city,
+                county: dataCurrent?.address[checkAddress]?.county,
+                ward: dataCurrent?.address[checkAddress]?.ward,
+                street: dataCurrent?.address[checkAddress]?.street
+            }))
+        }
+    }, [checkAddress])
+
+    useEffect(() => {
+        if (valueAddress.city !== dataCurrent.address[checkAddress]?.city 
+            || valueAddress.ward !== dataCurrent.address[checkAddress]?.ward
+            || valueAddress.county !== dataCurrent.address[checkAddress]?.county
+            || valueAddress.street !== dataCurrent.address[checkAddress]?.street
+        ) {
+            setCheckAddress(null)
+        }
+    }, [valueAddress])
+
     const handlePayment = () => {
-        dispatch(appSlice.actions.setChildren(<FormPaymentMethod amount={total} />))
+        dispatch(appSlice.actions.setChildren(<FormPaymentMethod amount={total} products={dataCartCheckout} note={valueAddress.note}/>))
     }
+
+    console.log(dataCurrent)
 
     return (
         <div className='flex justify-center'>
@@ -116,13 +141,13 @@ const Checkout = ({ dispatch }) => {
                         <div className='flex gap-[20px] items-center'>
                             <InputLogin 
                                 value={valueAddress.city} 
-                                setValue={setValue} 
-                                data={{label: 'TỈNH / THÀNH PHỐ', name: 'city', placeholder: 'Nhập tỉnh/thành phố : '}} 
+                                setValue={setValueAddress} 
+                                data={{label: 'TỈNH / THÀNH PHỐ', name: 'city', placeholder: 'Nhập tỉnh/thành phố: '}} 
                                 style={{css: 'w-[50%]', color: 'border-blue-600', label: 'text-blue-600'}}
                             />
                             <InputLogin 
                                 value={valueAddress.county} 
-                                setValue={setValue} 
+                                setValue={setValueAddress}   
                                 data={{label: 'QUẬN / HUYỆN', name: 'county', placeholder: 'Nhập quận/huyện: '}} 
                                 style={{css: 'w-[50%]', color: 'border-blue-600', label: 'text-blue-600'}}
                             />
@@ -130,30 +155,48 @@ const Checkout = ({ dispatch }) => {
                         <div className='flex gap-[20px] items-center'>
                             <InputLogin 
                                 value={valueAddress.ward} 
-                                setValue={setValue} 
+                                setValue={setValueAddress} 
                                 data={{label: 'PHƯỜNG / XÃ', name: 'ward', placeholder: 'Nhập phường/xã: '}} 
                                 style={{css: 'w-[50%]', color: 'border-blue-600', label: 'text-blue-600'}}
                             />
                             <InputLogin 
                                 value={valueAddress.street} 
-                                setValue={setValue} 
+                                setValue={setValueAddress} 
                                 data={{label: 'ĐỊA CHỈ', name: 'street', placeholder: 'Số nhà, tên đường: '}} 
                                 style={{css: 'w-[50%]', color: 'border-blue-600', label: 'text-blue-600'}}
                             />
                         </div>
                         <InputLogin 
                             value={valueAddress.note} 
-                            setValue={setValue} 
+                            setValue={setValueAddress} 
                             data={{label: 'GHI CHÚ', placeholder: 'Ghi chú khác nếu có: ', name: 'note'}} 
                             style={{color: 'border-blue-600', label: 'text-blue-600'}}
                         />
                     </div>
-                    <p className='text-[12px] text-[#637381] mt-2'>
-                        <strong>Mẹo </strong>
-                        <span>Bạn có thể cài đặt Sổ địa chỉ tại</span>
-                        <strong> thông tin cá nhân </strong>
-                        <span>để đặt hàng nhanh hơn.</span>
-                    </p>
+
+                    {dataCurrent.address.length > 0 ?
+                        <div className='mt-[20px]'>
+                            <h2 className='text-[15px]'>Chọn địa chỉ của bạn</h2>
+                            {dataCurrent.address.map((item, index) => (
+                                <div key={item._id} className='flex items-center gap-2 ml-2'>
+                                    <button 
+                                        onClick={() => setCheckAddress(index)}
+                                        className='w-[15px] h-[15px] rounded-full border-[1px] relative'
+                                    >
+                                        {checkAddress === index && <span className='text-main absolute inset-0'><FaCircleCheck /></span>}
+                                    </button>
+                                    <p className='text-[14px] flex flex-1'>{`${item.street}, ${item.ward}, ${item.county}, ${item.city}`}</p>
+                                </div>
+                            ))}
+                        </div>
+                        :     
+                        <p className='text-[12px] text-[#637381] mt-2'>
+                            <strong>Mẹo </strong>
+                            <span>Bạn có thể cài đặt Sổ địa chỉ tại</span>
+                            <strong> thông tin cá nhân </strong>
+                            <span>để đặt hàng nhanh hơn.</span>
+                        </p>
+                    } 
                 </div>
 
                 <div className='h-[100px]'></div>

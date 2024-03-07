@@ -311,7 +311,6 @@ const updateUser = asyncHandler(async(req, res) => {
     const { _id } = req.user
     const { mobile, name, address, addressDefault } = req.body 
 
-    console.log(addressDefault)
     const response = await User.findByIdAndUpdate(_id, {mobile, name, address, addressDefault}, {new: true})
         .select('-refreshToken -password -role')
         .populate({
@@ -428,23 +427,28 @@ const updateQuanlityProductCart = asyncHandler(async(req, res) => {
 })
 
 const deleteProductCart = asyncHandler(async(req, res) => {
-    const { pid, color } = req.body
+    const { pid, color, data } = req.body
 
     const { _id } = req.user
-    if (!pid) {
-        return res.json({
-            success: false,
-            mes: 'Chưa có id sản phẩm'
+
+    if (data) {
+        data.forEach(async(item, index) => {
+            await User.findByIdAndUpdate(_id, {$pull: {cart: {product: item.pid, color: item.color}}}, {new: true}).populate({
+                path: 'cart',
+                populate: {
+                    path: 'product',
+                    select: 'images price quanlity title'
+                }
+            })
+        })
+    } else {
+        response = await User.findByIdAndUpdate(_id, {$pull: {cart: {product: pid, color}}}, {new: true}).populate({
+            populate: {
+                path: 'product',
+                select: 'images price quanlity title'
+            }
         })
     }
-
-    const response = await User.findByIdAndUpdate(_id, {$pull: {cart: {product: pid, color}}}, {new: true}).populate({
-        path: 'cart',
-        populate: {
-            path: 'product',
-            select: 'images price quanlity title'
-        }
-    })
 
     return res.json({
         success: response ? true : false,
