@@ -12,7 +12,7 @@ const fn = async(product) => {
         variants: product?.variants,
         information: product?.information,
         highlights: product?.highlights,
-        star: product?.star,
+        // star: product?.star,
         version: product?.version,
         quanlity: Math.round(Math.random() * 1000),
         sold: Math.round(Math.random() * 100),

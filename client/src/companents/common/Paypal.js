@@ -55,11 +55,11 @@ const Checkout = ({ currency, amount, products, note}) => {
                     navigate(`/${path.HOME}`)
                 })
 
-                if (result.data.success) {
-                    const listProducts = newArray.map(item => ({pid: item.product, color: item.color}))
-                    const rs = await apis.deleteProductCart({data: listProducts})
-                    console.log(rs)
-                }
+                // if (result.data.success) {
+                //     const listProducts = newArray.map(item => ({pid: item.product, color: item.color}))
+                //     const rs = await apis.deleteProductCart({data: listProducts})
+                //     console.log(rs)
+                // }
             }
         })
     }
