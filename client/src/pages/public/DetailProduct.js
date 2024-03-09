@@ -65,11 +65,9 @@ const DetailProduct = ({dispatch, navigate}) => {
 
     const handleAddToCart = async() => {
         if (isLoggedIn) {
-            if (dataCurrent?.role === '3') {
-                const response = await apis.updateCart({pid, color: dataDetaiProduct?.variants[variant].color})
-                dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
-                swal(response.data.success ? 'Congratulation' : 'Oops', response.data.mes, response.data.success ? 'success' : 'error')
-            }
+            const response = await apis.updateCart({pid, color: dataDetaiProduct?.variants[variant].color})
+            dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
+            swal(response.data.success ? 'Congratulation' : 'Oops', response.data.mes, response.data.success ? 'success' : 'error')
         } else {
             swal({
                 title: 'Opps',

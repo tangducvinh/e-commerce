@@ -32,10 +32,10 @@ const Checkout = ({ dispatch }) => {
     useEffect(() => {
         setValueAddress(prev => ({
             ...prev,
-            city: dataCurrent?.addressDefault.city,
-            county: dataCurrent?.addressDefault.county,
-            ward: dataCurrent?.addressDefault.ward,
-            street: dataCurrent?.addressDefault.street
+            city: dataCurrent?.addressDefault?.city,
+            county: dataCurrent?.addressDefault?.county,
+            ward: dataCurrent?.addressDefault?.ward,
+            street: dataCurrent?.addressDefault?.street
         }))
     }, [dataCurrent])
 
@@ -52,10 +52,10 @@ const Checkout = ({ dispatch }) => {
     }, [checkAddress])
 
     useEffect(() => {
-        if (valueAddress.city !== dataCurrent.address[checkAddress]?.city 
-            || valueAddress.ward !== dataCurrent.address[checkAddress]?.ward
-            || valueAddress.county !== dataCurrent.address[checkAddress]?.county
-            || valueAddress.street !== dataCurrent.address[checkAddress]?.street
+        if (valueAddress.city !== dataCurrent?.address[checkAddress]?.city 
+            || valueAddress.ward !== dataCurrent?.address[checkAddress]?.ward
+            || valueAddress.county !== dataCurrent?.address[checkAddress]?.county
+            || valueAddress.street !== dataCurrent?.address[checkAddress]?.street
         ) {
             setCheckAddress(null)
         }
@@ -174,7 +174,7 @@ const Checkout = ({ dispatch }) => {
                         />
                     </div>
 
-                    {dataCurrent.address.length > 0 ?
+                    {dataCurrent?.address.length > 0 ?
                         <div className='mt-[20px]'>
                             <h2 className='text-[15px]'>Chọn địa chỉ của bạn</h2>
                             {dataCurrent.address.map((item, index) => (

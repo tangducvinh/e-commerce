@@ -5,7 +5,7 @@ import { generateRange } from '../ultis/func'
 const usePagination = ( totalProductCount, currentPage ) => {
 
     const paginationArray = useMemo(() => {
-        const pageSize = 15
+        const pageSize = 10
         const paginationCount = Math.ceil(totalProductCount / pageSize)
         const totalPaginationItem = 5
 

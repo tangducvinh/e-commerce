@@ -1,31 +1,38 @@
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import { ItemOrder } from '../../companents'
 import * as apis from '../../apis'
+import { Pagination } from '../../companents'
 
 const History = () => {
-
+    const [ params ] = useSearchParams()
     const [ dataOrder, setDateOrder ] = useState()
 
-    const fecthUserOder = async() => {
-        const response = await apis.getUserOder()
+    const fecthUserOder = async(data) => {
+        const response = await apis.getUserOder(data)
 
         if (response.data.success) {
-            setDateOrder(response.data.data)
+            setDateOrder(response.data)
         }
     }
 
     useEffect(() => {
-        fecthUserOder()
-    }, [])
+        const getParams = Object.fromEntries([...params])
+        fecthUserOder({...getParams})
+
+        window.scrollTo(0, 0)
+    }, [params])
 
     return (
         <div className='w-full flex flex-col mb-[20px] gap-[20px]'>
-            {dataOrder?.map((item, index) => (
+            {dataOrder?.data.map((item, index) => (
                 <ItemOrder data={item} />
             ))}
 
-
+            <div className='flex justify-center'>
+                <Pagination totalProductCount={dataOrder?.counts}></Pagination>
+            </div>
         </div>
     )
 }

@@ -53,7 +53,7 @@ const getUserOder = asyncHandler(async(req, res) => {
 
     // Pagination
     const page = +req.query.page || 1
-    const limit = +req.query.limit || process.env.LIMIT_PRODUCTS
+    const limit = +req.query.limit || process.env.LIMIT_ORDER
     const skip = (page - 1) * limit
     queryCommand.skip(skip).limit(limit)
 

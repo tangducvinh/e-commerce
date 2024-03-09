@@ -381,7 +381,13 @@ const updateCart = asyncHandler(async(req, res) => {
     const currentProduct = alreadyProduct.find(item => item.color === color)
 
     if (!currentProduct) {
-        const response = await User.findByIdAndUpdate(_id, {$push: {cart: {product: pid, quanlity: 1, color}}}, {new: true})
+        const response = await User.findByIdAndUpdate(_id, {$push: {cart: {product: pid, quanlity: 1, color}}}, {new: true}).populate({
+            path: 'cart',
+            populate: {
+                path: 'product',
+                select: 'title price images'
+            }
+        })
         return res.json({
             success: response ? true : false,
             data: response ? response : 'yet',
@@ -389,7 +395,13 @@ const updateCart = asyncHandler(async(req, res) => {
         })
     } else {
         await User.findByIdAndUpdate(_id, {$pull: {cart: {product: pid, color}}}, {new: true})
-        const response = await User.findByIdAndUpdate(_id, {$push: {cart: {product: pid, quanlity: currentProduct.quanlity + 1, color}}}, {new: true})
+        const response = await User.findByIdAndUpdate(_id, {$push: {cart: {product: pid, quanlity: currentProduct.quanlity + 1, color}}}, {new: true}).populate({
+            path: 'cart',
+            populate: {
+                path: 'product',
+                select: 'title price images'
+            }
+        })
         return res.status(200).json({
             success: response ? true : false,
             data: response ? response : 'yet',
@@ -429,26 +441,29 @@ const updateQuanlityProductCart = asyncHandler(async(req, res) => {
 const deleteProductCart = asyncHandler(async(req, res) => {
     const { pid, color, data } = req.body
 
+    console.log({pid, color})
+
     const { _id } = req.user
 
-    if (data) {
-        data.forEach(async(item, index) => {
-            await User.findByIdAndUpdate(_id, {$pull: {cart: {product: item.pid, color: item.color}}}, {new: true}).populate({
-                path: 'cart',
-                populate: {
-                    path: 'product',
-                    select: 'images price quanlity title'
-                }
-            })
-        })
-    } else {
+    // if (data) {
+    //     data.forEach(async(item, index) => {
+    //         await User.findByIdAndUpdate(_id, {$pull: {cart: {product: item.pid, color: item.color}}}, {new: true}).populate({
+    //             path: 'cart',
+    //             populate: {
+    //                 path: 'product',
+    //                 select: 'images price quanlity title'
+    //             }
+    //         })
+    //     })
+    // } else {
         response = await User.findByIdAndUpdate(_id, {$pull: {cart: {product: pid, color}}}, {new: true}).populate({
+            path: 'cart',
             populate: {
                 path: 'product',
                 select: 'images price quanlity title'
             }
         })
-    }
+    // }
 
     return res.json({
         success: response ? true : false,
