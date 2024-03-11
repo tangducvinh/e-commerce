@@ -10,7 +10,7 @@ import { HiOutlineDevicePhoneMobile, HiGift } from "react-icons/hi2"
 import { FaChevronRight, FaChevronLeft, FaAngleLeft, FaAngleRight, FaChevronDown, FaCircleCheck  } from "react-icons/fa6"
 import { PiComputerTower, PiTelevisionSimple } from "react-icons/pi"
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai"
-import { FaStar, FaRegHeart, FaTabletAlt, FaCartPlus, FaSortAmountDown, FaSortAmountUp, FaRegEye, FaRegUser, FaClipboardList  } from "react-icons/fa"
+import { FaStar, FaRegHeart, FaHeart, FaTabletAlt, FaCartPlus, FaSortAmountDown, FaSortAmountUp, FaRegEye, FaRegUser, FaClipboardList  } from "react-icons/fa"
 import { GiPressureCooker } from "react-icons/gi"
 import { SlScreenDesktop } from "react-icons/sl"
 import { GoArrowLeft } from "react-icons/go"
@@ -21,6 +21,7 @@ import { BsCart2 } from 'react-icons/bs'
 import { LiaClipboardListSolid } from 'react-icons/lia'
 
 const icons = {
+    FaHeart,
     MdAssignmentAdd,
     IoChevronUpOutline,
     FaCircleCheck,

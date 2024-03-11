@@ -170,3 +170,9 @@ export const updateQuanlityProductCart = async(data) => await axios({
 //     data,
 //     method: 'put'
 // })
+
+export const updateFavorite = async(data) => await axios({
+    url: 'user/add-wishlist',
+    data,
+    method: 'put',
+})

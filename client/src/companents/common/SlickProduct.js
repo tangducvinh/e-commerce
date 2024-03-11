@@ -1,9 +1,13 @@
 import Slice from 'react-slick'
 import { memo } from 'react'
+import { useSelector } from 'react-redux'
+
 
 import { ItemProduct } from '../../companents'
 
 const SlickProduct = ({ data, title, row = 1, incentives }) => {
+
+    const { dataCurrent } = useSelector(state => state.user)
 
     var settings = {
         dots: false,
@@ -36,9 +40,10 @@ const SlickProduct = ({ data, title, row = 1, incentives }) => {
                         title = {item?.title}
                         price = {item?.price?.price}
                         sale = {item?.price?.sale}
-                        star = {item?.star}
+                        star = {Number(item?.totalRatings.rate?.split('')[0])}
                         incentives = {incentives ? item.incentives[0] : false}
-                        link = {item?._id}
+                        pid = {item?._id}ck
+                        favorite={dataCurrent?.wishlist.some(el => el._id === item._id)}
                     />
                 ))}
             </Slice>

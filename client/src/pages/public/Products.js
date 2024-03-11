@@ -89,9 +89,9 @@ const Products = () => {
                                 title = {item?.title}
                                 price = {item?.price?.price}
                                 sale = {item?.price?.sale}
-                                star = {item?.star}
+                                star = {Number(item?.totalRatings.rate?.split('')[0])}
                                 incentives = {item?.incentives[0]}
-                                link = {item?._id}
+                                pid = {item?._id}
                             />
                         </div>
                     ))}

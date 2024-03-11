@@ -20,8 +20,11 @@ const Public = () => {
 
             {children && <ShowChildren children={children}/>}
 
-            <Header />
+            <div className='fixed z-50 w-full top-0'>
+                <Header />
+            </div>
 
+            <div className='h-[64px]'></div>
 
             <Outlet />    
         </div>

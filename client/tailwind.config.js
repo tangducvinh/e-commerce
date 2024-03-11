@@ -20,7 +20,8 @@ module.exports = {
       width: {
         main: '1220px',
         three: 'calc(33.3333% - 8px)',
-        five: 'calc(20% - 8px)'
+        five: 'calc(20% - 8px)',
+        four: 'calc(25% - 8px)',
       },
       backgroundColor: {
         main: '#D70018',

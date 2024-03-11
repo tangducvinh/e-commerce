@@ -116,13 +116,19 @@ const login = asyncHandler(async (req, res) => {
 
 const getCurrent = asyncHandler(async (req, res) => {
     const { _id } = req.user
-    const user = await User.findById(_id).select('-refreshToken -password').populate({
-        path: 'cart',
-        populate: {
-            path: 'product',
-            select: 'images price title quanlity'
+    const user = await User.findById(_id).select('-refreshToken -password').populate([
+        {
+            path: 'cart',
+            populate: {
+                path: 'product',
+                select: 'images price title quanlity'
+            }
+        },
+        {
+            path: 'wishlist',
+            select: 'images price ratings star title totalRatings'
         }
-    })
+    ])
     return res.status(200).json({
         success: user ? true : false,
         rs: user ? user : "User not found"
@@ -381,13 +387,19 @@ const updateCart = asyncHandler(async(req, res) => {
     const currentProduct = alreadyProduct.find(item => item.color === color)
 
     if (!currentProduct) {
-        const response = await User.findByIdAndUpdate(_id, {$push: {cart: {product: pid, quanlity: 1, color}}}, {new: true}).populate({
-            path: 'cart',
-            populate: {
-                path: 'product',
-                select: 'title price images'
+        const response = await User.findByIdAndUpdate(_id, {$push: {cart: {product: pid, quanlity: 1, color}}}, {new: true}).populate([
+            {
+                path: 'cart',
+                populate: {
+                    path: 'product',
+                    select: 'images price title quanlity'
+                }
+            },
+            {
+                path: 'wishlist',
+                select: 'images price ratings star title totalRatings'
             }
-        })
+        ])
         return res.json({
             success: response ? true : false,
             data: response ? response : 'yet',
@@ -424,13 +436,19 @@ const updateQuanlityProductCart = asyncHandler(async(req, res) => {
         }
     })
 
-    const response = await User.findByIdAndUpdate(_id, {$inc: {[`cart.${order}.quanlity`]: Number(status)}}, {new: true}).populate({
-        path: 'cart',
-        populate: {
-            path: 'product',
-            select: 'images title quanlity price'
+    const response = await User.findByIdAndUpdate(_id, {$inc: {[`cart.${order}.quanlity`]: Number(status)}}, {new: true}).populate([
+        {
+            path: 'cart',
+            populate: {
+                path: 'product',
+                select: 'images price title quanlity'
+            }
+        },
+        {
+            path: 'wishlist',
+            select: 'images price ratings star title totalRatings'
         }
-    })
+    ])
 
     return res.json({
         success: response ? true : false,
@@ -440,8 +458,6 @@ const updateQuanlityProductCart = asyncHandler(async(req, res) => {
 
 const deleteProductCart = asyncHandler(async(req, res) => {
     const { pid, color, data } = req.body
-
-    console.log({pid, color})
 
     const { _id } = req.user
 
@@ -456,13 +472,19 @@ const deleteProductCart = asyncHandler(async(req, res) => {
     //         })
     //     })
     // } else {
-        response = await User.findByIdAndUpdate(_id, {$pull: {cart: {product: pid, color}}}, {new: true}).populate({
-            path: 'cart',
-            populate: {
-                path: 'product',
-                select: 'images price quanlity title'
+        response = await User.findByIdAndUpdate(_id, {$pull: {cart: {product: pid, color}}}, {new: true}).populate([
+            {
+                path: 'cart',
+                populate: {
+                    path: 'product',
+                    select: 'images price title quanlity'
+                }
+            },
+            {
+                path: 'wishlist',
+                select: 'images price ratings star title totalRatings'
             }
-        })
+        ])
     // }
 
     return res.json({
@@ -470,6 +492,58 @@ const deleteProductCart = asyncHandler(async(req, res) => {
         data: response ? response : 'no data',
         mes: response ? 'Đã xoá sản phẩm khỏi giỏ hàng thàng công' : 'Thực hiện xoá thất bại vui lòng thử lại sau',
     })
+})
+
+const addWishList = asyncHandler(async(req, res) => {
+    const { _id } = req.user
+    const { pid, status } = req.body
+
+    if (!_id || !pid) {
+        return res.json({
+            success: false,
+            mes: 'Missing input'
+        })
+    }
+    if (status === 1) {
+        console.log('here 1')
+        const response = await User.findByIdAndUpdate(_id, {$push: {wishlist: pid}}, {new: true}).populate([
+            {
+                path: 'cart',
+                populate: {
+                    path: 'product',
+                    select: 'images price title quanlity'
+                }
+            },
+            {
+                path: 'wishlist',
+                select: 'images price ratings star title totalRatings'
+            }
+        ])
+        return res.json({
+            success: response ? true : false,
+            data: response ? response : 'no data',
+            mes: response ? 'Bạn đã thêm vào danh sách yêu thích' : 'Thực hiện thêm vào danh sách yêu thích thất bại'
+        })
+    } else {
+        const response = await User.findByIdAndUpdate(_id, {$pull: {wishlist: pid}}, {new: true}).populate([
+            {
+                path: 'cart',
+                populate: {
+                    path: 'product',
+                    select: 'images price title quanlity'
+                }
+            },
+            {
+                path: 'wishlist',
+                select: 'images price ratings star title totalRatings'
+            }
+        ])
+        return res.json({
+            success: response ? true : false,
+            data: response ? response : 'no data',
+            mes: response ? 'Bạn đã xoá khỏi danh sách yêu thích' : 'Thực hiện xoá khỏi danh sách yêu thích thất bại'
+        })
+    }
 })
 
 module.exports = {
@@ -491,4 +565,5 @@ module.exports = {
     mockDataUsers,
     deleteProductCart,
     updateQuanlityProductCart,
+    addWishList,
 }
