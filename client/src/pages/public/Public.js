@@ -1,9 +1,8 @@
 import { Outlet } from 'react-router-dom'
-import { Header } from '../../companents'
+import { Header, ShowChildren, Footer } from '../../companents'
 import { ShowLoading } from '../../companents/Modal'
 import { useSelector } from 'react-redux'
 
-import { ShowChildren } from '../../companents'
 
 const Public = () => {
     const { isLoading, children } = useSelector(state => state.app)
@@ -26,9 +25,14 @@ const Public = () => {
 
             <div className='h-[64px]'></div>
 
-            <Outlet />    
-        </div>
+            <Outlet />
 
+            <div className='flex w-full justify-center border-t-2 mb-[20px]'>
+                <div className='mt-3'>
+                    <Footer />
+                </div>
+            </div>    
+        </div>
     )
 }
 
