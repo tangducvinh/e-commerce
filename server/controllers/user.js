@@ -546,6 +546,42 @@ const addWishList = asyncHandler(async(req, res) => {
     }
 })
 
+const addTitleSearched = asyncHandler(async(req, res) => {
+    const { _id } = req.user
+    const { title } = req.query
+
+    if (!title) return res.json({
+        success: false,
+        mes: 'no title'
+    })
+
+    const check = await User.findById(_id)
+    valueDelete = check.searcheds[0]
+    if (check.searcheds.length >= 5) {
+        await User.findByIdAndUpdate(_id, {$pull: {searcheds: valueDelete}}, {new: true})
+    } 
+
+    const response = await User.findByIdAndUpdate(_id, {$push: {searcheds: title}}, {new: true}).populate([
+        {
+            path: 'cart',
+            populate: {
+                path: 'product',
+                select: 'images price title quanlity'
+            }
+        },
+        {
+            path: 'wishlist',
+            select: 'images price ratings star title totalRatings'
+        }
+    ])
+
+    return res.json({
+        success: response ? true : false,
+        mes: response ? 'Thêm thành công' : 'Thông thất bại',
+        data: response ? response : 'no data'
+    })
+})
+
 module.exports = {
     register,
     finalRegister,
@@ -566,4 +602,5 @@ module.exports = {
     deleteProductCart,
     updateQuanlityProductCart,
     addWishList,
+    addTitleSearched,
 }

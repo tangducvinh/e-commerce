@@ -22,5 +22,6 @@ router.get('/get-user', controllers.getUser)
 router.get('/mock-users', controllers.mockDataUsers)
 router.put('/update-quanlity-product-cart', [verifyAccessToken], controllers.updateQuanlityProductCart)
 router.put('/add-wishlist', verifyAccessToken, controllers.addWishList)
+router.put('/title-searched', verifyAccessToken, controllers.addTitleSearched)
 
 module.exports = router

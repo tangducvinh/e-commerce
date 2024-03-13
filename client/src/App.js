@@ -25,7 +25,8 @@ function App() {
           <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword />}/>
           <Route path={path.CHANGE_PASSWORD} element={<ChangePassword />}/>
           <Route path={path.HOME} element={<Home />}></Route>
-          <Route path={path.PRODUCTS} element={<Products />} />
+          <Route path={path.PRODUCTS} element={<Products />}/>
+          <Route path={path.PRODUCTS_CATEGORY} element={<Products />} />
           <Route path={path.DETAIL_PRODUCT_PID} element={<DetailProduct />}/>
           <Route path={path.REGISTER} element={<Register data={dataRegister}/>}/>
           <Route path={path.CHECKOUT} element={<Checkout />}></Route>

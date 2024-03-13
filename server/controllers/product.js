@@ -29,6 +29,22 @@ const getProduct = asyncHandler(async(req, res) => {
     })
 })
 
+const getProductSearch = asyncHandler(async(req, res) => {
+    const { title } = req.query
+
+    if (!title) return res.json({
+        success: false,
+        mes: 'no search'
+    })
+
+    const response = await Product.find({title: {$regex: title, $options: 'i'}})
+
+    return res.json({
+        success: response ? true : false,
+        data: response ? response : 'no data',
+    })
+})
+
 const getAllProduct = asyncHandler(async(req, res) => {
     const queries = {...req.query}
     // splice expect field
@@ -42,6 +58,8 @@ const getAllProduct = asyncHandler(async(req, res) => {
 
     // Filtering
     if (queries?.title) formatedQueries.title = {$regex: queries.title, $options: 'i'}
+
+    console.log(formatedQueries)
     let queryCommand = Product.find(formatedQueries)
 
     // Sorting
@@ -175,4 +193,5 @@ module.exports = {
     deleteProduct,
     ratings,
     uploadImageProduct,
+    getProductSearch,
 }

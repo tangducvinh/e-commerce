@@ -1,19 +1,18 @@
 import { useParams, useNavigate, createSearchParams, useSearchParams } from 'react-router-dom'
-import { useEffect, useState, useCallback } from 'react'
-import { useDebounce } from 'use-debounce'
+import { useEffect, useState } from 'react'
 
 import * as apis from '../../apis'
 import { HotSale, ItemProduct, Pagination, InputSearch } from '../../companents'
 import { filters } from '../../ultis/contants'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 
-const Products = () => {
+const Products = ({ location }) => {
     const  { category }  = useParams()
     const [ data, setData ] = useState({})
     const [ filterStatus, setFilterStatus ] = useState(filters.length - 1)
-    const [ valueSearch, setValueSearch ] = useState('')
-    const [ value ] = useDebounce(valueSearch, 1000)
     const navigate = useNavigate()
     const [ params ] = useSearchParams()
+    const [ showHotSale, setShowHotSale ] = useState(true)
     
     const fetchDataProduct = async(data) => {
         const response = await apis.getAllProducts(data)
@@ -21,13 +20,10 @@ const Products = () => {
     }
 
     useEffect(() => {
-        let dataPrams = {}
-        for (let i of params.entries()) {
-            dataPrams[i[0]] = i[1]
-        }
-        if (value) dataPrams.title = value
-        fetchDataProduct({category, ...dataPrams})
-    }, [params, value, category])
+        const dataParams = Object.fromEntries([...params])
+        if (dataParams.title) setShowHotSale(dataParams.title)
+        fetchDataProduct({category, ...dataParams})
+    }, [params])
 
     useEffect(() => {
         window.scrollTo(400, 400)
@@ -35,30 +31,53 @@ const Products = () => {
 
     const handleSetFilter = (filters) => { 
         setFilterStatus(filters.id)
+        let dataParams = Object.fromEntries([...params])
+
         if (filters.sort) {
-            navigate({
-                pathname: `/products/${category}`,
-                search: createSearchParams({
-                    sort: filters.sort,
-                }).toString()
-            })
+            if (dataParams.title) {
+                navigate({
+                    pathname: location.pathname,
+                    search: createSearchParams({
+                        sort: filters.sort,
+                        title: dataParams.title
+                    }).toString()
+                })
+            } else {
+                navigate({
+                    pathname: location.pathname,
+                    search: createSearchParams({
+                        sort: filters.sort,
+                    }).toString()
+                }) 
+            }
         } else {
-            navigate(`/products/${category}`)
+            if (dataParams.title) {
+                navigate({
+                    pathname: location.pathname,
+                    search: createSearchParams({
+                        title: dataParams.title
+                    }).toString()
+                })
+            } else {
+                navigate({
+                    pathname: location.pathname
+                })
+            }
         }
     }
-
-    const setValue = useCallback((value) => {
-        setValueSearch(value)
-    }, [])
 
     return (
         <div className='flex justify-center'>
             <div className='w-[1220px]'>
-                <div className='mt-8'>
-                    <HotSale hiddenFilter filterCategory={category}/>
-                </div>
+                {showHotSale === true ? 
+                    <div className='mt-8'>
+                        <HotSale hiddenFilter filterCategory={category}/>
+                    </div> 
+                    :
+                    <p className='mt-[20px] text-slate-400'>{`Kết quả tìm kiếm cho: "${showHotSale}"`}</p>
+                }
 
-                <div className='mt-8'>
+                <div className='mt-4'>
                     <h3 className='text-[18px] text-[#4A4A4A] font-bold'>Sắp xếp theo</h3>
 
                     <div className='flex items-center justify-between'>
@@ -74,8 +93,6 @@ const Products = () => {
                                 </div>
                             ))}
                         </div>
-
-                        <InputSearch valueSearch={valueSearch} setValueSearch={setValue}/>
                     </div>
                 </div>
 
@@ -105,4 +122,4 @@ const Products = () => {
     )
 }
 
-export default Products
+export default withBaseCompanent(Products)

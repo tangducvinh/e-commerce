@@ -3,11 +3,12 @@ import { useEffect, useState, useRef } from 'react'
 import swal from 'sweetalert'
 
 import icons from '../../ultis/icons'
-import { Button } from '../../companents'
+import { Button, InputSearchHeader } from '../../companents'
 import { Link, useNavigate } from 'react-router-dom'
 import path from '../../ultis/path'
 import { userSlice } from '../../store/userSlice'
 import * as apis from '../../apis'
+
 
 const Header = () => {
     const { 
@@ -101,15 +102,7 @@ const Header = () => {
                         <IoChevronDownOutline />
                     </div>
 
-                    <button className="h-[34px] bg-white rounded-l-xl pl-2">
-                        <HiOutlineSearch size={20}/>
-                    </button>
-
-                    <div className="flex relative justify-center items-center">
-                        <input className="h-[34px] w-[279px] rounded-r-xl pl-1 outline=none placeholder:text-[16px] outline-none " placeholder="Bạn cần tìm gì?"></input>
-
-                        <span className="absolute right-2 cursor-pointer"><MdOutlineCancel /></span>
-                    </div>
+                    <InputSearchHeader />
 
                     <div className="flex gap-1 mx-1">
                         <Button icon={<FiPhone size={25} />} text1={'Gọi mua hàng'} text2={'1800.7777'}></Button>

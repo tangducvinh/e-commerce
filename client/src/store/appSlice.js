@@ -17,7 +17,8 @@ export const appSlice = createSlice({
         showEditForm: false,
         idUserEdit: null,
         isChangeDataUsers: false,
-        children: null
+        children: null,
+        showOverlay: false,
     },
     reducers: {
         getCategory: (state, action) => {
@@ -37,7 +38,10 @@ export const appSlice = createSlice({
         },
         setChildren: (state, action) => {
             state.children = action.payload
-        }
+        },
+        setShowOverlay: (state, action) => {
+            state.showOverlay = action.payload
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fecthCategory.pending, (state, action) => {

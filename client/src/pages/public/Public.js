@@ -4,8 +4,11 @@ import { ShowLoading } from '../../companents/Modal'
 import { useSelector } from 'react-redux'
 
 
-const Public = () => {
-    const { isLoading, children } = useSelector(state => state.app)
+import { appSlice } from '../../store/appSlice'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
+
+const Public = ({ dispatch }) => {
+    const { isLoading, children, showOverlay } = useSelector(state => state.app)
 
     return (
         <div className='relative'>
@@ -16,6 +19,8 @@ const Public = () => {
                     </div>
                 </div>
             }
+
+            {showOverlay && <div onClick={() => dispatch(appSlice.actions.setShowOverlay(false))} className='bg-overlay absolute w-full h-full z-50'></div>}
 
             {children && <ShowChildren children={children}/>}
 
@@ -36,4 +41,4 @@ const Public = () => {
     )
 }
 
-export default Public
+export default withBaseCompanent(Public)

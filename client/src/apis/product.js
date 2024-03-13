@@ -90,3 +90,9 @@ export const updateProduct = (pid, data) => {
         }
     })
 }
+
+export const getProductSearch = async(data) => await axios({
+    url: 'product/search',
+    method: 'get',
+    params: data,
+})
