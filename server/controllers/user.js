@@ -505,7 +505,6 @@ const addWishList = asyncHandler(async(req, res) => {
         })
     }
     if (status === 1) {
-        console.log('here 1')
         const response = await User.findByIdAndUpdate(_id, {$push: {wishlist: pid}}, {new: true}).populate([
             {
                 path: 'cart',

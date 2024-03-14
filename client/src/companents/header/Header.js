@@ -9,7 +9,6 @@ import path from '../../ultis/path'
 import { userSlice } from '../../store/userSlice'
 import * as apis from '../../apis'
 
-
 const Header = () => {
     const { 
         LuMenuSquare, 
@@ -121,16 +120,18 @@ const Header = () => {
 
                             {show && 
                                 <div className='w-[250px] bg-white z-50 absolute right-0 rounded-md shadow-xl top-[130%] p-2'>
-                                    <Link to={dataCurrent?.role === '3' ? `/${path.MEMBER}/${path.PERSONAL}` : dataCurrent?.role === '7' && `/${path.ADMIN}/${path.PERSONAL}`} className='text-main mb-2 px-3 py-2 block w-full border border-main rounded-xl select-none'>Thông tin cá nhân</Link>
-                                    {dataCurrent.role === '7' && 
+                                    <Link to={`/${path.MEMBER}/${path.PERSONAL}`} className='text-main mb-2 px-3 py-2 block w-full border border-main rounded-xl select-none'>Thông tin cá nhân</Link>
+                                    {dataCurrent?.role === '7' && 
                                         <Link to={`/${path.ADMIN}/${path.DASHBOARD}`} className='text-main mb-2 px-3 py-2 block w-full border border-main rounded-xl select-none'>Trang quản lí</Link>
                                     }
-                                    <Link to={`/${path.LOGIN}`} onClick={handleLogout} className='text-main px-3 py-2 block w-full border border-main rounded-xl select-none'>Đăng xuất</Link>
+                                    <Link to={`/${path.ACCOUNT}/${path.LOGIN}`} onClick={handleLogout} className='text-main px-3 py-2 block w-full border border-main rounded-xl select-none'>Đăng xuất</Link>
                                 </div>
                             }
                         </div>
                     : 
-                        <Link to={`/${path.LOGIN}`} className="text-white bg-bg-btn rounded-xl px-2 flex flex-col items-center cursor-pointer">
+                        <Link 
+                            to={`/${path.ACCOUNT}/${path.LOGIN}`} 
+                            className="text-white bg-bg-btn rounded-xl px-2 flex flex-col items-center cursor-pointer">
                             <IoPersonCircleOutline size={25}/>
                             <span className="text-[12px] px-2 select-none">Đăng nhập</span>
                         </Link>

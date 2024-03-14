@@ -176,3 +176,9 @@ export const updateFavorite = async(data) => await axios({
     data,
     method: 'put',
 })
+
+export const addListSearched = async(data) => await axios({
+    url: 'user/title-searched',
+    params: data,
+    method: 'put',
+})

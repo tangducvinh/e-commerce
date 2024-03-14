@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { Public, Home, Products, DetailProduct, Register, FinalRegister, ForgotPassword, ChangePassword, Checkout } from './pages/public'
 import { AdminLayout, Dashboard, ManageOders, ManageProducts, ManagerUsers } from './pages/private'
 import { MemberLayout, Personal, MyCart, WishList, History } from './pages/member'
+import { AccountLayout } from './pages/account'
 import path from './ultis/path'
 import { fecthCategory } from './store/appSlice'
 import { dataRegister, dataLogin } from './ultis/contants'
@@ -20,15 +21,17 @@ function App() {
   return (
     <div className="min-h-screen font-main">
       <Routes>
-        <Route path={path.PUBLIC} element={<Public />}>
+        <Route path={path.ACCOUNT} element={<AccountLayout />}>
           <Route path={path.LOGIN} element={<Register data={dataLogin}/>}/>
+          <Route path={path.REGISTER} element={<Register data={dataRegister}/>}/>
+        </Route>
+        <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword />}/>
           <Route path={path.CHANGE_PASSWORD} element={<ChangePassword />}/>
           <Route path={path.HOME} element={<Home />}></Route>
           <Route path={path.PRODUCTS} element={<Products />}/>
           <Route path={path.PRODUCTS_CATEGORY} element={<Products />} />
           <Route path={path.DETAIL_PRODUCT_PID} element={<DetailProduct />}/>
-          <Route path={path.REGISTER} element={<Register data={dataRegister}/>}/>
           <Route path={path.CHECKOUT} element={<Checkout />}></Route>
           <Route path={path.ALL} element={<Home />} />
         </Route>

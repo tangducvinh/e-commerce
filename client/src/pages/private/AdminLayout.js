@@ -5,11 +5,11 @@ import path from '../../ultis/path'
 import { AdminSidebar, FormEditInfor, Header, ShowChildren } from '../../companents'
 import { appSlice } from '../../store/appSlice'
 import { adminSidebar } from '../../ultis/contants'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 
-const AdminLayout = () => {
+const AdminLayout = ({dispatch}) => {
     const { isLoggedIn, dataCurrent } = useSelector(state => state.user)
-    const { showEditForm, children } = useSelector(state => state.app)
-    const dispatch = useDispatch()
+    const { showEditForm, children, showOverlay } = useSelector(state => state.app)
 
     if (!isLoggedIn || !dataCurrent || dataCurrent.role !== '7') return <Navigate to={`/${path.LOGIN}`} replace={true} />
     
@@ -30,12 +30,20 @@ const AdminLayout = () => {
                 <ShowChildren children={children}/>
             }
 
+            {showOverlay && 
+                <div 
+                    onClick={() => dispatch(appSlice.actions.setShowOverlay(false))} 
+                    className='bg-overlay absolute w-full h-screen z-20'
+                >
+                </div>
+            }
+
             <div className='fixed w-full top-0 z-40'><Header /></div>
 
-            <div className='h-[104px]'></div>
+            <div className='h-[64px]'></div>
 
             <div className='flex justify-center items-center'>
-                <div className="flex gap-[30px] mt-[30px] w-[1500px]">
+                <div className="flex gap-[30px] mt-[20px] w-[1500px]">
                     <div className='border w-[270px] fixed bg-[#F6FBFC] rounded-lg p-2'>
                         <AdminSidebar data={adminSidebar} />
                     </div>
@@ -51,4 +59,4 @@ const AdminLayout = () => {
     )
 }
 
-export default AdminLayout
+export default withBaseCompanent(AdminLayout)

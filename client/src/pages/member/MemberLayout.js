@@ -5,19 +5,29 @@ import path from '../../ultis/path'
 import { profile } from '../../ultis/contants'
 import { AdminSidebar, ShowChildren } from '../../companents'
 import { Header } from '../../companents'
+import { appSlice } from '../../store/appSlice'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 
-const MenberLayout = () => {
+const MenberLayout = ({dispatch}) => {
     const { isLoggedIn, dataCurrent } = useSelector(state => state.user)
-    const { children } = useSelector(state => state.app)
+    const { children, showOverlay } = useSelector(state => state.app)
     if (!isLoggedIn || !dataCurrent ) return <Navigate to={`/${path.LOGIN}`} replace={true} />
 
     return (
         <div className='relative'>
-            <div className='fixed w-full z-40'>
+            <div className='fixed w-full z-50'>
                 <Header />
             </div>
 
             {children && <ShowChildren children={children}/>}
+
+            {showOverlay && 
+                <div 
+                    onClick={() => dispatch(appSlice.actions.setShowOverlay(false))} 
+                    className='bg-overlay absolute w-full h-screen z-20'
+                >
+                </div>
+            }
 
             <div className='h-[64px]'></div>
 
@@ -39,4 +49,4 @@ const MenberLayout = () => {
 }
 
 
-export default MenberLayout
+export default withBaseCompanent(MenberLayout)

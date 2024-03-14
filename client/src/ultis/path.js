@@ -1,4 +1,9 @@
 const path = {
+    ACCOUNT: 'account',
+    LOGIN: 'login',
+    USER_REGISTER: 'user/register',
+    USER_LOGIN: 'user/login',
+
     PUBLIC: '/',
     HOME: '',
     // ALL: '*',
@@ -6,9 +11,6 @@ const path = {
     FINAL_REGISTER: 'final_register/:status',
     FORGOT_PASSWORD: 'fotgot_password',
     CHANGE_PASSWORD: 'change_password/:token',
-    USER_REGISTER: 'user/register',
-    LOGIN: 'login',
-    USER_LOGIN: 'user/login',
     PRODUCTS: 'products',
     PRODUCTS_CATEGORY: 'products/:category',
     DETAIL_PRODUCT: 'detail_product',

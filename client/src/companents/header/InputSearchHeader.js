@@ -8,7 +8,7 @@ import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 import { ItemProductSearch } from '../../companents'
 import * as apis from '../../apis'
 import path from '../../ultis/path'
-import { createSearchParams } from 'react-router-dom'
+import { createSearchParams, useAsyncValue } from 'react-router-dom'
 
 const InputSearchHeader = ({ dispatch, navigate }) => {
     const { MdOutlineCancel, HiOutlineSearch, IoTimeOutline, GoTrash } = icons
@@ -16,6 +16,7 @@ const InputSearchHeader = ({ dispatch, navigate }) => {
     const { showOverlay } = useSelector(state => state.app)
     const [ dataQuickSearch, setDataQuickSearch ] = useState(null)
     const { dataCurrent } = useSelector(state => state.user)
+    const parentElement = useRef()
 
     const getDataProductSearch = async(data) => {
         const response = await apis.getProductSearch(data)
@@ -25,7 +26,6 @@ const InputSearchHeader = ({ dispatch, navigate }) => {
         }
     }
 
-    console.log(dataCurrent)
     useEffect(() => {
         if (valueSearch) {
             getDataProductSearch({title: valueSearch})
@@ -38,24 +38,49 @@ const InputSearchHeader = ({ dispatch, navigate }) => {
         dispatch(appSlice.actions.setShowOverlay(true))
     }
 
-    const handleListenKey = (e) => {
-        if (e.key === 'Enter') {
+    const handleNavigateToPageSearch = async(value) => {
+        navigate({
+            pathname: `/${path.PRODUCTS}`,
+            search: createSearchParams({
+                title: value
+            }).toString()
+        })
+        dispatch(appSlice.actions.setShowOverlay(false))
 
-            if(valueSearch) {
-                navigate({
-                    pathname: `/${path.PRODUCTS}`,
-                    search: createSearchParams({
-                        title: valueSearch
-                    }).toString()
-                })
-                dispatch(appSlice.actions.setShowOverlay(false))
-            }
-
+        const response = await apis.addListSearched({title: value})
+        if (response.data.success) {
+            dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
         }
     }
 
+    const handleListenKey = async(e) => {
+        if (e.key === 'Enter') {
+            if(valueSearch) {
+                await handleNavigateToPageSearch(valueSearch)
+            }
+        }
+    }
+
+    const handleSearchKeyWord = async(value) => {
+        await handleNavigateToPageSearch(value)
+    }
+
+    useEffect(() => {
+        const handleHiddenInforSearch = (e) => {
+            const result = parentElement.current.contains(e.target)
+
+            if (!result) {
+                dispatch(appSlice.actions.setShowOverlay(false))
+            }
+        }
+
+        document.addEventListener('click', handleHiddenInforSearch)
+
+        return () => document.removeEventListener('click', handleHiddenInforSearch)
+    }, [])
+
     return (
-        <div className="flex relative justify-center items-center">
+        <div ref={parentElement} className="flex relative justify-center items-center">
             <button className="h-[34px] bg-white rounded-l-xl pl-2">
                 <HiOutlineSearch size={20}/>
             </button>
@@ -74,24 +99,34 @@ const InputSearchHeader = ({ dispatch, navigate }) => {
             {showOverlay && 
                 <div className='w-[500px] bg-white absolute top-[140%] overflow-hidden rounded-md left-0 pb-2'>
                     {!dataQuickSearch ? 
-                        <div className='p-3'>
+                        <div className='p-3 min-h-[150px]'>
                             <div className='flex justify-between'>
                                 <div className='flex items-center gap-2'>
                                     <p className='text-[16px] text-[#4A4A4A]'>Lịch sử tìm kiếm</p>
                                     <IoTimeOutline size="17px" />
                                 </div>
 
-                                <div className='flex items-center gap-2'>
-                                    <button className='text-[#86888D] text-[16px] hover:underline'>Xoá tất cả</button>
-                                    <GoTrash size='17px' />
-                                </div>
+                                {dataCurrent?.searcheds.length > 0 && 
+                                    <div className='flex items-center gap-2'>
+                                        <button className='text-[#86888D] text-[16px] hover:underline'>Xoá tất cả</button>
+                                        <GoTrash size='17px' />
+                                    </div>
+                                }
                             </div>
 
-                            <ul className='mt-2 flex-col flex gap-1'>
-                                {dataCurrent.searcheds.map((item, index) => (
-                                    <li key={index} className='text-[#86888D] text-[14px] hover:underline hover:cursor-pointer'>{item}</li>
-                                ))}
-                            </ul>
+                            {dataCurrent?.searcheds.length === 0 ?
+                                    <p className='text-[#86888D] mt-2 text-[14px]'>Hãy thực hiện tìm kiếm</p>
+                                :
+                                <ul className='mt-2 flex-col flex gap-1'>
+                                    {[...dataCurrent?.searcheds]?.reverse()?.map((item, index) => (
+                                        <li 
+                                            key={index} 
+                                            onClick={() => handleSearchKeyWord(item)}
+                                            className='text-[#86888D] text-[14px] hover:underline hover:cursor-pointer'
+                                        >{item}</li>
+                                    ))}
+                                </ul>
+                            }
                         </div>    
                         :
                         <div>

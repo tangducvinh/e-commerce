@@ -127,7 +127,7 @@ export const theme = [
 
 export const dataRegister = {
     id: 1,
-    navigate: `/${path.LOGIN}`,
+    navigate: `/${path.ACCOUNT}/${path.LOGIN}`,
     link: `${process.env.REACT_APP_API_URI}${path.USER_REGISTER}`,
     icon: <GoArrowLeft size={30} color="#4A4A4A"/>,
     image: 'https://account.cellphones.com.vn/_nuxt/img/Shipper_CPS3.77d4065.png',
@@ -183,7 +183,7 @@ export const dataRegister = {
 
 export const dataLogin = {
     id: 2,
-    navigate: `/${path.REGISTER}`,
+    navigate: `/${path.ACCOUNT}/${path.REGISTER}`,
     link: `${process.env.REACT_APP_API_URI}${path.USER_LOGIN}`,
     image: 'https://account.cellphones.com.vn/_nuxt/img/Shipper_CPS3.77d4065.png',
     title: 'Đăng nhập tài khoản Smember',
