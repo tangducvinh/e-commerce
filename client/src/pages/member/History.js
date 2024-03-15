@@ -25,7 +25,7 @@ const History = () => {
     }, [params])
 
     return (
-        <div className='w-full flex flex-col mb-[20px] gap-[20px]'>
+        <div className='w-full flex flex-col mb-[20px] gap-[20px] min-h-main'>
             {dataOrder?.data.map((item, index) => (
                 <ItemOrder data={item} />
             ))}

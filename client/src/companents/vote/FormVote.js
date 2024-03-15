@@ -5,8 +5,10 @@ import icons from '../../ultis/icons'
 import iconvote from '../../assets/imgs/iconvote.png'
 import { starVote } from '../../ultis/contants'
 import * as apis from '../../apis'
+import { appSlice } from '../../store/appSlice'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 
-const FormVote = ({name, setShowForm, pid, setLoadComment}) => {
+const FormVote = ({name, pid, setLoadComment, dispatch}) => {
     const [ star, setStar ] = useState(5)
     const [ starHover, setStarHover ] = useState(0)
     const { IoClose, FaStar } = icons
@@ -25,18 +27,21 @@ const FormVote = ({name, setShowForm, pid, setLoadComment}) => {
             const response = await apis.ratings(passData)
             swal(response.success ? 'Congratulation' : 'Opps', response.mes, response.success ? 'success' : 'error')
             if (response.success) {
-                setShowForm(false)
+                dispatch(appSlice.actions.setChildren(null))
                 setLoadComment(prev => !prev)
             }
         }
     }
 
     return (
-        <div className='p-3'>
+        <div 
+            onClick={e => e.stopPropagation()}
+            className='p-3 w-[600px] bg-white rounded-lg fixed animate-slice-form'
+        >
             <div className='flex justify-between'>
                 <h1 className='text-[#363636] text-[20px] font-bold'>Đánh giá & nhận xét</h1>
 
-                <span onClick={() => setShowForm(false)} className='cursor-pointer'><IoClose size='30'/></span>
+                <span onClick={() => dispatch(appSlice.actions.setChildren(null))} className='cursor-pointer'><IoClose size='30'/></span>
             </div>
 
             <div className='flex mt-2'>
@@ -76,4 +81,4 @@ const FormVote = ({name, setShowForm, pid, setLoadComment}) => {
     )
 }
 
-export default memo(FormVote)
+export default withBaseCompanent(memo(FormVote))

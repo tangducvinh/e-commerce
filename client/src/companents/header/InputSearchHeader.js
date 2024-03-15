@@ -8,7 +8,7 @@ import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 import { ItemProductSearch } from '../../companents'
 import * as apis from '../../apis'
 import path from '../../ultis/path'
-import { createSearchParams, useAsyncValue } from 'react-router-dom'
+import { createSearchParams } from 'react-router-dom'
 
 const InputSearchHeader = ({ dispatch, navigate }) => {
     const { MdOutlineCancel, HiOutlineSearch, IoTimeOutline, GoTrash } = icons
@@ -33,10 +33,6 @@ const InputSearchHeader = ({ dispatch, navigate }) => {
             setDataQuickSearch(null)
         }
     }, [valueSearch])
-
-    const handleClickInput = () => {
-        dispatch(appSlice.actions.setShowOverlay(true))
-    }
 
     const handleNavigateToPageSearch = async(value) => {
         navigate({
@@ -71,6 +67,8 @@ const InputSearchHeader = ({ dispatch, navigate }) => {
 
             if (!result) {
                 dispatch(appSlice.actions.setShowOverlay(false))
+            } else {
+                dispatch(appSlice.actions.setShowOverlay(true))
             }
         }
 
@@ -78,6 +76,14 @@ const InputSearchHeader = ({ dispatch, navigate }) => {
 
         return () => document.removeEventListener('click', handleHiddenInforSearch)
     }, [])
+
+    const handleDeleteAllTitleSearched = async() => {
+        const response = await apis.removeAllTitleSearched()
+        
+        if(response.data.success) {
+            dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
+        }
+    }
 
     return (
         <div ref={parentElement} className="flex relative justify-center items-center">
@@ -87,7 +93,6 @@ const InputSearchHeader = ({ dispatch, navigate }) => {
 
             <input 
                 onKeyDown={e => handleListenKey(e)}
-                onClick={handleClickInput}
                 className="h-[34px] w-[279px] rounded-r-xl pl-1 outline=none placeholder:text-[16px] outline-none" 
                 placeholder="Bạn cần tìm gì?"
                 value={valueSearch}
@@ -108,7 +113,7 @@ const InputSearchHeader = ({ dispatch, navigate }) => {
 
                                 {dataCurrent?.searcheds.length > 0 && 
                                     <div className='flex items-center gap-2'>
-                                        <button className='text-[#86888D] text-[16px] hover:underline'>Xoá tất cả</button>
+                                        <button onClick={handleDeleteAllTitleSearched} className='text-[#86888D] text-[16px] hover:underline'>Xoá tất cả</button>
                                         <GoTrash size='17px' />
                                     </div>
                                 }

@@ -4,12 +4,15 @@ import swal from 'sweetalert'
 
 import icons from '../../ultis/icons'
 import { Button, InputSearchHeader } from '../../companents'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import path from '../../ultis/path'
 import { userSlice } from '../../store/userSlice'
 import * as apis from '../../apis'
+import { Sidebar } from '../../companents'
+import { appSlice } from '../../store/appSlice'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 
-const Header = () => {
+const Header = ({ dispatch, navigate }) => {
     const { 
         LuMenuSquare, 
         MdOutlineLocalOffer, 
@@ -21,13 +24,14 @@ const Header = () => {
         BsHandbag,
         IoPersonCircleOutline,
     } = icons   
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     const { dataCurrent, isLoggedIn } = useSelector(state => state.user)
     const name = dataCurrent?.name?.split(' ')
     const [ show, setShow ] = useState(false)
     const optionElement = useRef()
+    const [ showSidebar, setShowSidebar ] = useState(false)
+    const parentElement = useRef()
+    const { showOverlaySidebar } = useSelector(state => state.app)
 
     const fecthDataCurrentUser = () => {
         setTimeout(async() => {
@@ -67,6 +71,29 @@ const Header = () => {
         return () => document.removeEventListener('click', handleHiddenOption)
     }, [])
 
+    const handleSetSibar = () => {
+        setShowSidebar(prev => !prev)
+        console.log('hello')
+        dispatch(appSlice.actions.setShowOverlay(true))
+    }
+
+    useEffect(() => {
+        const handleHiddenInforSearch = (e) => {
+            const result = parentElement.current.contains(e.target)
+
+            if (!result) {
+                dispatch(appSlice.actions.setShowOverlaySidebar(false))
+            } else {
+                dispatch(appSlice.actions.setShowOverlaySidebar(true))
+            }
+        }
+
+        document.addEventListener('click', handleHiddenInforSearch)
+
+        return () => document.removeEventListener('click', handleHiddenInforSearch)
+    }, [])
+
+
     return (
         <div>
             {/* <div className="h-10 bg-gray flex justify-center items-center">
@@ -85,9 +112,18 @@ const Header = () => {
                         <img className="h-[30px] w-[30px]" alt="cellphones" src="https://cdn2.cellphones.com.vn/x/media/favicon/default/logo-cps.png"></img>
                     </Link>
 
-                    <div className="flex items-center w-[95px] h-[42px] bg-bg-btn justify-center rounded-xl cursor-pointer">
+                    <div 
+                        ref={parentElement}
+                        className="flex items-center w-[95px] h-[42px] relative bg-bg-btn justify-center rounded-xl cursor-pointer"
+                    >
                         <LuMenuSquare color={'white'} size={20}/>
-                        <span className="ml-1 text-white text-[12px]">Danh mục</span>
+                        <span className="ml-1 text-white text-[12px] select-none">Danh mục</span>
+
+                        {showOverlaySidebar && 
+                            <div className='absolute top-[150%] bg-white rounded-lg shadow-md right-[125%] pb-2 w-[220px]'>
+                                <Sidebar />
+                            </div>
+                        }
                     </div>
 
                     <div className="w-[130px] h-[39px] flex items-center cursor-pointer text-white bg-bg-btn mx-[10px] justify-center rounded-xl">
@@ -142,4 +178,4 @@ const Header = () => {
     )
 }
 
-export default Header
+export default withBaseCompanent(Header)

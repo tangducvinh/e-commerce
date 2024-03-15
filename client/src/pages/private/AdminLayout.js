@@ -1,20 +1,20 @@
 import { Outlet, Navigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import path from '../../ultis/path'
-import { AdminSidebar, FormEditInfor, Header, ShowChildren } from '../../companents'
+import { AdminSidebar, FormEditInfor, Header } from '../../companents'
 import { appSlice } from '../../store/appSlice'
 import { adminSidebar } from '../../ultis/contants'
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 
 const AdminLayout = ({dispatch}) => {
     const { isLoggedIn, dataCurrent } = useSelector(state => state.user)
-    const { showEditForm, children, showOverlay } = useSelector(state => state.app)
+    const { showEditForm } = useSelector(state => state.app)
 
     if (!isLoggedIn || !dataCurrent || dataCurrent.role !== '7') return <Navigate to={`/${path.LOGIN}`} replace={true} />
     
     return (
-        <div className='relative'>
+        <div className='relative w-full'>
             {showEditForm && 
                 <div 
                     onClick={() => dispatch(appSlice.actions.setShowEditForm(false))} 
@@ -23,18 +23,6 @@ const AdminLayout = ({dispatch}) => {
                     <div className='flex items-center justify-center w-screen h-screen'>
                         <FormEditInfor />
                     </div>
-                </div>
-            }
-
-            {children && 
-                <ShowChildren children={children}/>
-            }
-
-            {showOverlay && 
-                <div 
-                    onClick={() => dispatch(appSlice.actions.setShowOverlay(false))} 
-                    className='bg-overlay absolute w-full h-screen z-20'
-                >
                 </div>
             }
 

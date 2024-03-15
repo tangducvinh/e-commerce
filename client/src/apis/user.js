@@ -182,3 +182,8 @@ export const addListSearched = async(data) => await axios({
     params: data,
     method: 'put',
 })
+
+export const removeAllTitleSearched = async() => await axios({
+    url: 'user/delete-all-title-search',
+    method: 'delete',
+})

@@ -23,6 +23,9 @@ module.exports = {
         five: 'calc(20% - 8px)',
         four: 'calc(25% - 8px)',
       },
+      minHeight: {
+        main: '880px'
+      },
       backgroundColor: {
         main: '#D70018',
         gray: '#E9EFFF',

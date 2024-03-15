@@ -1,9 +1,7 @@
 
-
-
 const ManageOders = () => {
     return (
-        <div>
+        <div className="min-h-main">
             ManageOders
         </div>
     )

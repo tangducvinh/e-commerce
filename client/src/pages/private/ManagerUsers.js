@@ -37,7 +37,7 @@ const ManageUsers = () => {
     }, [])
 
     return (
-        <div className='realtive'>
+        <div className='realtive min-h-main'>
             <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-[30px] text-gray-600'>
                     <h3 className='text-[24px]'>Manage Users</h3>

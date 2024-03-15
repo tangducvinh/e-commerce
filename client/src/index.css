@@ -76,7 +76,7 @@
     }
 }
 
-button.slick-prev::before {
+/* button.slick-prev::before {
     background-color: rgba(255, 255, 255, 0.9);
     box-shadow: 0 0 4px 0 rgba(0,0,0,.2);
     content: '\276F';
@@ -93,6 +93,11 @@ button.slick-prev::before {
     align-items: center;
     justify-content: center;
     position: absolute;
+    z-index: 50;
+} */
+
+button.slick-prev::before {
+    display: none;
 }
 
 

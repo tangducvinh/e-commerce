@@ -4,11 +4,23 @@ import { memo } from 'react'
 import path from '../../ultis/path'
 import { appSlice } from '../../store/appSlice'
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
+import * as apis from '../../apis'
+import { userSlice } from '../../store/userSlice'
 
 const ItemProductSearch = ({pid, image, sale, price, title, dispatch}) => {
+
+    const handleClickSearch = async() => {
+        dispatch(appSlice.actions.setShowOverlay(false))
+
+        const response = await apis.addListSearched({title})
+        if (response.data.success) {
+            dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
+        }
+    }
+
     return (
         <Link 
-            onClick={() => dispatch(appSlice.actions.setShowOverlay(false))} 
+            onClick={handleClickSearch} 
             to={`/${path.DETAIL_PRODUCT}/${pid}`} 
             className="flex items-center gap-2"
         >

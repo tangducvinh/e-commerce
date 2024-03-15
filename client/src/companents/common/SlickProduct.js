@@ -11,7 +11,6 @@ const SlickProduct = ({ data, title, row = 1, incentives }) => {
 
     var settings = {
         dots: false,
-        infinite: true,
         autoplay: true,
         autoplaySpeed: 5000,
         pauseOnFocus: false,
@@ -32,7 +31,7 @@ const SlickProduct = ({ data, title, row = 1, incentives }) => {
                 </div>
             }
             <Slice {...settings}>
-                {data?.map((item, index) => (
+                {data?.filter((item, index) => index < 14)?.map((item, index) => (
                     <ItemProduct 
                         key={index}
                         image = {item?.images[0]}

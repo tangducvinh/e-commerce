@@ -19,6 +19,7 @@ export const appSlice = createSlice({
         isChangeDataUsers: false,
         children: null,
         showOverlay: false,
+        showOverlaySidebar: false,
     },
     reducers: {
         getCategory: (state, action) => {
@@ -41,6 +42,9 @@ export const appSlice = createSlice({
         },
         setShowOverlay: (state, action) => {
             state.showOverlay = action.payload
+        },
+        setShowOverlaySidebar: (state, action) => {
+            state.showOverlaySidebar = action.payload
         },
     },
     extraReducers: (builder) => {

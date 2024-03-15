@@ -4,8 +4,10 @@ import { useSelector } from 'react-redux'
 import icons from '../../ultis/icons'
 import { iconSidebar } from '../../ultis/contants'
 import { categorySelector } from '../../store/selectors'
+import { appSlice } from '../../store/appSlice'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 
-const Sidebar = () => {
+const Sidebar = ({ dispatch }) => {
     const { categorys } = useSelector(categorySelector)
     const { FaChevronRight } = icons
 
@@ -13,6 +15,7 @@ const Sidebar = () => {
         <div className="flex flex-col">
             {categorys?.data?.map((item, index) => (
                 <div 
+                    onClick={() => dispatch(appSlice.actions.setShowOverlaySidebar(false))}
                     key={index}
                     className="flex items-center px-[10px] py-1 rounded-xl cursor-pointer hover:bg-hv"
                 >
@@ -28,4 +31,4 @@ const Sidebar = () => {
     )
 }
 
-export default Sidebar
+export default withBaseCompanent(Sidebar)

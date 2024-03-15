@@ -72,7 +72,7 @@ const Banner = () => {
             </div>
 
             <div className="flex pl-4 select-none h-[70px] relative overflow-hidden">
-                <div className="flex absolute overflow-x-scroll w-full">
+                <div className="flex absolute overflow-x-scroll w-full scroll-smooth">
                     {banners.map((item, index) => (
                         <div 
                             key={index}

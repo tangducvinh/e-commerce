@@ -581,6 +581,30 @@ const addTitleSearched = asyncHandler(async(req, res) => {
     })
 })
 
+const removeAllTitleSearch = asyncHandler(async(req, res) => {
+    const { _id } = req.user
+    
+    const response = await User.findByIdAndUpdate({_id: _id, searcheds: {$exists: true}}, {$set: {searcheds: []}}, {new: true}).populate([
+        {
+            path: 'cart',
+            populate: {
+                path: 'product',
+                select: 'images price title quanlity'
+            }
+        },
+        {
+            path: 'wishlist',
+            select: 'images price ratings star title totalRatings'
+        }
+    ])
+
+    return res.json({
+        success: response ? true : false,
+        data: response ? response : 'No data',
+        mes: response ? 'Xoá thành công' : 'Xoá thất bại vui lòng thực hiện lại'
+    })
+})
+
 module.exports = {
     register,
     finalRegister,
@@ -602,4 +626,5 @@ module.exports = {
     updateQuanlityProductCart,
     addWishList,
     addTitleSearched,
+    removeAllTitleSearch,
 }

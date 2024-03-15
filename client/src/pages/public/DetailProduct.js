@@ -9,9 +9,10 @@ import { SlickProduct, FormVote, ResultVote, CommentVote } from '../../companent
 import path from '../../ultis/path'
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 import { userSlice } from '../../store/userSlice'
+import { appSlice } from '../../store/appSlice'
 
 const DetailProduct = ({dispatch, navigate}) => {
-    const { isLoggedIn, dataCurrent } = useSelector(state => state.user)
+    const { isLoggedIn } = useSelector(state => state.user)
     const { pid } = useParams()
     const [ dataDetaiProduct, setDataDetaiProduct ] = useState(null)
     const { FaStar, HiGift, FaCartPlus, FaCheck } = icons
@@ -60,7 +61,7 @@ const DetailProduct = ({dispatch, navigate}) => {
                 if(rs) navigate(`/${path.LOGIN}`)
             })
         }
-        else setShowForm(true)
+        else dispatch(appSlice.actions.setChildren(<FormVote setLoadComment={setLoadComment} name={dataDetaiProduct?.title} pid={pid} />))
     }
 
     const handleAddToCart = async() => {
@@ -86,20 +87,6 @@ const DetailProduct = ({dispatch, navigate}) => {
 
     return (
         <div className='flex justify-center relative'>
-
-            {showForm && 
-                <div 
-                    onClick={() => setShowForm(false)}
-                    className='absolute right-0 top-[-104px] left-0 bottom-0 bg-overlay z-10'
-                >
-                    <div className='flex justify-center w-srceen h-screen items-center'>
-                        <div onClick={e => e.stopPropagation()} className='w-[600px] bg-white rounded-lg fixed animate-slice-form'>
-                            <FormVote setLoadComment={setLoadComment} name={dataDetaiProduct?.title} setShowForm={setShowForm} pid={pid}/>
-                        </div>    
-                    </div>    
-                </div>
-            }
-
             <div className='flex w-[1220px] flex-col'>
                 <div className='w-full flex items-center h-[60px] gap-2 border-b-2'>
                     <h3 className='font-bold text=[#0A263C] text-[18px]'>{dataDetaiProduct?.title}</h3>

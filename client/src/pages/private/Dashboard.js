@@ -4,7 +4,7 @@ const Dashboard = () => {
     
 
     return (
-        <div>Dashborad</div>
+        <div className="min-h-main">Dashborad</div>
     )
 }
 

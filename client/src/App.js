@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 import { Public, Home, Products, DetailProduct, Register, FinalRegister, ForgotPassword, ChangePassword, Checkout } from './pages/public'
 import { AdminLayout, Dashboard, ManageOders, ManageProducts, ManagerUsers } from './pages/private'
@@ -10,16 +11,40 @@ import { AccountLayout } from './pages/account'
 import path from './ultis/path'
 import { fecthCategory } from './store/appSlice'
 import { dataRegister, dataLogin } from './ultis/contants'
+import { appSlice } from './store/appSlice'
+import { ShowChildren } from './companents'
 
 function App() {
   const dispatch = useDispatch()
-
+  const { showOverlay, showOverlaySidebar, children } = useSelector(state => state.app)
+ 
   useEffect(() => {
     dispatch(fecthCategory())
   }, [dispatch])
   
   return (
-    <div className="min-h-screen font-main">
+    <div className="font-main relative">
+      {showOverlay && 
+        <div 
+            onScroll={(e) => e.stopPropagation()}
+            onClick={() => dispatch(appSlice.actions.setShowOverlay(false))} 
+            className='bg-overlay absolute w-full h-full z-30'
+        >
+        </div>
+      }
+
+      {showOverlaySidebar && 
+        <div 
+            onClick={() => dispatch(appSlice.actions.setShowOverlaySidebar(false))} 
+            className='bg-overlay absolute w-full h-full z-20'
+        >
+        </div>
+      }
+
+      {children && 
+        <ShowChildren children={children}/>
+      }
+
       <Routes>
         <Route path={path.ACCOUNT} element={<AccountLayout />}>
           <Route path={path.LOGIN} element={<Register data={dataLogin}/>}/>
