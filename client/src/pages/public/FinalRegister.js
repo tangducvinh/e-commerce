@@ -8,11 +8,11 @@ const FinalRegister = () => {
     
     if (status === 'true') {
         swal('Congratulation', 'Đăng kí thành công. Vui lòng đăng nhập', 'success').then(() => {
-            navigate(`/${path.LOGIN}`)
+            navigate(`/${path.ACCOUNT}/${path.LOGIN}`)
         })
     } else {
         swal('Opps', 'Xác thực tài khoản thất bại vui lòng thử lại sau', 'error').then(() => {
-            navigate(`/${path.LOGIN}`)
+            navigate(`/${path.ACCOUNT}/${path.LOGIN}`)
         })
     }
 

@@ -49,7 +49,7 @@ const ItemProduct = ({ image, discount, title, price, sale, star, incentives, pi
             }
 
             <div className="mt-2 flex flex-col">
-                <p className="text-[#444444] font-[500] line-clamp-3 h-[75px]">{title}</p>
+                <p className="text-[#444444] font-[500] text-[15px] text-left line-clamp-3 h-[75px]">{title}</p>
 
                 <div className="flex gap-1 font-[500]">
                     <p className="font-[16px] text-[#D70018]">{sale}</p>

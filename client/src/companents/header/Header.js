@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useEffect, useState, useRef } from 'react'
 import swal from 'sweetalert'
 
@@ -40,7 +40,7 @@ const Header = ({ dispatch, navigate }) => {
             if (!response?.data.success) {
                 dispatch(userSlice.actions.logout())
                 swal('Oops', 'Phiên đăng nhập đã hết hạn vui lòng thực hiện đăng nhập lại', 'error').then(() => {
-                    navigate(`/${path.LOGIN}`)
+                    navigate(`/${path.ACCOUNT}/${path.LOGIN}`)
                 })
             } else {
                 dispatch(userSlice.actions.setDataUserCurrent(response.data.rs))

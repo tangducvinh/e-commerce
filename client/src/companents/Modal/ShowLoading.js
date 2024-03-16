@@ -2,7 +2,9 @@ import { Loading } from '../../companents'
 
 const ShowLoading = () => {
     return (
-        <div><Loading/></div>
+        <div>
+            <Loading />
+        </div>
     )
 }
 

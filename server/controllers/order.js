@@ -59,8 +59,7 @@ const getUserOder = asyncHandler(async(req, res) => {
 
     queryCommand.exec()
         .then(async(response) => {
-            const counts = await Order.find(formatedQueries).countDocuments()
- 
+            const counts = await Order.find(queryCommand).countDocuments()
         
             return res.status(200).json({
                 success: response ? true : false,

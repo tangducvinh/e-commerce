@@ -1,17 +1,17 @@
-import { useParams, createSearchParams, useLocation } from 'react-router-dom'
+import { useParams, createSearchParams } from 'react-router-dom'
 import { useEffect, useState, memo } from 'react'
 import { useSelector } from 'react-redux'
 import swal from 'sweetalert'
 
 import * as apis from '../../apis'
 import icons from '../../ultis/icons'
-import { SlickProduct, FormVote, ResultVote, CommentVote } from '../../companents'
+import { SlickProduct, FormVote, ResultVote, CommentVote, ShowLoading } from '../../companents'
 import path from '../../ultis/path'
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 import { userSlice } from '../../store/userSlice'
 import { appSlice } from '../../store/appSlice'
 
-const DetailProduct = ({dispatch, navigate}) => {
+const DetailProduct = ({dispatch, navigate, location}) => {
     const { isLoggedIn } = useSelector(state => state.user)
     const { pid } = useParams()
     const [ dataDetaiProduct, setDataDetaiProduct ] = useState(null)
@@ -20,9 +20,7 @@ const DetailProduct = ({dispatch, navigate}) => {
     const [ version, setVersion ] = useState(0)
     const [ variant, setVariant ] = useState(0)
     const [ dataProducts, setDataProducts ] = useState(null)
-    const [ showForm, setShowForm ] = useState(false)
     const [ loadComment, setLoadComment ] = useState(false)
-    const location = useLocation()
 
     const renderStarVisible = [
         <FaStar color='#f59e0b'/>, 
@@ -36,10 +34,12 @@ const DetailProduct = ({dispatch, navigate}) => {
         const response = await apis.getDetailProduct(pid)
         setDataDetaiProduct(response)
     }
+
     const fecthProducts = async(category) => {
         const response = await apis.getProducts(category)
         setDataProducts(response)
     }
+    
     useEffect(() => {
         fecthDetailProduct(pid)
         fecthProducts(dataDetaiProduct?.category)
@@ -58,17 +58,23 @@ const DetailProduct = ({dispatch, navigate}) => {
                 buttons: true,
                 dangerMode: true,
             }).then((rs) => {
-                if(rs) navigate(`/${path.LOGIN}`)
+                if(rs) navigate({
+                    pathname: `/${path.ACCOUNT}/${path.LOGIN}`,
+                    search: createSearchParams({redirect: location.pathname}).toString()
+                })
             })
         }
         else dispatch(appSlice.actions.setChildren(<FormVote setLoadComment={setLoadComment} name={dataDetaiProduct?.title} pid={pid} />))
     }
 
-    const handleAddToCart = async() => {
+    const handleAddToCart = async(status) => {
         if (isLoggedIn) {
             const response = await apis.updateCart({pid, color: dataDetaiProduct?.variants[variant].color})
             dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
-            swal(response.data.success ? 'Congratulation' : 'Oops', response.data.mes, response.data.success ? 'success' : 'error')
+            if (status === 'add') swal(response.data.success ? 'Congratulation' : 'Oops', response.data.mes, response.data.success ? 'success' : 'error')
+            if (status === 'buy') {
+                navigate(`/${path.MEMBER}/${path.MYCART}`)
+            }
         } else {
             swal({
                 title: 'Opps',
@@ -78,7 +84,7 @@ const DetailProduct = ({dispatch, navigate}) => {
                 showCancelButton: true,
             }).then((rs) => {
                 if (rs) navigate({
-                    pathname: `/${path.LOGIN}`,
+                    pathname: `/${path.ACCOUNT}/${path.LOGIN}`,
                     search: createSearchParams({redirect: location.pathname}).toString()
                 })
             })
@@ -198,9 +204,12 @@ const DetailProduct = ({dispatch, navigate}) => {
 
                         <div className='mt-4'>
                             <div className='flex gap-3'>
-                                <button className='flex-8 bg-main rounded-xl text-white font-bold h-[60px]'>MUA NGAY</button>
+                                <button 
+                                    onClick={() => handleAddToCart('buy')}
+                                    className='flex-8 bg-main rounded-xl text-white font-bold h-[60px]'
+                                >MUA NGAY</button>
                                 <div
-                                    onClick={handleAddToCart} 
+                                    onClick={() => handleAddToCart('add')} 
                                     className='flex-2 rounded-xl border-2 border-main flex justify-center items-center flex-col cursor-pointer'>
                                     <FaCartPlus size={25} color='#E40404'/>
                                     <span className='text-[9px] text-[#E40404]'>Thêm giỏ hàng</span>

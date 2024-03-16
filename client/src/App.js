@@ -16,7 +16,7 @@ import { ShowChildren } from './companents'
 
 function App() {
   const dispatch = useDispatch()
-  const { showOverlay, showOverlaySidebar, children } = useSelector(state => state.app)
+  const { showOverlay, showOverlaySidebar, children, isLoading } = useSelector(state => state.app)
  
   useEffect(() => {
     dispatch(fecthCategory())
@@ -24,6 +24,7 @@ function App() {
   
   return (
     <div className="font-main relative">
+
       {showOverlay && 
         <div 
             onScroll={(e) => e.stopPropagation()}
@@ -57,7 +58,6 @@ function App() {
           <Route path={path.PRODUCTS} element={<Products />}/>
           <Route path={path.PRODUCTS_CATEGORY} element={<Products />} />
           <Route path={path.DETAIL_PRODUCT_PID} element={<DetailProduct />}/>
-          <Route path={path.CHECKOUT} element={<Checkout />}></Route>
           <Route path={path.ALL} element={<Home />} />
         </Route>
         <Route path={path.ADMIN} element={<AdminLayout />}>
@@ -67,6 +67,7 @@ function App() {
           <Route path={path.MANAGE_BILL} element={<ManageOders />} />
         </Route>
         <Route path={path.MEMBER} element={< MemberLayout/>}>
+          <Route path={path.CHECKOUT} element={<Checkout />}></Route>
           <Route path={path.PERSONAL} element={< Personal />} />
           <Route path={path.MYCART} element={< MyCart />} />
           <Route path={path.WISHLIST} element={< WishList />} />

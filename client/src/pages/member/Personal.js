@@ -18,7 +18,7 @@ const Personal = ({ dispatch }) => {
     const [ checkAddress, setCheckAddress ] = useState(null)
 
     useEffect(() => {
-        dataCurrent.address.forEach((item, index) => {
+        dataCurrent?.address.forEach((item, index) => {
             if (item?.street.localeCompare(dataCurrent.addressDefault?.street) === 0
                 && item?.city.localeCompare(dataCurrent.addressDefault?.city) === 0
                 && item?.ward.localeCompare(dataCurrent.addressDefault?.ward) === 0
@@ -115,7 +115,7 @@ const Personal = ({ dispatch }) => {
             <div className='w-[50%]'>
                 <div className='mb-3'>
                     <h2 className='font-medium text-gray-500 text-[14px]'>{'Địa chỉ (mặc định)'}</h2>
-                    {checkAddress !== null && dataCurrent.addressDefault ?
+                    {checkAddress !== null && dataCurrent?.addressDefault ?
                         <p className='text-[14px]'>{`${data?.address[checkAddress]?.street}, ${data?.address[checkAddress]?.ward}, ${data?.address[checkAddress]?.county}, ${data?.address[checkAddress]?.city}`}</p>
                         : <p className='text-[14px]'>{'Chưa có địa chỉ mặc định'}</p>
                     }

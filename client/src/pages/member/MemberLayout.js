@@ -7,8 +7,8 @@ import { AdminSidebar } from '../../companents'
 import { Header } from '../../companents'
 
 const MenberLayout = () => {
-    const { isLoggedIn, dataCurrent } = useSelector(state => state.user)
-    if (!isLoggedIn || !dataCurrent ) return <Navigate to={`/${path.LOGIN}`} replace={true} />
+    const { token } = useSelector(state => state.user)
+    if (!token ) return <Navigate to={`/${path.ACCOUNT}/${path.LOGIN}`} replace={true} />
 
     return (
         <div className='relative min-h-[965px]'>

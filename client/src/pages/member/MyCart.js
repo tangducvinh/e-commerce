@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useState, useCallback, Fragment, useEffect } from 'react'
 
-import { ItemProductMyCart } from '../../companents'
+import { ItemProductMyCart, EmptyPage } from '../../companents'
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 import icons from '../../ultis/icons'
 import * as apis from '../../apis'
@@ -67,65 +67,72 @@ const MyCart = ({ dispatch, navigate}) => {
         if (checks.length > 0) {
             let newArray = dataCurrent.cart.filter(item => checks.some(el => el === item._id))
             dispatch(userSlice.actions.setDataCartCheckout(newArray))
-            navigate(`/${path.CHECKOUT}`)
+            navigate(`/${path.MEMBER}/${path.CHECKOUT}`)
         }
     }
 
     return (
-        <div className='relative'>
-            <h1 className='font-bold text-[24px] text-gray-600'>Giỏ hàng của bạn</h1>
-
-            <div className='flex items-center justify-between'>
-                <div className='flex items-center gap-2'>
-                    <button onClick={handleChooseAll} className='w-[20px] h-[20px] rounded-full border-2 relative flex items-center justify-center'>
-                        {dataCurrent.cart.length === checks.length && <FaCircleCheck color='red' />}
-                    </button>
-                    {dataCurrent.cart.length === checks.length ? <span>Bỏ chọn tất cả</span> : <span>Chọn tất cả</span>}
+        <div className='w-full'>
+            {dataCurrent?.cart.length === 0 ?
+                <div className='mt-10'>
+                    <EmptyPage />
                 </div>
+            :
+                <div className='relative'>
+                    <h1 className='font-bold text-[24px] text-gray-600'>Giỏ hàng của bạn</h1>
 
-                {checks.length > 0 && 
-                    <em className='hover:cursor-pointer text-[#9F9D9D] text-[14px] hover:text-gray-600 hover:underline'>Xoá sản phẩm đã chọn</em>
-                }
-            </div>
+                    <div className='flex items-center justify-between'>
+                        <div className='flex items-center gap-2'>
+                            <button onClick={handleChooseAll} className='w-[20px] h-[20px] rounded-full border-2 relative flex items-center justify-center'>
+                                {dataCurrent.cart.length === checks.length && <FaCircleCheck color='red' />}
+                            </button>
+                            {dataCurrent.cart.length === checks.length ? <span>Bỏ chọn tất cả</span> : <span>Chọn tất cả</span>}
+                        </div>
 
-            <div className='mt-[10px] flex flex-col gap-2 w-[600px]'>
-                {dataCurrent.cart.map((item, index) => (
-                    <Fragment key={item.product?.name}>
-                        <ItemProductMyCart 
-                            name={item?.product?.title} 
-                            image={item?.product?.images?.[0]} 
-                            price={item?.product.price?.price} 
-                            discount={item?.product.price?.sale} 
-                            quanlity={item?.quanlity}
-                            color={item?.color} 
-                            index={index}
-                            onCheck={handleCheck}
-                            pid={item.product?._id}
-                            isChecked={checks.some(el => el === item._id)}
-                            onDeleteProduct={handleDeleteProduct}
-                            path={`/${path.DETAIL_PRODUCT}/${item.product._id}`}
-                            id={item._id}
-                        />
-                    </Fragment>
-                ))}
-            </div>
+                        {checks.length > 0 && 
+                            <em className='hover:cursor-pointer text-[#9F9D9D] text-[14px] hover:text-gray-600 hover:underline'>Xoá sản phẩm đã chọn</em>
+                        }
+                    </div>
 
-            <div className='h-[100px]'></div>
+                    <div className='mt-[10px] flex flex-col gap-2 w-[600px]'>
+                        {[...dataCurrent.cart].reverse().map((item, index) => (
+                            <Fragment key={item.product?.name}>
+                                <ItemProductMyCart 
+                                    name={item?.product?.title} 
+                                    image={item?.product?.images?.[0]} 
+                                    price={item?.product.price?.price} 
+                                    discount={item?.product.price?.sale} 
+                                    quanlity={item?.quanlity}
+                                    color={item?.color} 
+                                    index={index}
+                                    onCheck={handleCheck}
+                                    pid={item.product?._id}
+                                    isChecked={checks.some(el => el === item._id)}
+                                    onDeleteProduct={handleDeleteProduct}
+                                    path={`/${path.DETAIL_PRODUCT}/${item.product._id}`}
+                                    id={item._id}
+                                />
+                            </Fragment>
+                        ))}
+                    </div>
 
-            <div className='w-[600px] px-2 pt-2 pb-4 flex bg-white items-center rounded-md border-[1px] justify-between fixed bottom-0'>
-                <div className='flex flex-col'>
-                    <p className='text-[14px] font-medium'>Tạm tính</p>
-                    <p className='text-main text-[16px] font-semibold'>{`${total.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})}`}</p>
+                    <div className='h-[100px]'></div>
+
+                    <div className='w-[600px] px-2 pt-2 pb-4 flex bg-white items-center rounded-md border-[1px] justify-between fixed bottom-0'>
+                        <div className='flex flex-col'>
+                            <p className='text-[14px] font-medium'>Tạm tính</p>
+                            <p className='text-main text-[16px] font-semibold'>{`${total.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})}`}</p>
+                        </div>
+
+                        <button 
+                            onClick={handleCheckout}
+                            className='py-2 px-4 text-white bg-main text-[16px] rounded-md'
+                        >
+                            {`Mua ngay (${checks.length})`}
+                        </button>
+                    </div>
                 </div>
-
-                <button 
-                    onClick={handleCheckout}
-                    to={`/${path.CHECKOUT}`}
-                    className='py-2 px-4 text-white bg-main text-[16px] rounded-md'
-                >
-                    {`Mua ngay (${checks.length})`}
-                </button>
-            </div>
+            }
         </div>
     )
 }
