@@ -50,7 +50,7 @@ const Banner = () => {
                 onMouseLeave={() => handleHidden()}
             >
                 <img 
-                    className="object-cover w-full cursor-pointer" src={banners[number].link}
+                    className="object-cover w-full cursor-pointer" src={banners[number]?.link}
                     alt='banner'
                 ></img>
 
