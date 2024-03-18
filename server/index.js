@@ -6,13 +6,11 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 
 const app = express()
-app.use(function(req, res, next) {
-    // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Origin", process.env.CLIENT_URL);
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-    });
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    methods: ["POST", 'PUT', 'GET', 'DELETE'],
+    credentials: true,
+}))
 
 app.use(cookieParser())
 const port = process.env.PORT || 7777
