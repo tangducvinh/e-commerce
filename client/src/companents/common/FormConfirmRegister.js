@@ -13,7 +13,7 @@ const FormConfirmRegister = ( { dispatch }) => {
     const handleClickConfirm = async() => {
         if (value) {
             const response = await apis.finalRegister({code: value})
-            console.log(cookies)
+
             console.log(response)
 
         }
