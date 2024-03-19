@@ -10,7 +10,9 @@ const sendMail = asyncHandler(async ({ email, html, subject }) => {
             user: process.env.EMAIL_NAME,
             pass: process.env.EMAIL_APP_PASSWORD,
         },
+        tls: { rejectUnauthorized: false}
     })
+    
 
     let info = await transporter.sendMail({
         from: "'ecommercebytdv' <no-reply@ecommercebytdv.com>",

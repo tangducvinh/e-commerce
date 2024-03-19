@@ -18,6 +18,12 @@ export const register = (data) => {
     })
 }
 
+export const finalRegister = async(data) => await axios({
+    url: 'user/final-register',
+    params: data,
+    method: 'get'
+})
+
 export const login = (data) => {
     return new Promise(async(resolve, reject) => {
         try {

@@ -33,10 +33,15 @@ const register = asyncHandler(async(req, res) => {
         }
     }
 
-    const token = uniqid()
-    res.cookie('dataregister', { ...req.body, token }, {httpOnly: true, maxAge: 3*60*1000})
-    const html = `Xin vui lòng click vào link dưới đây để xác thực email. Link này sẽ hết hiệu lực trong 3 phút kể từ bây giờ. 
-    <a href=${process.env.URL_SERVER}api/user/final-register/${token}>Xác thực</a>`
+    const codeConfirm = Math.round(Math.random() * 1000000)
+    const encodeCodeConfirm = btoa(codeConfirm)
+
+
+    res.cookie('dataregister', { ...req.body, encodeCodeConfirm }, {httpOnly: true, maxAge: 3*60*1000})
+    // const html = `Xin vui lòng click vào link dưới đây để xác thực email. Link này sẽ hết hiệu lực trong 3 phút kể từ bây giờ. 
+    // <a href=${process.env.URL_SERVER}api/user/final-register/${codeConfirm}>Xác thực</a>`
+
+    const html = `Mã xác nhận của bạn là: ${codeConfirm} .Vui lòng nhập mã xác nhận để đăng kí tài khoản`
 
     try {
         await sendMail({email, html, subject: 'Xác thực email'})
@@ -45,7 +50,8 @@ const register = asyncHandler(async(req, res) => {
             success: true,
             mess: "Check email để hoàn thành đăng kí tài khoản"
         })
-    } catch {
+    } catch(e) {
+        console.log(e)
         return res.json({
             success: false,
             mess: "Email đã nhập không tồn tại vui lòng thử lại"
@@ -54,11 +60,14 @@ const register = asyncHandler(async(req, res) => {
 })
 
 const finalRegister = asyncHandler( async(req, res) => {
-    const { token } = req.params
+    const { code } = req.query
     const cookie = req.cookies
-
+    
+    // const decodeConfirm = atob(cookie.)
+    // const decodeCodeConfirm = atob(cookie?.dataregister?.encodeCodeConfirm)
+    // console.log(decodeCodeConfirm)
     try {
-        if (cookie.dataregister.token === token) {
+        if (cookie.dataregister.encodeCodeConfirm === code) {
             const response =  await User.create({
                 email: cookie.dataregister.email, 
                 mobile: cookie.dataregister.mobile, 

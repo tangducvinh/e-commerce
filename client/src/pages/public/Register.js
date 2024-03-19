@@ -3,7 +3,7 @@ import { memo, useState, useEffect } from 'react'
 import swal from 'sweetalert'
 import { useSearchParams } from 'react-router-dom'
 
-import { InputLogin, ShowLoading } from '../../companents'
+import { InputLogin, ShowLoading, FormConfirmRegister } from '../../companents'
 import * as apis from '../../apis'
 import path from '../../ultis/path'
 import { userSlice } from '../../store/userSlice'
@@ -33,7 +33,17 @@ const Register = ({ data, navigate, dispatch }) => {
                     dispatch(appSlice.actions.setChildren(<ShowLoading />))
                     const response = await apis.register(rest)
                     dispatch(appSlice.actions.setChildren(null))
-                    swal(response?.success ? 'Congratulation' : 'Oops', response?.mess, response?.success ? 'success' : 'error')
+                    // swal(response?.success ? 'Congratulation' : 'Oops', response?.mess, response?.success ? 'success' : 'error').then(() => {
+                    //     dispatch(appSlice.actions.setChildren(<FormConfirmRegister />))
+                    // })
+
+                    if(response.success) {
+                        dispatch(appSlice.actions.setChildren(<FormConfirmRegister />))
+                    } else {
+                        swal('Oops', 'Đăng kí thất bại vui lòng thử lại sau', 'error')
+                    }
+
+                    
                 }
             }
         } else {
@@ -42,17 +52,14 @@ const Register = ({ data, navigate, dispatch }) => {
             if (rs !== true) {
                 swal('Opps', rs, 'error')
             } else {
-                // dispatch(appSlice.actions.setLoading(true))
                 dispatch(appSlice.actions.setChildren(<ShowLoading />))
                 const response = await apis.login(rest)
                 if (response.success) {
-                    // dispatch(appSlice.actions.setLoading(false))
                     dispatch(appSlice.actions.setChildren(null))
                     dispatch(userSlice.actions.register({isLoggedIn: true, userData: response.userData, token: response.accessToken}))
                     searchParams.get('redirect') ? navigate(searchParams.get('redirect')) : navigate(`/${path.HOME}`)
                 } else {
                     swal('Opps', 'Thông tin đăng nhập không hợp lệ', 'error')
-                    // dispatch(appSlice.actions.setLoading(false))
                 }
             }
         }
