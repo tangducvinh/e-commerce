@@ -5,17 +5,21 @@ import email from '../../assets/imgs/email icon.png'
 import { appSlice } from '../../store/appSlice'
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 import * as apis from '../../apis'
+import swal from 'sweetalert'
+import path from '../../ultis/path'
 
-const FormConfirmRegister = ( { dispatch }) => {
+const FormConfirmRegister = ( { dispatch, navigate }) => {
     const { IoClose} = icons
     const [ value, setValue ] = useState('')
 
     const handleClickConfirm = async() => {
+        dispatch(appSlice.actions.setChildren(null))
         if (value) {
             const response = await apis.finalRegister({code: value})
 
-            console.log(response)
-
+            swal(response?.data?.success ? 'Congratulation' : 'Oops', response.data.mes, response?.data?.success ? 'success' : 'error').then(() => {
+                navigate(`/${path.ACCOUNT}/${path.LOGIN}`)
+            })
         }
     }
 

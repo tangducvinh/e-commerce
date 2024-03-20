@@ -2,12 +2,13 @@ import { useParams, useNavigate, createSearchParams, useSearchParams } from 'rea
 import { useEffect, useState } from 'react'
 
 import * as apis from '../../apis'
-import { HotSale, ItemProduct, Pagination, InputSearch } from '../../companents'
+import { HotSale, ItemProduct, Pagination, InputSearch, ShowLoading } from '../../companents'
 import { filters } from '../../ultis/contants'
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 import iconsSearch from '../../assets/imgs/nodatasearch.png'
+import { appSlice } from '../../store/appSlice'
 
-const Products = ({ location }) => {
+const Products = ({ location, dispatch }) => {
     const  { category }  = useParams()
     const [ data, setData ] = useState({})
     const [ filterStatus, setFilterStatus ] = useState(filters.length - 1)
@@ -16,8 +17,11 @@ const Products = ({ location }) => {
     const [ valueTitle, setvalueTitle ] = useState(true)
     
     const fetchDataProduct = async(data) => {
+        dispatch(appSlice.actions.setChildren(<ShowLoading />))
+        
         const response = await apis.getAllProducts(data)
         if(response.success) setData(response)
+        dispatch(appSlice.actions.setChildren(null))
     }
 
     useEffect(() => {
@@ -114,7 +118,7 @@ const Products = ({ location }) => {
                                     title = {item?.title}
                                     price = {item?.price?.price}
                                     sale = {item?.price?.sale}
-                                    star = {Number(item?.totalRatings.rate?.split('')[0])}
+                                    star = {Number(item?.totalRatings?.rate) || Number(item?.totalRatings?.rate?.split('')[0])}
                                     incentives = {item?.incentives[0]}
                                     pid = {item?._id}
                                 />

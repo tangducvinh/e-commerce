@@ -12,10 +12,8 @@ const Home = () => {
     const { dataTheme } = useSelector(state => state.app)
 
     useEffect(() => {
-        dispatch(appSlice.actions.setChildren(<ShowLoading />))
         dispatch(fecthHome())
         dispatch(fecthTheme(theme))
-        dispatch(appSlice.actions.setChildren(null))
     }, [dispatch])
 
     return (

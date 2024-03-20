@@ -42,8 +42,6 @@ const Register = ({ data, navigate, dispatch }) => {
                     } else {
                         swal('Oops', 'Đăng kí thất bại vui lòng thử lại sau', 'error')
                     }
-
-                    
                 }
             }
         } else {

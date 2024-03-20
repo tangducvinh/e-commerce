@@ -21,7 +21,8 @@ export const register = (data) => {
 export const finalRegister = async(data) => await axios({
     url: 'user/final-register',
     params: data,
-    method: 'get'
+    method: 'get',
+    withCredentials: true,
 })
 
 export const login = (data) => {

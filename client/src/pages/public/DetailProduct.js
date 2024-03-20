@@ -31,8 +31,10 @@ const DetailProduct = ({dispatch, navigate, location}) => {
     ]
     
     const fecthDetailProduct = async(pid) => {
+        dispatch(appSlice.actions.setChildren(<ShowLoading />))
         const response = await apis.getDetailProduct(pid)
         setDataDetaiProduct(response)
+        dispatch(appSlice.actions.setChildren(null))
     }
 
     const fecthProducts = async(category) => {

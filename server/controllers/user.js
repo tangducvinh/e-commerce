@@ -33,11 +33,11 @@ const register = asyncHandler(async(req, res) => {
         }
     }
 
-    const codeConfirm = Math.round(Math.random() * 1000000)
+    const codeConfirm = Math.round(Math.random() * 1000000).toString()
     const encodeCodeConfirm = btoa(codeConfirm)
 
 
-    res.cookie('dataregister', { ...req.body, encodeCodeConfirm }, {httpOnly: true, maxAge: 3*60*1000})
+    res.cookie('dataregister', { ...req.body, encodeCodeConfirm }, {maxAge: 3*60*1000})
     // const html = `Xin vui lòng click vào link dưới đây để xác thực email. Link này sẽ hết hiệu lực trong 3 phút kể từ bây giờ. 
     // <a href=${process.env.URL_SERVER}api/user/final-register/${codeConfirm}>Xác thực</a>`
 
@@ -62,12 +62,11 @@ const register = asyncHandler(async(req, res) => {
 const finalRegister = asyncHandler( async(req, res) => {
     const { code } = req.query
     const cookie = req.cookies
-    
-    // const decodeConfirm = atob(cookie.)
-    // const decodeCodeConfirm = atob(cookie?.dataregister?.encodeCodeConfirm)
-    // console.log(decodeCodeConfirm)
+
+    const decodeCodeConfirm = atob(cookie?.dataregister?.encodeCodeConfirm)
+
     try {
-        if (cookie.dataregister.encodeCodeConfirm === code) {
+        if (decodeCodeConfirm === code) {
             const response =  await User.create({
                 email: cookie.dataregister.email, 
                 mobile: cookie.dataregister.mobile, 
@@ -76,15 +75,24 @@ const finalRegister = asyncHandler( async(req, res) => {
             })
             if(response) {
                 res.clearCookie('dataregister')
-                return res.redirect(`${process.env.CLIENT_URL}/final_register/true`)
+                return res.json({
+                    success: response ? true : false,
+                    mes: response ? 'Bạn đã đăng kí tài khoản thành công!' : 'Thực hiện đăng kí thất bại vui lòng thử lại sau'
+                })
             }
         } else {
             res.clearCookie('dataregister')
-            return res.redirect(`${process.env.CLIENT_URL}/final_register/false`)
+            return res.json({
+                success: false,
+                mes: 'Thực hiện đăng kí thất bại vui lòng thử lại sau'
+            })
         }
     } catch(e) {
         res.clearCookie('dataregister')
-        return res.redirect(`${process.env.CLIENT_URL}/final_register/false`)
+        return res.json({
+            success: false,
+            mes: 'Thực hiện đăng kí thất bại vui lòng thử lại sau'
+        })
     }
 })
 

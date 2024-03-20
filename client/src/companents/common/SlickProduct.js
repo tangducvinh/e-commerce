@@ -39,7 +39,7 @@ const SlickProduct = ({ data, title, row = 1, incentives }) => {
                         title = {item?.title}
                         price = {item?.price?.price}
                         sale = {item?.price?.sale}
-                        // star = {Number(item?.totalRatings?.rate?.split('')[0])}
+                        star = {Number(item?.totalRatings?.rate) || Number(item?.totalRatings?.rate?.split('')[0])}
                         incentives = {incentives ? item.incentives[0] : false}
                         pid = {item?._id}ck
                         favorite={dataCurrent?.wishlist.some(el => el._id === item._id)}
