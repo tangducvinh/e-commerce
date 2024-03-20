@@ -87,7 +87,7 @@ const finalRegister = asyncHandler( async(req, res) => {
             }
         } else {
             res.clearCookie('dataregister')
-            return res.redirect(`${process.env.CLIENT_URL}/final_register/false`)
+            return res.redirect(`${process.env.CLIENT_URL}/final_register/falsee`)
         }
     } catch(e) {
         console.log(e)
