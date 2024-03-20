@@ -6,6 +6,7 @@ const sendMail = require('../ultis/sendMail')
 const crypto = require('crypto')
 const uniqid = require('uniqid')
 const { dataUsers } = require('../../data/mockUsers')
+const makeToken = require('uniqid')
 
 const register = asyncHandler(async(req, res) => {
     const { email, password, name, mobile } = req.body
@@ -33,14 +34,16 @@ const register = asyncHandler(async(req, res) => {
         }
     }
 
-    const codeConfirm = Math.round(Math.random() * 1000000).toString()
-    const encodeCodeConfirm = btoa(codeConfirm)
+    // const codeConfirm = Math.round(Math.random() * 1000000).toString()
+    // const encodeCodeConfirm = btoa(codeConfirm)
 
-    res.cookie('dataregister', { ...req.body, encodeCodeConfirm }, {maxAge: 3*60*1000})
-    // const html = `Xin vui lòng click vào link dưới đây để xác thực email. Link này sẽ hết hiệu lực trong 3 phút kể từ bây giờ. 
-    // <a href=${process.env.URL_SERVER}api/user/final-register/${codeConfirm}>Xác thực</a>`
+    const token = makeToken()
 
-    const html = `Mã xác nhận của bạn là: ${codeConfirm}. Vui lòng nhập mã xác nhận để đăng kí tài khoản`
+    res.cookie('dataregister', { ...req.body, token }, {maxAge: 3*60*1000})
+    const html = `Xin vui lòng click vào link dưới đây để xác thực email. Link này sẽ hết hiệu lực trong 3 phút kể từ bây giờ. 
+    <a href=${process.env.URL_SERVER}api/user/final-register/${token}>Xác thực</a>`
+
+    // const html = `Mã xác nhận của bạn là: ${codeConfirm}. Vui lòng nhập mã xác nhận để đăng kí tài khoản`
 
     try {
         await sendMail({email, html, subject: 'Xác thực email'})
@@ -58,13 +61,22 @@ const register = asyncHandler(async(req, res) => {
 })
 
 const finalRegister = asyncHandler( async(req, res) => {
-    const { code } = req.query
+    // const { code } = req.query
+    // const cookie = req.cookies
+
+    // console.log(code)
+    // console.log(cookie.dataregister.encodeCodeConfirm)
+    // const decodeCodeConfirm = atob(cookie?.dataregister?.encodeCodeConfirm)
+
+    // console.log(decodeCodeConfirm)
+
+    const { token } = req.params
     const cookie = req.cookies
 
-    const decodeCodeConfirm = atob(cookie?.dataregister?.encodeCodeConfirm)
+
 
     try {
-        if (decodeCodeConfirm === code) {
+        if (cookie?.dataregister?.token === token) {
             const response =  await User.create({
                 email: cookie.dataregister.email, 
                 mobile: cookie.dataregister.mobile, 
@@ -73,24 +85,15 @@ const finalRegister = asyncHandler( async(req, res) => {
             })
             if(response) {
                 res.clearCookie('dataregister')
-                return res.json({
-                    success: response ? true : false,
-                    mes: response ? 'Bạn đã đăng kí tài khoản thành công!' : 'Thực hiện đăng kí thất bại vui lòng thử lại sau'
-                })
+                return res.redirect(`${process.env.CLIENT_URL}/final_register/true`)
             }
         } else {
             res.clearCookie('dataregister')
-            return res.json({
-                success: false,
-                mes: 'Thực hiện đăng kí thất bại vui lòng thử lại sau'
-            })
+            return res.redirect(`${process.env.CLIENT_URL}/final_register/false`)
         }
     } catch(e) {
         res.clearCookie('dataregister')
-        return res.json({
-            success: false,
-            mes: 'Thực hiện đăng kí thất bại vui lòng thử lại sau'
-        })
+        return res.redirect(`${process.env.CLIENT_URL}/final_register/false`)
     }
 })
 

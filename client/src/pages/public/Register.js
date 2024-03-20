@@ -33,15 +33,13 @@ const Register = ({ data, navigate, dispatch }) => {
                     dispatch(appSlice.actions.setChildren(<ShowLoading />))
                     const response = await apis.register(rest)
                     dispatch(appSlice.actions.setChildren(null))
-                    // swal(response?.success ? 'Congratulation' : 'Oops', response?.mess, response?.success ? 'success' : 'error').then(() => {
-                    //     dispatch(appSlice.actions.setChildren(<FormConfirmRegister />))
-                    // })
+                    swal(response?.success ? 'Congratulation' : 'Oops', response?.mess, response?.success ? 'success' : 'error')
 
-                    if(response.success) {
-                        dispatch(appSlice.actions.setChildren(<FormConfirmRegister />))
-                    } else {
-                        swal('Oops', 'Đăng kí thất bại vui lòng thử lại sau', 'error')
-                    }
+                    // if(response.success) {
+                    //     dispatch(appSlice.actions.setChildren(<FormConfirmRegister />))
+                    // } else {
+                    //     swal('Oops', 'Đăng kí thất bại vui lòng thử lại sau', 'error')
+                    // }
                 }
             }
         } else {
