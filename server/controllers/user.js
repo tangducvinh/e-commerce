@@ -36,12 +36,11 @@ const register = asyncHandler(async(req, res) => {
     const codeConfirm = Math.round(Math.random() * 1000000).toString()
     const encodeCodeConfirm = btoa(codeConfirm)
 
-
     res.cookie('dataregister', { ...req.body, encodeCodeConfirm }, {maxAge: 3*60*1000})
     // const html = `Xin vui lòng click vào link dưới đây để xác thực email. Link này sẽ hết hiệu lực trong 3 phút kể từ bây giờ. 
     // <a href=${process.env.URL_SERVER}api/user/final-register/${codeConfirm}>Xác thực</a>`
 
-    const html = `Mã xác nhận của bạn là: ${codeConfirm} .Vui lòng nhập mã xác nhận để đăng kí tài khoản`
+    const html = `Mã xác nhận của bạn là: ${codeConfirm}. Vui lòng nhập mã xác nhận để đăng kí tài khoản`
 
     try {
         await sendMail({email, html, subject: 'Xác thực email'})
@@ -51,7 +50,6 @@ const register = asyncHandler(async(req, res) => {
             mess: "Check email để hoàn thành đăng kí tài khoản"
         })
     } catch(e) {
-        console.log(e)
         return res.json({
             success: false,
             mess: "Email đã nhập không tồn tại vui lòng thử lại"
