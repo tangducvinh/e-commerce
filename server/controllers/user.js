@@ -73,8 +73,6 @@ const finalRegister = asyncHandler( async(req, res) => {
     const { token } = req.params
     const cookie = req.cookies
 
-
-
     try {
         if (cookie?.dataregister?.token === token) {
             const response =  await User.create({
@@ -89,9 +87,10 @@ const finalRegister = asyncHandler( async(req, res) => {
             }
         } else {
             res.clearCookie('dataregister')
-            return res.redirect(`${process.env.CLIENT_URL}/final_register/false`)
+            return res.redirect(`${process.env.CLIENT_URL}/final_register/falsee`)
         }
     } catch(e) {
+        console.log(e)
         res.clearCookie('dataregister')
         return res.redirect(`${process.env.CLIENT_URL}/final_register/false`)
     }
