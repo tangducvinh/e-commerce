@@ -11,3 +11,9 @@ export const getUserOder = async(data) => await axios({
     method: 'get',
     params: data
 })
+
+export const getOrders = async(data) => await axios({
+    url: '/order/get-orders',
+    method: 'get',
+    params: data,
+})

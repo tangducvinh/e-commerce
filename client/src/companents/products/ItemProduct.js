@@ -1,18 +1,40 @@
 import { memo } from 'react'
+import { useSelector } from 'react-redux'
+import { createSearchParams } from 'react-router-dom'
 
 import icons from '../../ultis/icons'
 import path from '../../ultis/path'
 import * as apis from '../../apis'
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 import { userSlice } from '../../store/userSlice'
+import { appSlice } from '../../store/appSlice'
+import { ShowLoading } from '../../companents'
+import swal from 'sweetalert'
 
-const ItemProduct = ({ image, discount, title, price, sale, star, incentives, pid, favorite, dispatch, navigate }) => {
+const ItemProduct = ({ image, discount, title, price, sale, star, incentives, pid, favorite, dispatch, navigate, location }) => {
     const { FaStar, FaRegHeart, FaHeart  } = icons
+    const { dataCurrent } = useSelector(state => state.user)
+    
 
     const handleAddFavorite = async(e) => {
-        console.log('add')
         e.stopPropagation()
+        if(!dataCurrent) {
+            swal({
+                title: "Oops",
+                text: "Vui lòng đăng nhập để thêm sản phẩm vào danh sách",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((rs) => {
+                if(rs) navigate({
+                    pathname: `/${path.ACCOUNT}/${path.LOGIN}`,
+                    search: createSearchParams({redirect: location.pathname}).toString()
+                })
+            })
+        }
+        dispatch(appSlice.actions.setChildren(<ShowLoading />))
         const response = await apis.updateFavorite({pid, status: 1})
+        dispatch(appSlice.actions.setChildren(null))
 
         if (response.data.success) {
             dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
@@ -20,12 +42,13 @@ const ItemProduct = ({ image, discount, title, price, sale, star, incentives, pi
     }
 
     const handleDeleteFavorite = async(e) => {
-        console.log('remove')
         e.stopPropagation()
+        dispatch(appSlice.actions.setChildren(<ShowLoading />))
         const response = await apis.updateFavorite({pid, status: -1})
+        dispatch(appSlice.actions.setChildren(null))
 
         if (response.data.success) {
-            dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
+            dispatch(userSlice.actions.setDataUserCurrent(response?.data?.data))
         }
     }
 

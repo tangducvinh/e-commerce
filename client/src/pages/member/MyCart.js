@@ -1,11 +1,12 @@
 import { useSelector } from 'react-redux'
 import { useState, useCallback, Fragment, useEffect } from 'react'
 
-import { ItemProductMyCart, EmptyPage } from '../../companents'
+import { ItemProductMyCart, EmptyPage, ShowLoading } from '../../companents'
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 import icons from '../../ultis/icons'
 import * as apis from '../../apis'
 import { userSlice } from '../../store/userSlice'
+import { appSlice } from '../../store/appSlice'
 import path from '../../ultis/path'
 
 const MyCart = ({ dispatch, navigate}) => {
@@ -42,7 +43,9 @@ const MyCart = ({ dispatch, navigate}) => {
     }
 
     const handleDeleteProduct = useCallback(async(data) => {
+        dispatch(appSlice.actions.setChildren(<ShowLoading />))
         const response = await apis.deleteProductCart(data)
+        dispatch(appSlice.actions.setChildren(null))
 
         if (response.data.success) {
             setChecks(prev => prev.filter(item => item !== data.id))
@@ -71,6 +74,17 @@ const MyCart = ({ dispatch, navigate}) => {
         }
     }
 
+    const handleDeleteAllProduct = async() => {
+        const data = dataCurrent.cart.filter(item => checks.some(el => el === item._id)).map(it => ({pid: it.product._id, color: it.color}))
+        console.log(data)
+        dispatch(appSlice.actions.setChildren(<ShowLoading />))
+        const response = await apis.deleteProductCart({data: data})
+        dispatch(appSlice.actions.setChildren(null))
+        if (response.data.success) {
+            dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
+        }
+    }
+
     return (
         <div className='w-full'>
             {dataCurrent?.cart.length === 0 ?
@@ -90,7 +104,7 @@ const MyCart = ({ dispatch, navigate}) => {
                         </div>
 
                         {checks.length > 0 && 
-                            <em className='hover:cursor-pointer text-[#9F9D9D] text-[14px] hover:text-gray-600 hover:underline'>Xoá sản phẩm đã chọn</em>
+                            <em onClick={handleDeleteAllProduct} className='hover:cursor-pointer text-[#9F9D9D] text-[14px] hover:text-gray-600 hover:underline'>Xoá sản phẩm đã chọn</em>
                         }
                     </div>
 

@@ -5,9 +5,11 @@ import { useSelector } from 'react-redux'
 
 import * as apis from '../../apis'
 import icons from '../../ultis/icons'
-import { InforUserItem, InputSearch, Pagination } from '../../companents'
+import { InforUserItem, InputSearch, Pagination, ShowLoading } from '../../companents'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
+import { appSlice } from '../../store/appSlice'
 
-const ManageUsers = () => {
+const ManageUsers = ({ dispatch }) => {
     const [ dataUsers, setDataUsers ] = useState([])
     const { HiUserAdd } = icons
     const [ valueSearch, setValueSearch ] = useState('')
@@ -17,7 +19,9 @@ const ManageUsers = () => {
     const { isChangeDataUsers } = useSelector(state => state.app)
 
     const fecthDataUsers = async(params) => {
+        dispatch(appSlice.actions.setChildren(<ShowLoading />))
         const response = await apis.getAllUsers(params)
+        dispatch(appSlice.actions.setChildren(null))
         if (response.success) setDataUsers(response)
     }
 
@@ -82,4 +86,4 @@ const ManageUsers = () => {
     )
 }
 
-export default ManageUsers
+export default withBaseCompanent(ManageUsers)

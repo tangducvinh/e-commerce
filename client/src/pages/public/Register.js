@@ -50,8 +50,8 @@ const Register = ({ data, navigate, dispatch }) => {
             } else {
                 dispatch(appSlice.actions.setChildren(<ShowLoading />))
                 const response = await apis.login(rest)
+                dispatch(appSlice.actions.setChildren(null))
                 if (response.success) {
-                    dispatch(appSlice.actions.setChildren(null))
                     dispatch(userSlice.actions.register({isLoggedIn: true, userData: response.userData, token: response.accessToken}))
                     searchParams.get('redirect') ? navigate(searchParams.get('redirect')) : navigate(`/${path.HOME}`)
                 } else {
@@ -78,7 +78,7 @@ const Register = ({ data, navigate, dispatch }) => {
                         ))}
                     </div>
 
-                    <Link to={`/${path.FORGOT_PASSWORD}`} className="w-full flex justify-end mt-2 text-[13px] text-[#777777] mr-2">{data.forgot}</Link>
+                    <Link to={`/${path.FORGOT_PASSWORD}`} className="w-full flex justify-end mt-2 text-[13px] text-[#777777] mr-2">{data?.forgot}</Link>
 
                     {data?.clause && 
                         data?.clause?.map((item, index) => (

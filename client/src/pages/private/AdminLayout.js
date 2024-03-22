@@ -11,7 +11,7 @@ const AdminLayout = ({dispatch}) => {
     const { isLoggedIn, dataCurrent } = useSelector(state => state.user)
     const { showEditForm } = useSelector(state => state.app)
 
-    if (!isLoggedIn || !dataCurrent || dataCurrent.role !== '7') return <Navigate to={`/${path.LOGIN}`} replace={true} />
+    // if (!isLoggedIn || !dataCurrent || dataCurrent.role !== '7') return <Navigate to={`/${path.LOGIN}`} replace={true} />
     
     return (
         <div className='relative w-full'>

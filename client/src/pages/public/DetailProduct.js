@@ -71,7 +71,9 @@ const DetailProduct = ({dispatch, navigate, location}) => {
 
     const handleAddToCart = async(status) => {
         if (isLoggedIn) {
-            const response = await apis.updateCart({pid, color: dataDetaiProduct?.variants[variant].color})
+            dispatch(appSlice.actions.setChildren(<ShowLoading />))
+            const response = await apis.updateCart({pid, color: dataDetaiProduct?.variants[variant].color || 'Đen'})
+            dispatch(appSlice.actions.setChildren(null))
             dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
             if (status === 'add') swal(response.data.success ? 'Congratulation' : 'Oops', response.data.mes, response.data.success ? 'success' : 'error')
             if (status === 'buy') {

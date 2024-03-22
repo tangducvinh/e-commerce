@@ -74,7 +74,7 @@ const finalRegister = asyncHandler( async(req, res) => {
     const cookie = req.cookies
 
     try {
-        if (cookie?.dataregister?.token.toString() === token.toString()) {
+        if (cookie?.dataregister.token === token) {
             const response =  await User.create({
                 email: cookie.dataregister.email, 
                 mobile: cookie.dataregister.mobile, 
@@ -478,18 +478,52 @@ const deleteProductCart = asyncHandler(async(req, res) => {
 
     const { _id } = req.user
 
-    // if (data) {
-    //     data.forEach(async(item, index) => {
-    //         await User.findByIdAndUpdate(_id, {$pull: {cart: {product: item.pid, color: item.color}}}, {new: true}).populate({
-    //             path: 'cart',
-    //             populate: {
-    //                 path: 'product',
-    //                 select: 'images price quanlity title'
-    //             }
-    //         })
-    //     })
-    // } else {
-        response = await User.findByIdAndUpdate(_id, {$pull: {cart: {product: pid, color}}}, {new: true}).populate([
+    let response
+
+    console.log(data)
+
+    if (data) {
+        console.log('hello1')
+        data.forEach(async(item, index) => {
+            await User.findByIdAndUpdate(_id, {$pull: {cart: {product: item.pid, color: item.color}}}, {new: true}).populate([
+                {
+                    path: 'cart',
+                    populate: {
+                    path: 'product',
+                    select: 'images price quanlity title'
+                    }
+                },
+                {
+                    path: 'wishlist',
+                    select: 'images price ratings star title totalRatings'
+                }
+            ])
+
+            if (index === data.length - 1) {
+                const response = await User.findByIdAndUpdate(_id, {$pull: {cart: {product: item.pid, color: item.color}}}, {new: true}).populate([
+                    {
+                        path: 'cart',
+                        populate: {
+                        path: 'product',
+                        select: 'images price quanlity title'
+                        }
+                    },
+                    {
+                        path: 'wishlist',
+                        select: 'images price ratings star title totalRatings'
+                    }
+                ])
+
+                return res.json({
+                    success: response ? true : false,
+                    data: response ? response : 'no data',
+                    mes: response ? 'Đã xoá sản phẩm khỏi giỏ hàng thàng công' : 'Thực hiện xoá thất bại vui lòng thử lại sau',
+                })
+            }
+        })
+    } else {
+        console.log('heelo2')
+        const response = await User.findByIdAndUpdate(_id, {$pull: {cart: {product: pid, color}}}, {new: true}).populate([
             {
                 path: 'cart',
                 populate: {
@@ -502,13 +536,12 @@ const deleteProductCart = asyncHandler(async(req, res) => {
                 select: 'images price ratings star title totalRatings'
             }
         ])
-    // }
-
-    return res.json({
-        success: response ? true : false,
-        data: response ? response : 'no data',
-        mes: response ? 'Đã xoá sản phẩm khỏi giỏ hàng thàng công' : 'Thực hiện xoá thất bại vui lòng thử lại sau',
-    })
+        return res.json({
+            success: response ? true : false,
+            data: response ? response : 'no data',
+            mes: response ? 'Đã xoá sản phẩm khỏi giỏ hàng thàng công' : 'Thực hiện xoá thất bại vui lòng thử lại sau',
+        })
+    }
 })
 
 const addWishList = asyncHandler(async(req, res) => {

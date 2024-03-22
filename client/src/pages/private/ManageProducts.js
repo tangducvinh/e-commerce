@@ -4,9 +4,10 @@ import { useDebounce } from 'use-debounce'
 import { useDispatch, useSelector } from 'react-redux'
 
 import icons from '../../ultis/icons'
-import { InputSearch, InforProductItem, Pagination, FormAddProduct} from '../../companents'
+import { InputSearch, InforProductItem, Pagination, FormAddProduct, ShowLoading } from '../../companents'
 import * as apis from '../../apis'
 import { appSlice } from '../../store/appSlice'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
 
 const ManageProducts = () => {
     const { HiUserAdd } = icons
@@ -22,7 +23,9 @@ const ManageProducts = () => {
     }, [])
 
     const fecthDataProduct = async(passData) => {
+        dispatch(appSlice.actions.setChildren(<ShowLoading />))
         const response = await apis.getAllProducts(passData)
+        dispatch(appSlice.actions.setChildren(null))
         setDataProducts(response)
     }
 
@@ -89,4 +92,4 @@ const ManageProducts = () => {
     )
 }
 
-export default ManageProducts
+export default withBaseCompanent(ManageProducts)

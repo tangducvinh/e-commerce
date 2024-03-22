@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { useDispatch } from 'react-redux'
 
+import { ShowLoading } from '../companents'
 import { getApiCategory, getHome, getProducts } from '../apis'
 
 export const appSlice = createSlice({

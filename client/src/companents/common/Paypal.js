@@ -49,6 +49,9 @@ const Checkout = ({ currency, amount, products, note}) => {
                     note: note,
                 }
 
+                const dataDeleteMycart = products.map((item) => ({pid: item.product._id, color: item.color}))
+                await apis.deleteProductCart({data: dataDeleteMycart})
+
                 const result = await apis.createOrder(dataPass)
                 dispatch1(appSlice.actions.setChildren(null))
                 swal(result.data.success ? 'Congratulations': 'OOps', result.data.mes, result.data.success ? 'success' : 'error').then(() => {

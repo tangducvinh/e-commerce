@@ -58,6 +58,7 @@ const getAllProduct = asyncHandler(async(req, res) => {
 
     // Filtering
     if (queries?.title) formatedQueries.title = {$regex: queries.title, $options: 'i'}
+    console.log(formatedQueries)
 
     console.log(formatedQueries)
     let queryCommand = Product.find(formatedQueries)

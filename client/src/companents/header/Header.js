@@ -79,7 +79,7 @@ const Header = ({ dispatch, navigate }) => {
 
     useEffect(() => {
         const handleHiddenInforSearch = (e) => {
-            const result = parentElement.current.contains(e.target)
+            const result = parentElement?.current?.contains(e.target)
 
             if (!result) {
                 dispatch(appSlice.actions.setShowOverlaySidebar(false))

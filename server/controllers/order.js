@@ -73,7 +73,70 @@ const getUserOder = asyncHandler(async(req, res) => {
         })
 })
 
+const getOrders = asyncHandler((req, res) => {
+    const queries = {...req.query}
+    // splice expect field
+    const excludeFields = ['limit', 'sort', 'fields', 'page']
+    excludeFields.forEach(el => delete queries[el])
+
+    let queryString = JSON.stringify(queries)
+    queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, el => `$${el}`)
+    const formatedQueries = JSON.parse(queryString)
+
+    // Filtering
+    if (queries?.indexOrder) formatedQueries.indexOrder = Number(queries.indexOrder)
+
+    let queryCommand = Order.find(formatedQueries)
+
+    // Sorting
+    if (req.query.sort) {
+        const sortBy = req.query.sort.split(',').join(' ')
+        queryCommand = queryCommand.sort(sortBy)
+    }
+
+    // Fields limiting
+    if (req.query.fields) {
+        const fields = req.query.fields.split(',').join(' ')
+        queryCommand = queryCommand.select(fields)
+    }
+
+    // Pagination
+    const page = +req.query.page || 1
+    const limit = +req.query.limit || process.env.LIMIT_PRODUCTS
+    const skip = (page - 1) * limit
+    queryCommand.skip(skip).limit(limit)
+
+    queryCommand.populate({
+        path: 'orderBy',
+        select: 'name email mobile'
+    })
+
+    queryCommand.populate({
+        path: 'products',
+        populate: {
+            path: 'product',
+            select: 'title'
+        }
+    })
+
+    queryCommand.exec()
+        .then(async(response) => {
+            const counts = await Order.find(formatedQueries).countDocuments()
+        
+            return res.status(200).json({
+                success: response ? true : false,
+                data: response ? response : "Something went wrong",
+                counts: counts,
+            })
+        })
+
+        .catch(err => {
+            throw new Error(err.message)
+        })
+})
+
 module.exports = {
     createOrder,
     getUserOder,
+    getOrders,
 }

@@ -119,17 +119,19 @@ const InputSearchHeader = ({ dispatch, navigate }) => {
                                 }
                             </div>
 
-                            {dataCurrent?.searcheds.length === 0 ?
+                            {dataCurrent?.searcheds?.length === 0 ?
                                     <p className='text-[#86888D] mt-2 text-[14px]'>Hãy thực hiện tìm kiếm</p>
                                 :
                                 <ul className='mt-2 flex-col flex gap-1'>
-                                    {[...dataCurrent?.searcheds]?.reverse()?.map((item, index) => (
-                                        <li 
-                                            key={index} 
-                                            onClick={() => handleSearchKeyWord(item)}
-                                            className='text-[#86888D] text-[14px] hover:underline hover:cursor-pointer'
-                                        >{item}</li>
-                                    ))}
+                                    {dataCurrent?.searcheds && 
+                                        [...dataCurrent.searcheds]?.reverse()?.map((item, index) => (
+                                            <li 
+                                                key={index} 
+                                                onClick={() => handleSearchKeyWord(item)}
+                                                className='text-[#86888D] text-[14px] hover:underline hover:cursor-pointer'
+                                            >{item}</li>
+                                        ))
+                                    }
                                 </ul>
                             }
                         </div>    

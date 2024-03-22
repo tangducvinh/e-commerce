@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
+import swal from 'sweetalert'
 
 import { ItemProductCheckout, InputLogin, FormPaymentMethod } from '../../companents'
 import icons from '../../ultis/icons'
@@ -62,10 +63,17 @@ const Checkout = ({ dispatch }) => {
     }, [valueAddress])
 
     const handlePayment = () => {
-        dispatch(appSlice.actions.setChildren(<FormPaymentMethod amount={total} products={dataCartCheckout} note={valueAddress.note}/>))
-    }
+        if (!valueAddress.city
+            || !valueAddress.county
+            || !valueAddress.street
+            || !valueAddress.ward
+        ) {
+            swal('Oops', 'Vui lòng điền đầy đủ thông tin nhận hàng', 'error')
+        } else {
+            dispatch(appSlice.actions.setChildren(<FormPaymentMethod amount={total} products={dataCartCheckout} note={valueAddress.note}/>))
+        }
 
-    console.log(dataCurrent)
+    }
 
     return (
         <div className='flex justify-center'>
