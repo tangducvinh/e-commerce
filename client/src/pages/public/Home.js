@@ -16,6 +16,17 @@ const Home = () => {
         dispatch(fecthTheme(theme))
     }, [dispatch])
 
+    useEffect(() => {
+        if (dataTheme.length === 0) {
+            console.log('true')
+            dispatch(appSlice.actions.setChildren(<ShowLoading />))
+        } else {
+            console.log('false')
+            dispatch(appSlice.actions.setChildren(null))
+        }
+        window.scrollTo(0, 0)
+    }, [dataTheme])
+
     return (
         <div className="flex mt-[16px] flex-col items-center px-[10px]">
             <div className="w-[1220px] flex gap-4">

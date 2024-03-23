@@ -33,13 +33,13 @@ const Register = ({ data, navigate, dispatch }) => {
                     dispatch(appSlice.actions.setChildren(<ShowLoading />))
                     const response = await apis.register(rest)
                     dispatch(appSlice.actions.setChildren(null))
-                    swal(response?.success ? 'Congratulation' : 'Oops', response?.mess, response?.success ? 'success' : 'error')
+                    // swal(response?.success ? 'Congratulation' : 'Oops', response?.mess, response?.success ? 'success' : 'error')
 
-                    // if(response.success) {
-                    //     dispatch(appSlice.actions.setChildren(<FormConfirmRegister />))
-                    // } else {
-                    //     swal('Oops', 'Đăng kí thất bại vui lòng thử lại sau', 'error')
-                    // }
+                    if(response.success) {
+                        dispatch(appSlice.actions.setChildren(<FormConfirmRegister />))
+                    } else {
+                        swal('Oops', 'Đăng kí thất bại vui lòng thử lại sau', 'error')
+                    }
                 }
             }
         } else {
@@ -78,7 +78,7 @@ const Register = ({ data, navigate, dispatch }) => {
                         ))}
                     </div>
 
-                    <Link to={`/${path.FORGOT_PASSWORD}`} className="w-full flex justify-end mt-2 text-[13px] text-[#777777] mr-2">{data?.forgot}</Link>
+                    <Link to={`/${path.ACCOUNT}/${path.FORGOT_PASSWORD}`} className="w-full flex justify-end mt-2 text-[13px] text-[#777777] mr-2">{data?.forgot}</Link>
 
                     {data?.clause && 
                         data?.clause?.map((item, index) => (

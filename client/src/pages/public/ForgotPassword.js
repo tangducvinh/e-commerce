@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom'
 import swal from 'sweetalert'
 
 import icons from '../../ultis/icons'
-import { InputLogin } from '../../companents'
+import { InputLogin, ShowLoading } from '../../companents'
 import path from '../../ultis/path'
 import { forgotPassword } from '../../apis'
+import { withBaseCompanent } from '../../hocs/withBaseCompanent'
+import { appSlice } from '../../store/appSlice'
 
-const ForgotPassword = () => {
+const ForgotPassword = ({ dispatch }) => {
     const { GoArrowLeft } = icons
 
     const data = {
@@ -19,7 +21,9 @@ const ForgotPassword = () => {
     const [ value, setValue ] = useState({email: ''})
 
     const handleSubmid = async() => {
+        dispatch(appSlice.actions.setChildren(<ShowLoading />))
         const response = await forgotPassword(value)
+        dispatch(appSlice.actions.setChildren(null))
 
         swal(response.success ? 'Congratulation' : 'Oops', response.mes, response.success ? 'success' : 'error')
     }
@@ -28,7 +32,7 @@ const ForgotPassword = () => {
         <div className='flex justify-center'>
             <div className='flex-col w-[700px] py-4 flex items-center'>
                 <div className='flex items-center w-full'>
-                    <Link to={`/${path.LOGIN}`} ><GoArrowLeft size={30}/></Link>
+                    <Link to={`/${path.ACCOUNT}/${path.LOGIN}`} ><GoArrowLeft size={30}/></Link>
                     <h1 className='w-full text-center text-[#4A4A4A] text-[22px] font-bold pr-[30px]'>Quên mật khẩu</h1>
                 </div>
 
@@ -45,4 +49,4 @@ const ForgotPassword = () => {
     )
 }
 
-export default ForgotPassword
+export default withBaseCompanent(ForgotPassword)

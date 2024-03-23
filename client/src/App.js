@@ -50,10 +50,10 @@ function App() {
         <Route path={path.ACCOUNT} element={<AccountLayout />}>
           <Route path={path.LOGIN} element={<Register data={dataLogin}/>}/>
           <Route path={path.REGISTER} element={<Register data={dataRegister}/>}/>
-        </Route>
-        <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword />}/>
           <Route path={path.CHANGE_PASSWORD} element={<ChangePassword />}/>
+        </Route>
+        <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />}></Route>
           <Route path={path.PRODUCTS} element={<Products />}/>
           <Route path={path.PRODUCTS_CATEGORY} element={<Products />} />

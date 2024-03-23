@@ -34,16 +34,16 @@ const register = asyncHandler(async(req, res) => {
         }
     }
 
-    // const codeConfirm = Math.round(Math.random() * 1000000).toString()
+    const codeConfirm = Math.round(Math.random() * 1000000).toString()
     // const encodeCodeConfirm = btoa(codeConfirm)
 
-    const token = makeToken()
+    // const token = makeToken()
 
-    res.cookie('dataregister', { ...req.body, token }, {maxAge: 3*60*1000})
-    const html = `Xin vui lòng click vào link dưới đây để xác thực email. Link này sẽ hết hiệu lực trong 3 phút kể từ bây giờ. 
-    <a href=${process.env.URL_SERVER}api/user/final-register/${token}>Xác thực</a>`
+    res.cookie('dataregister', { ...req.body, code: codeConfirm }, {maxAge: 3*60*1000})
+    // const html = `Xin vui lòng click vào link dưới đây để xác thực email. Link này sẽ hết hiệu lực trong 3 phút kể từ bây giờ. 
+    // <a href=${process.env.URL_SERVER}api/user/final-register/${token}>Xác thực</a>`
 
-    // const html = `Mã xác nhận của bạn là: ${codeConfirm}. Vui lòng nhập mã xác nhận để đăng kí tài khoản`
+    const html = `Mã xác nhận của bạn là: ${codeConfirm}. Vui lòng nhập mã xác nhận để đăng kí tài khoản`
 
     try {
         await sendMail({email, html, subject: 'Xác thực email'})
@@ -61,8 +61,8 @@ const register = asyncHandler(async(req, res) => {
 })
 
 const finalRegister = asyncHandler( async(req, res) => {
-    // const { code } = req.query
-    // const cookie = req.cookies
+    const { code } = req.query
+    const cookie = req.cookies
 
     // console.log(code)
     // console.log(cookie.dataregister.encodeCodeConfirm)
@@ -70,11 +70,11 @@ const finalRegister = asyncHandler( async(req, res) => {
 
     // console.log(decodeCodeConfirm)
 
-    const { token } = req.params
-    const cookie = req.cookies
+    // const { token } = req.params
+    // const cookie = req.cookies
 
     try {
-        if (cookie?.dataregister.token === token) {
+        if (cookie?.dataregister.code.toString() === code.toString()) {
             const response =  await User.create({
                 email: cookie.dataregister.email, 
                 mobile: cookie.dataregister.mobile, 
@@ -83,16 +83,28 @@ const finalRegister = asyncHandler( async(req, res) => {
             })
             if(response) {
                 res.clearCookie('dataregister')
-                return res.redirect(`${process.env.CLIENT_URL}/final_register/true`)
+                // return res.redirect(`${process.env.CLIENT_URL}/final_register/true`)
+                return res.json({
+                    success: response ? true : false,
+                    mes: 'Bạn đã đăng kí tài khoản thành công'
+                })
             }
         } else {
             res.clearCookie('dataregister')
-            return res.redirect(`${process.env.CLIENT_URL}/final_register/falsee`)
+            // return res.redirect(`${process.env.CLIENT_URL}/final_register/falsee`)
+            return res.json({
+                success: false,
+                mes: 'Đăng kí tài khoản thất bại vui lòng thử lại sau'
+            })
         }
     } catch(e) {
         console.log(e)
         res.clearCookie('dataregister')
-        return res.redirect(`${process.env.CLIENT_URL}/final_register/false`)
+        // return res.redirect(`${process.env.CLIENT_URL}/final_register/false`)
+        return res.json({
+            success: false,
+            mes: 'Đăng kí tài khoản thất bại vui lòng thử lại sau'
+        })
     }
 })
 
@@ -218,8 +230,8 @@ const forgotPassword = asyncHandler(async(req, res) => {
     const resetToken = user.createPasswordChangedToken()
     await user.save()
 
-    const html = `Xin vui lòng click vào link sau đây để thay đổi mật khẩu của bạn. Link này có hiệu lực trong 15 phút. 
-    <a href=${process.env.CLIENT_URL}/change_password/${resetToken}>Click here</a>`
+    const html = `Xin vui lòng click vào link sau đây để thay đổi mật khẩu của bạn. Link này có hiệu lực trong 3 phút. 
+    <a href=${process.env.CLIENT_URL}/account/change_password/${resetToken}>Click here</a>`
 
     const data = {
         email: email,

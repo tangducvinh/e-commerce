@@ -72,7 +72,7 @@ const DetailProduct = ({dispatch, navigate, location}) => {
     const handleAddToCart = async(status) => {
         if (isLoggedIn) {
             dispatch(appSlice.actions.setChildren(<ShowLoading />))
-            const response = await apis.updateCart({pid, color: dataDetaiProduct?.variants[variant].color || 'Đen'})
+            const response = await apis.updateCart({pid, color: dataDetaiProduct?.variants[variant]?.color || 'Đen' })
             dispatch(appSlice.actions.setChildren(null))
             dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
             if (status === 'add') swal(response.data.success ? 'Congratulation' : 'Oops', response.data.mes, response.data.success ? 'success' : 'error')
@@ -149,7 +149,7 @@ const DetailProduct = ({dispatch, navigate, location}) => {
                             <p className='text-[14px] line-through'>{dataDetaiProduct?.price?.price}</p>
                         </div>}
 
-                        <div className='flex ml-[-8px] flex-wrap'>
+                        {/* <div className='flex ml-[-8px] flex-wrap'>
                             {dataDetaiProduct?.version.map((item, index) => (
                                 <div 
                                     key={index}
@@ -165,7 +165,7 @@ const DetailProduct = ({dispatch, navigate, location}) => {
                                     }
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
 
                         <div className='mt-2'>
                             {dataDetaiProduct?.variants.length !== 0 && <p className='text-[14px] text-[#444444] font-bold mb-2'>Màu sắc</p>}

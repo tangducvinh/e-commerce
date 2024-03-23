@@ -36,7 +36,7 @@ const ChangePassword = () => {
             const response = await changePassword(data)
 
             swal(response.success ? 'Congratulation' : 'Opps', response.mes, response.success ? 'success' : 'error').then(() =>{
-                navigate(`/${path.LOGIN}`)
+                navigate(`/${path.ACCOUNT}/${path.LOGIN}`)
             })
         }
     }
