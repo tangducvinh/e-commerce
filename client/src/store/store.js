@@ -14,13 +14,9 @@ import { appSlice } from './appSlice'
 import { userSlice } from './userSlice'
 import { productSlice } from './productSlice'
 
-const commonConfig = {
-    key: 'user',
-    storage
-}
-
 const userConfig = {
-    ...commonConfig,
+    key: 'user',
+    storage,
     whitelist: ['isLoggedIn', 'token']
 }
 

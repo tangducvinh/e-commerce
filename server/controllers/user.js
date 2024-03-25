@@ -73,6 +73,9 @@ const finalRegister = asyncHandler( async(req, res) => {
     // const { token } = req.params
     // const cookie = req.cookies
 
+    console.log(code)
+    console.log(cookie)
+
     try {
         if (cookie?.dataregister.code.toString() === code.toString()) {
             const response =  await User.create({
@@ -217,7 +220,7 @@ const forgotPassword = asyncHandler(async(req, res) => {
     if (!email) {
         return res.json({
             sucess: false,
-            mes: 'Vui lòng nhập email để tiếP tục'
+            mes: 'Vui lòng nhập email để tiếp tục'
         })
     }
     const user = await User.findOne({email})

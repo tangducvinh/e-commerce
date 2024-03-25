@@ -10,5 +10,5 @@ const generateRefreshToken = (uid) => {
 
 module.exports = {
     generateAccessToken,
-    generateRefreshToken
+    generateRefreshToken 
 }

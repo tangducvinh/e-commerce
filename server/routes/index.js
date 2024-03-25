@@ -7,7 +7,7 @@ const couponRouter = require('./coupon')
 const brandRouter = require('./brand')
 const orderRouter = require('./order')
 const insertDataRouter = require('./insertData')
-const { notFound, errHandler} = require('../middlewares/errHandler')
+const { notFound, errHandler } = require('../middlewares/errHandler')
 const homeRouter = require('./home')
 
 const initRoutes = (app) => {
