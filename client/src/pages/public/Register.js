@@ -36,7 +36,8 @@ const Register = ({ data, navigate, dispatch }) => {
                     // swal(response?.success ? 'Congratulation' : 'Oops', response?.mess, response?.success ? 'success' : 'error')
 
                     if(response.success) {
-                        dispatch(appSlice.actions.setChildren(<FormConfirmRegister />))
+                        // dispatch(appSlice.actions.setChildren(<FormConfirmRegister />))
+                        swal(response?.success ? 'Congratulation' : 'Oops', response.mes, response.success ? 'success' : 'error')
                     } else {
                         swal('Oops', 'Đăng kí thất bại vui lòng thử lại sau', 'error')
                     }

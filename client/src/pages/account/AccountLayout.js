@@ -4,7 +4,7 @@ import { Header } from '../../companents'
 
 const AccountLayout = () => {
     return (
-        <div className="relative">
+        <div className="relative min-h-screen">
             <div className='fixed z-50 w-full top-0'>
                 <Header />
             </div>

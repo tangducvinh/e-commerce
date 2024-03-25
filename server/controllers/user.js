@@ -8,6 +8,58 @@ const uniqid = require('uniqid')
 const { dataUsers } = require('../../data/mockUsers')
 const makeToken = require('uniqid')
 
+// const register = asyncHandler(async(req, res) => {
+//     const { email, password, name, mobile } = req.body
+//     if (!email || !password || !mobile || !name) {
+//         return res.status(200).json({
+//             succees: false,
+//             mess: 'Vui lòng nhập đầy đủ thông tin'
+//         })
+//     }
+
+//     const user = await User.findOne({mobile})
+//     const checkEmail = await User.findOne({email})
+
+//     if (user || checkEmail) {
+//         if (user) {
+//             return res.status(200).json({
+//                 success: false,
+//                 mess: "Số điện thoại đã được sử dụng"
+//             })
+//         } else {
+//             return res.status(200).json({
+//                 success: false,
+//                 mess: "Email đã được sử dụng"
+//             })
+//         }
+//     }
+
+//     const codeConfirm = Math.round(Math.random() * 1000000).toString()
+//     // const encodeCodeConfirm = btoa(codeConfirm)
+
+//     // const token = makeToken()
+
+//     res.cookie('dataregister', { ...req.body, code: codeConfirm }, {maxAge: 3*60*1000})
+//     // const html = `Xin vui lòng click vào link dưới đây để xác thực email. Link này sẽ hết hiệu lực trong 3 phút kể từ bây giờ. 
+//     // <a href=${process.env.URL_SERVER}api/user/final-register/${token}>Xác thực</a>`
+
+//     const html = `Mã xác nhận của bạn là: ${codeConfirm}. Vui lòng nhập mã xác nhận để đăng kí tài khoản`
+
+//     try {
+//         await sendMail({email, html, subject: 'Xác thực email'})
+
+//         return res.json({
+//             success: true,
+//             mess: "Check email để hoàn thành đăng kí tài khoản"
+//         })
+//     } catch(e) {
+//         return res.json({
+//             success: false,
+//             mess: "Email đã nhập không tồn tại vui lòng thử lại"
+//         })
+//     }
+// })
+
 const register = asyncHandler(async(req, res) => {
     const { email, password, name, mobile } = req.body
     if (!email || !password || !mobile || !name) {
@@ -34,44 +86,18 @@ const register = asyncHandler(async(req, res) => {
         }
     }
 
-    const codeConfirm = Math.round(Math.random() * 1000000).toString()
-    // const encodeCodeConfirm = btoa(codeConfirm)
+    const response = await User.create({email, password, mobile, name})
+    
+    return res.json({
+        success: response ? true : false,
+        mes: response ? 'Đăng kí tài khoản thành công!' : 'Thực hiện đăng kí tài khoản thất bại vui lòng thử lại sau',
+    })
 
-    // const token = makeToken()
-
-    res.cookie('dataregister', { ...req.body, code: codeConfirm }, {maxAge: 3*60*1000})
-    // const html = `Xin vui lòng click vào link dưới đây để xác thực email. Link này sẽ hết hiệu lực trong 3 phút kể từ bây giờ. 
-    // <a href=${process.env.URL_SERVER}api/user/final-register/${token}>Xác thực</a>`
-
-    const html = `Mã xác nhận của bạn là: ${codeConfirm}. Vui lòng nhập mã xác nhận để đăng kí tài khoản`
-
-    try {
-        await sendMail({email, html, subject: 'Xác thực email'})
-
-        return res.json({
-            success: true,
-            mess: "Check email để hoàn thành đăng kí tài khoản"
-        })
-    } catch(e) {
-        return res.json({
-            success: false,
-            mess: "Email đã nhập không tồn tại vui lòng thử lại"
-        })
-    }
 })
 
 const finalRegister = asyncHandler( async(req, res) => {
     const { code } = req.query
     const cookie = req.cookies
-
-    // console.log(code)
-    // console.log(cookie.dataregister.encodeCodeConfirm)
-    // const decodeCodeConfirm = atob(cookie?.dataregister?.encodeCodeConfirm)
-
-    // console.log(decodeCodeConfirm)
-
-    // const { token } = req.params
-    // const cookie = req.cookies
 
     console.log(code)
     console.log(cookie)
