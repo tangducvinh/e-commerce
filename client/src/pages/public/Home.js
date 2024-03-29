@@ -19,7 +19,7 @@ const Home = () => {
     useEffect(() => {
         if (dataTheme.length === 0) {
             console.log('true')
-            dispatch(appSlice.actions.setChildren(<ShowLoading />))
+            dispatch(appSlice.actions.setChildren(<ShowLoading/>))
         } else {
             console.log('false')
             dispatch(appSlice.actions.setChildren(null))

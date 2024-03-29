@@ -29,8 +29,11 @@ const ItemProductSearch = ({pid, image, sale, price, title, dispatch}) => {
             <div>
                 <p className='font-[500] text-[12px]'>{title}</p>
                 <div className="flex items-center gap-2">
-                    <p className="text-main text-[14px] ">{sale || price}</p>
-                    {sale && <p className="text-[#777777] text-[12px] line-through">{price}</p>}
+                    <p className="text-main text-[14px] ">{
+                        sale ? Number(sale?.replace(/\D/g, "")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+                        : Number(price?.replace(/\D/g, "")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+                    }</p>
+                    {sale && <p className="font-sm text-start text-[#707070] text-[15px] line-through">{Number(price?.replace(/\D/g, "")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</p>}
                 </div>
             </div>
         </Link>

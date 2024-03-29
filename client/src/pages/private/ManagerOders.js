@@ -14,7 +14,7 @@ const ManageOders = ({ dispatch }) => {
     const [ params ] = useSearchParams()
     
     const getOrderProduct = async(data) => {
-        dispatch(appSlice.actions.setChildren(<ShowLoading />))
+        dispatch(appSlice.actions.setChildren(<ShowLoading hiddenBackground />))
         const response = await apis.getOrders(data)
         dispatch(appSlice.actions.setChildren(null))
         if (response.data.success) {

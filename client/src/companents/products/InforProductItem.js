@@ -35,19 +35,19 @@ const InforProductItem = ({pid, index, title, category, price, sold, quanlity, r
     }
 
     return (
-        <div className='flex items-center mx-3 py-4 border-b-[1px] mt-2 text-[14px] font-[500]'>
+        <div className='flex items-center ml-3 py-4 border-b-[1px] mt-2 text-[14px] font-[500]'>
             <span className='w-[50px]'>{`#${index + 1}`}</span>
             <img className='w-[35px] h-[35px] mr-1' src={image} alt='anh' ></img>
             <p className='flex-2'>{title?.slice(0, 37)}</p>
             <span className='flex-1'>{`${category.slice(0, 1).toUpperCase()}${category.slice(1)}`}</span>
             <span className='flex-1'>{sold}</span>
             <span className='flex-1'>{quanlity}</span>
-            <span className='flex-1'>{price}</span>
+            <span className='flex-1 text-main'>{Number(price?.replace(/\D/g, "")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</span>
             <span className='flex-1 flex items-center h-[30px] gap-1'>
                 <span>{rating}</span>
                 <span className='mb-1'><FaStar color='F59E0B' /></span>
             </span>
-            <div onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)} className='relative w-[35px] cursor-pointer h-[35px] flex items-center justify-center mr-2 rounded-full hover:bg-gray'>
+            <div onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)} className='relative w-[50px] cursor-pointer h-[35px] flex items-center justify-center mr-2 rounded-full hover:bg-gray'>
                 <BsThreeDots size={20} />
 
                 {show && 

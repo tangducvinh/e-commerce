@@ -120,7 +120,7 @@ const Header = ({ dispatch, navigate }) => {
                         <span className="ml-1 text-white text-[12px] select-none">Danh mục</span>
 
                         {showOverlaySidebar && 
-                            <div className='absolute top-[150%] bg-white rounded-lg shadow-md right-[125%] pb-2 w-[220px]'>
+                            <div className='absolute top-[150%] bg-white z-50 rounded-lg shadow-md right-[125%] pb-2 w-[220px]'>
                                 <Sidebar />
                             </div>
                         }

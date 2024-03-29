@@ -21,7 +21,7 @@ const ForgotPassword = ({ dispatch }) => {
     const [ value, setValue ] = useState({email: ''})
 
     const handleSubmid = async() => {
-        dispatch(appSlice.actions.setChildren(<ShowLoading />))
+        dispatch(appSlice.actions.setChildren(<ShowLoading bgWhite />))
         const response = await forgotPassword(value)
         dispatch(appSlice.actions.setChildren(null))
 

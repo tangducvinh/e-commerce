@@ -95,6 +95,11 @@ const DetailProduct = ({dispatch, navigate, location}) => {
         }
     }
 
+    const handleChooseVariant = (data, index) => {
+        setVariant(index)
+        // setNumber(data.image)
+    }
+
     return (
         <div className='flex justify-center relative'>
             <div className='flex w-[1220px] flex-col'>
@@ -108,7 +113,11 @@ const DetailProduct = ({dispatch, navigate, location}) => {
                 <div className='flex mt-5 gap-5 mb-7'>
                     <div className='flex-6 overflow-hidden'>
                         <div className='flex justify-center w-full border rounded-xl overflow-hidden h-[400px]'>
-                            <img src={dataDetaiProduct?.images[number]} className='object-cover' alt='product'></img>
+                            {typeof number === 'number' ? 
+                                <img src={dataDetaiProduct?.images[number]} className='object-cover' alt='product'></img>
+                                :
+                                <img src={number} className='object-cover' alt='product'></img>    
+                            }   
                         </div>
 
                         <div className='h-[52px] flex scroll-smooth focus:scroll-auto mt-2 cursor-pointer'>
@@ -172,7 +181,7 @@ const DetailProduct = ({dispatch, navigate, location}) => {
                             <div className='flex ml-[-8px] flex-wrap'>
                                 {dataDetaiProduct?.variants.map((item, index) => (
                                     <div 
-                                        onClick={() => setVariant(index)}
+                                        onClick={() => handleChooseVariant(item, index)}
                                         key={index}
                                         className={`flex gap-2 ml-2 w-three mb-2 rounded-lg border items-center justify-center py-2 cursor-pointer relative ${variant === index ? 'border-main' : undefined}`}>
                                         <img className='w-[30px] h-[30px] object-cover' src={item.image} alt='list product'></img>

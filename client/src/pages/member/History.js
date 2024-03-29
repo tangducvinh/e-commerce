@@ -12,6 +12,8 @@ const History = () => {
     const fecthUserOder = async(data) => {
         const response = await apis.getUserOder(data)
 
+        console.log(response)
+
         if (response.data.success) {
             setDateOrder(response.data)
         }

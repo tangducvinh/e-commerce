@@ -2,27 +2,31 @@ import { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 import { withBaseCompanent } from '../../hocs/withBaseCompanent'
+import { ShowLoading } from '../../companents'
 import icons from '../../ultis/icons'
 import * as apis from '../../apis'
 import { userSlice } from '../../store/userSlice'
+import { appSlice } from '../../store/appSlice'
+import swal from 'sweetalert'
 
 const ItemProductMyCart = ({ isChecked, image, name, price, discount, quanlity, color, onCheck, pid, id, onDeleteProduct, dispatch, path }) => {
 
-    const handlePlusQuanlity = async() => {
-        const response = await apis.updateQuanlityProductCart({pid, color, status: 1})
+    const handleChangeQuanlity = async(type) => {
+        if (type === 'minus' && quanlity <= 1) {
+            return swal('Warning', 'Số lượng sản phẩm tối thiểu là 1', 'warning')
+        }
+
+        dispatch(appSlice.actions.setChildren(<ShowLoading hiddenBackground />))
+        let response
+        if (type === 'minus') {
+            response = await apis.updateQuanlityProductCart({pid, color, status: -1})
+        } else {
+            response = await apis.updateQuanlityProductCart({pid, color, status: 1})
+        }
+        dispatch(appSlice.actions.setChildren(null))
 
         if (response.data.success) {
             dispatch(userSlice.actions.setDataUserCurrent(response.data.data))
-        }
-    }
-
-    const handleMinusQuanlity = async() => {
-        if (quanlity > 1) {
-            const response = await apis.updateQuanlityProductCart({pid, color, status: -1})
-
-            if (response.data.success) {
-                dispatch(userSlice.actions.setDataUserCurrent(response.data.data)) 
-            }   
         }
     }
 
@@ -44,14 +48,17 @@ const ItemProductMyCart = ({ isChecked, image, name, price, discount, quanlity, 
 
                         <div className='flex justify-between'>
                             <div>
-                                <span className='text-[#D70018] text-[17px]'>{discount || price}</span>
-                                {discount && <span className='text-[#707070] text-[14px] line-through ml-2'>{price}</span>}
+                                <span className='text-[#D70018] text-[17px]'>{
+                                    discount ? Number(discount?.replace(/\D/g, "")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+                                    : Number(price?.replace(/\D/g, "")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+                                }</span>
+                                {discount && <span className='text-[#707070] text-[14px] line-through ml-2'>{Number(price?.replace(/\D/g, "")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</span>}
                             </div>
                             
                             <div className='flex items-center gap-2'>
-                                <button onClick={handleMinusQuanlity} className='w-[30px] h-[30px] bg-[#F3F3F3]'>&#8722;</button>
+                                <button onClick={() => handleChangeQuanlity('minus')} className='w-[30px] h-[30px] bg-[#F3F3F3]'>&#8722;</button>
                                 <span className='text-[13px] w-[20px] text-center'>{quanlity}</span>
-                                <button onClick={handlePlusQuanlity} className='w-[30px] h-[30px] bg-[#F3F3F3]'>&#43;</button>
+                                <button onClick={() => handleChangeQuanlity('plus')} className='w-[30px] h-[30px] bg-[#F3F3F3]'>&#43;</button>
                             </div>
                         </div>
                     </div>

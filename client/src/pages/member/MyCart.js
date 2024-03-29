@@ -76,7 +76,6 @@ const MyCart = ({ dispatch, navigate}) => {
 
     const handleDeleteAllProduct = async() => {
         const data = dataCurrent.cart.filter(item => checks.some(el => el === item._id)).map(it => ({pid: it.product._id, color: it.color}))
-        console.log(data)
         dispatch(appSlice.actions.setChildren(<ShowLoading />))
         const response = await apis.deleteProductCart({data: data})
         dispatch(appSlice.actions.setChildren(null))
@@ -95,12 +94,12 @@ const MyCart = ({ dispatch, navigate}) => {
                 <div className='relative'>
                     <h1 className='font-bold text-[24px] text-gray-600'>Giỏ hàng của bạn</h1>
 
-                    <div className='flex items-center justify-between'>
+                    <div className='flex items-center justify-between w-[600px]'>
                         <div className='flex items-center gap-2'>
                             <button onClick={handleChooseAll} className='w-[20px] h-[20px] rounded-full border-2 relative flex items-center justify-center'>
-                                {dataCurrent.cart.length === checks.length && <FaCircleCheck color='red' />}
+                                {dataCurrent?.cart.length === checks.length && <FaCircleCheck color='red' />}
                             </button>
-                            {dataCurrent.cart.length === checks.length ? <span>Bỏ chọn tất cả</span> : <span>Chọn tất cả</span>}
+                            {dataCurrent?.cart.length === checks.length ? <span>Bỏ chọn tất cả</span> : <span>Chọn tất cả</span>}
                         </div>
 
                         {checks.length > 0 && 

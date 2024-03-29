@@ -17,7 +17,7 @@ import { productSlice } from './productSlice'
 const userConfig = {
     key: 'user',
     storage,
-    whitelist: ['isLoggedIn', 'token']
+    whitelist: ['isLoggedIn', 'token', 'dataCurrent']
 }
 
 export const store = configureStore({

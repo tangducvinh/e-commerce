@@ -33,12 +33,16 @@ module.exports = {
         navigation: 'rgba(0, 0, 0, 0.3)',
         hv: '#f3f4f6',
         'btn-yellow': '#E59441',
-        overlay: 'rgba(0, 0, 0, 0.7)'
+        overlay: 'rgba(0, 0, 0, 0.7)',
+        overlayWhite: '#ffffff'
       },
       colors: {
         main: '#D70018',
         sidebar: '#343A40',
         'regal-blue': '#485FC7'
+      },
+      zIndex: {
+        '100': '100'
       },
       flex: {
         '2': '2 2 0%',

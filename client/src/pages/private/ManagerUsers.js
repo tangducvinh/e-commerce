@@ -19,7 +19,7 @@ const ManageUsers = ({ dispatch }) => {
     const { isChangeDataUsers } = useSelector(state => state.app)
 
     const fecthDataUsers = async(params) => {
-        dispatch(appSlice.actions.setChildren(<ShowLoading />))
+        dispatch(appSlice.actions.setChildren(<ShowLoading hiddenBackground />))
         const response = await apis.getAllUsers(params)
         dispatch(appSlice.actions.setChildren(null))
         if (response.success) setDataUsers(response)
@@ -50,11 +50,6 @@ const ManageUsers = ({ dispatch }) => {
 
                 <div className='flex items-center justify-between gap-5'>
                     <InputSearch setValueSearch={setValue} valueSearch={valueSearch}/>
-
-                    <button className='bg-blue-500 text-[#ffff] gap-2 flex py-2 px-4 rounded-md'>
-                        <HiUserAdd size={20}/>
-                        <span className='text-[14px]'>Thêm</span>
-                    </button>
                 </div>
             </div>
             <div className='mt-[30px]'>

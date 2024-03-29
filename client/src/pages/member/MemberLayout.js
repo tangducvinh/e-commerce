@@ -20,7 +20,7 @@ const MenberLayout = () => {
 
             <div className='flex justify-center'>
                 <div className='w-[1220px] mt-[20px] flex gap-[30px]'>
-                    <div className='border w-[270px] fixed bg-[#F6FBFC] rounded-lg p-2'>
+                    <div className='border w-[270px] fixed bg-[#F6FBFC] z-49 rounded-lg p-2'>
                         <AdminSidebar data={profile} />
                     </div>
 

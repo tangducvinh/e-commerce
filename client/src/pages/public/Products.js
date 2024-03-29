@@ -1,5 +1,6 @@
 import { useParams, useNavigate, createSearchParams, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import * as apis from '../../apis'
 import { HotSale, ItemProduct, Pagination, InputSearch, ShowLoading } from '../../companents'
@@ -9,6 +10,7 @@ import iconsSearch from '../../assets/imgs/nodatasearch.png'
 import { appSlice } from '../../store/appSlice'
 
 const Products = ({ location, dispatch }) => {
+    const { dataCurrent } = useSelector(state => state.user)
     const  { category }  = useParams()
     const [ data, setData ] = useState({})
     const [ filterStatus, setFilterStatus ] = useState(filters.length - 1)
@@ -121,6 +123,7 @@ const Products = ({ location, dispatch }) => {
                                     star = {Number(item?.totalRatings?.rate) || Number(item?.totalRatings?.rate?.split('')[0])}
                                     incentives = {item?.incentives[0]}
                                     pid = {item?._id}
+                                    favorite={dataCurrent?.wishlist.some(el => el._id === item._id)}
                                 />
                             </div>
                         ))}

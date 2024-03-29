@@ -23,7 +23,7 @@ const ManageProducts = () => {
     }, [])
 
     const fecthDataProduct = async(passData) => {
-        dispatch(appSlice.actions.setChildren(<ShowLoading />))
+        dispatch(appSlice.actions.setChildren(<ShowLoading hiddenBackground />))
         const response = await apis.getAllProducts(passData)
         dispatch(appSlice.actions.setChildren(null))
         setDataProducts(response)
@@ -72,7 +72,7 @@ const ManageProducts = () => {
                     <span className='flex-1'>Tồn kho</span>
                     <span className='flex-1'>Giá</span>
                     <span className='flex-1'>Đánh giá</span>
-                    <span className='w-[35px]'></span>
+                    <span className='w-[50px]'></span>
                 </div>
 
                 {dataProducts?.data.map((el, index) => (

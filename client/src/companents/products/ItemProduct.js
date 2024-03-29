@@ -14,7 +14,6 @@ import swal from 'sweetalert'
 const ItemProduct = ({ image, discount, title, price, sale, star, incentives, pid, favorite, dispatch, navigate, location }) => {
     const { FaStar, FaRegHeart, FaHeart  } = icons
     const { dataCurrent } = useSelector(state => state.user)
-    
 
     const handleAddFavorite = async(e) => {
         e.stopPropagation()
@@ -32,7 +31,7 @@ const ItemProduct = ({ image, discount, title, price, sale, star, incentives, pi
                 })
             })
         }
-        dispatch(appSlice.actions.setChildren(<ShowLoading />))
+        dispatch(appSlice.actions.setChildren(<ShowLoading hiddenBackground />))
         const response = await apis.updateFavorite({pid, status: 1})
         dispatch(appSlice.actions.setChildren(null))
 
@@ -43,7 +42,7 @@ const ItemProduct = ({ image, discount, title, price, sale, star, incentives, pi
 
     const handleDeleteFavorite = async(e) => {
         e.stopPropagation()
-        dispatch(appSlice.actions.setChildren(<ShowLoading />))
+        dispatch(appSlice.actions.setChildren(<ShowLoading hiddenBackground />))
         const response = await apis.updateFavorite({pid, status: -1})
         dispatch(appSlice.actions.setChildren(null))
 
@@ -61,7 +60,7 @@ const ItemProduct = ({ image, discount, title, price, sale, star, incentives, pi
             onClick={handleNavigate}
             className="flex flex-col ml-2 bg-white h-full rounded-xl p-3 relative mt-[10px] shadow-lg"
         >
-            <div className="flex justify-center mt-2">
+            <div className="flex justify-center w-full mt-2">
                 <img className="w-[160px] h-[160px] object-cover" alt="product" src={image} ></img>
             </div>
 
@@ -71,16 +70,23 @@ const ItemProduct = ({ image, discount, title, price, sale, star, incentives, pi
                 </div>
             }
 
-            <div className="mt-2 flex flex-col">
-                <p className="text-[#444444] font-[500] text-[15px] text-left line-clamp-3 h-[75px]">{title}</p>
+            <div className="mt-2 flex flex-col w-full">
+                <p className="text-[#444444] font-[500] text-[15px] text-left line-clamp-2 h-[50px]">{title}</p>
 
-                <div className="flex gap-1 font-[500]">
-                    <p className="font-[16px] text-[#D70018]">{sale}</p>
-                    <p className="font-sm text-[#707070] line-through">{price}</p>
+                <div className="flex gap-1 flex-col justify-start font-[500] min-h-[50px]">
+                    <p className="text-[15px] text-[#D70018] text-start">{
+                        sale ? Number(sale?.replace(/\D/g, "")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+                        : Number(price?.replace(/\D/g, "")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+                    }</p>
+                    {sale && 
+                        <p className="font-sm text-start text-[#707070] text-[15px] line-through">
+                            {Number(price?.replace(/\D/g, "")).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}
+                        </p>
+                    }
                 </div>
 
                 {incentives?.length ? 
-                    <div className="bg-[#F3F4F6] min-h-10 px-1 py-[2px] mt-2 mb-2 rounded-md"><p className="text-[12px] line-clamp-2">{incentives}</p></div>
+                    <div className="bg-[#F3F4F6] min-h-10 px-1 py-[2px] mt-2 mb-2 rounded-md"><p className="text-[12px] line-clamp-2 text-start">{incentives.split('<span>')[0].trim().replace("\\n",'')}</p></div>
                     :
                     <div className="px-1 py-[2px] mt-2 mb-2 min-h-10"></div>
                 }

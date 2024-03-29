@@ -1,8 +1,8 @@
 import { Loading } from '../../companents'
 
-const ShowLoading = () => {
+const ShowLoading = ({hiddenBackground = false}) => {
     return (
-        <div>
+        <div className={`fixed w-screen h-screen flex justify-center items-center ${hiddenBackground ? '' : 'bg-overlayWhite'} z-50`}>
             <Loading />
         </div>
     )
