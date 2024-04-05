@@ -32,7 +32,7 @@ const AdminLayout = ({dispatch}) => {
 
             <div className='flex justify-center items-center'>
                 <div className="flex gap-[30px] mt-[20px] w-[1500px]">
-                    <div className='border w-[270px] fixed bg-[#F6FBFC] z-49 rounded-lg p-2'>
+                    <div className='border-[1px] border-gray-300 w-[270px] fixed bg-[#F6FBFC] z-49 rounded-lg p-2'>
                         <AdminSidebar data={adminSidebar} />
                     </div>
 

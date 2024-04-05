@@ -103,7 +103,7 @@ const DetailProduct = ({dispatch, navigate, location}) => {
     return (
         <div className='flex justify-center relative'>
             <div className='flex w-[1220px] flex-col'>
-                <div className='w-full flex items-center h-[60px] gap-2 border-b-2'>
+                <div className='w-full flex items-center h-[60px] gap-2 border-b-2 border-gray-300'>
                     <h3 className='font-bold text=[#0A263C] text-[18px]'>{dataDetaiProduct?.title}</h3>
                     <div className='flex items-center'>
                         {dataDetaiProduct?.star === 5 && renderStarVisible.map((item, index) => <span key={index}>{item}</span>)}
@@ -112,7 +112,7 @@ const DetailProduct = ({dispatch, navigate, location}) => {
 
                 <div className='flex mt-5 gap-5 mb-7'>
                     <div className='flex-6 overflow-hidden'>
-                        <div className='flex justify-center w-full border rounded-xl overflow-hidden h-[400px]'>
+                        <div className='flex justify-center w-full border border-gray-300 rounded-xl overflow-hidden h-[400px]'>
                             {typeof number === 'number' ? 
                                 <img src={dataDetaiProduct?.images[number]} className='object-cover' alt='product'></img>
                                 :
@@ -125,14 +125,14 @@ const DetailProduct = ({dispatch, navigate, location}) => {
                                 <div
                                     key={item}
                                     onClick={() => setNumber(index)} 
-                                    className='mr-2 flex flex-shrink-0 justify-center w-[50px] h-[50px] border rounded-lg'
+                                    className='mr-2 flex flex-shrink-0 justify-center w-[50px] h-[50px] border border-gray-300 rounded-lg'
                                 >
                                     <img src={item} className='object-contain' alt='banner'></img>
                                 </div>
                             ))}
                         </div>
 
-                        <div className='mt-5 border rounded-xl p-2'>
+                        <div className='mt-5 border border-gray-300 rounded-xl p-2'>
                             <h4 className='text-[#444444] text-[16px] font-bold'>Thông tin sản phẩm</h4>
 
                             {dataDetaiProduct?.information.map((item, index) => (
@@ -183,7 +183,7 @@ const DetailProduct = ({dispatch, navigate, location}) => {
                                     <div 
                                         onClick={() => handleChooseVariant(item, index)}
                                         key={index}
-                                        className={`flex gap-2 ml-2 w-three mb-2 rounded-lg border items-center justify-center py-2 cursor-pointer relative ${variant === index ? 'border-main' : undefined}`}>
+                                        className={`flex gap-2 ml-2 w-three mb-2 rounded-lg border border-gray-300 items-center justify-center py-2 cursor-pointer relative ${variant === index ? 'border-main' : undefined}`}>
                                         <img className='w-[30px] h-[30px] object-cover' src={item.image} alt='list product'></img>
 
                                         <div className='flex flex-col text-[12px] text-[#444444]'>
@@ -201,7 +201,7 @@ const DetailProduct = ({dispatch, navigate, location}) => {
                         </div>
 
                         {dataDetaiProduct?.incentives.length !== 0 && dataDetaiProduct?.incentives !== null && 
-                            <div className='rounded-xl border mt-2 overflow-hidden'>
+                            <div className='rounded-xl border border-gray-300 mt-2 overflow-hidden'>
                                 <div className='flex gap-2 items-center bg-[#fee2e2] p-2 mb-2'>
                                     <HiGift color="red" size={27}/>
                                     <h2 className='text-[16px] text-[#D70018] font-bold'>Khuyến mãi</h2>
@@ -242,7 +242,7 @@ const DetailProduct = ({dispatch, navigate, location}) => {
                     }
 
                     <p className='text-[16px] text-[#4A4A4A] text-center mt-5'>Bạn đánh giá sao về sản phẩm này?</p>
-                    <div className='text-center mt-7 pb-8 border-b-[1px]'>
+                    <div className='text-center mt-7 pb-8 border-b-[1px] border-gray-300'>
                         <button 
                             onClick={handleChooseVote}
                             className='text-[16px] text-white bg-main text-center p-2 px-6 rounded-md'>Đánh giá ngay

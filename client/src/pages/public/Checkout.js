@@ -78,12 +78,12 @@ const Checkout = ({ dispatch }) => {
     return (
         <div className='flex justify-center'>
             <div className='w-[600px] relative mt-[20px] flex flex-col gap-[20px]'>
-                <div className='relative flex items-center justify-center border-b-[1px] pb-2'>
+                <div className='relative flex items-center justify-center border-b-[1px] border-gray-300 pb-2'>
                     <h1 className="text-[18px] font-bold text-[#323232]">Thông tin</h1>
-                    <Link to={`/${path.MEMBER}/${path.MYCART}`} className='absolute left-0 border-gray'><GoArrowLeft size='30px'/></Link>
+                    <Link to={`/${path.MEMBER}/${path.MYCART}`} className='absolute left-0 border-gray-300'><GoArrowLeft size='30px'/></Link>
                 </div>
 
-                <div className='p-4 rounded-md border-[1px] flex flex-col gap-2'>
+                <div className='p-4 rounded-md border-[1px] border-gray-300 flex flex-col gap-2'>
                     {dataCartCheckout.filter((el, index) => index < show).map((item, index) => (
                         <ItemProductCheckout 
                             image={item.product.images[0]}
@@ -92,7 +92,7 @@ const Checkout = ({ dispatch }) => {
                             price={item.product.price.price}
                             sale={item.product.price.sale}
                             quantity={item.quanlity}
-                            style={index === show - 1 ? '' : 'border-b-[1px]'}
+                            style={index === show - 1 ? '' : 'border-b-[1px] border-gray-300'}
                         />
                     ))}
 
@@ -119,7 +119,7 @@ const Checkout = ({ dispatch }) => {
 
                 <div>
                     <h1 className='text-[16px]'>THÔNG TIN KHÁCH HÀNG</h1>
-                    <div className='rounded-md border-[1px] p-4 py-10 flex flex-col gap-[30px] mt-2'>
+                    <div className='rounded-md border-[1px] border-gray-300 p-4 py-10 flex flex-col gap-[30px] mt-2'>
                         <div className='flex gap-[20px] items-center'>
                             <InputLogin 
                                 value={value.name} 
@@ -145,7 +145,7 @@ const Checkout = ({ dispatch }) => {
 
                 <div>
                     <h1 className='text-[16px]'>THÔNG TIN NHẬN HÀNG</h1>
-                    <div className='rounded-md border-[1px] p-4 py-10 flex flex-col gap-[30px] mt-2'>
+                    <div className='rounded-md border-[1px] border-gray-300 p-4 py-10 flex flex-col gap-[30px] mt-2'>
                         <div className='flex gap-[20px] items-center'>
                             <InputLogin 
                                 value={valueAddress.city} 
@@ -189,7 +189,7 @@ const Checkout = ({ dispatch }) => {
                                 <div key={item._id} className='flex items-center gap-2 ml-2'>
                                     <button 
                                         onClick={() => setCheckAddress(index)}
-                                        className='w-[15px] h-[15px] rounded-full border-[1px] relative'
+                                        className='w-[15px] h-[15px] rounded-full border-[1px] border-gray-300 relative'
                                     >
                                         {checkAddress === index && <span className='text-main absolute inset-0'><FaCircleCheck /></span>}
                                     </button>
@@ -209,7 +209,7 @@ const Checkout = ({ dispatch }) => {
 
                 <div className='h-[100px]'></div>
 
-                <div className='pb-5 fixed bottom-0 w-[600px] bg-white rounded-md border-[1px] px-2 py-3 shadow-md'>
+                <div className='pb-5 fixed bottom-0 w-[600px] bg-white rounded-md border-[1px] border-gray-300 px-2 py-3 shadow-md'>
                     <div className='flex items-center justify-between'>
                         <p className='text-[16px] font-bold'>Tổng tiền tạm thời: </p>
                         <spam className='text-main text-[16px] font-bold'>{total.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})}</spam>

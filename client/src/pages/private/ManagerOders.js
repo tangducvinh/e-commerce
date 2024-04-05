@@ -10,21 +10,24 @@ import { appSlice } from '../../store/appSlice'
 const ManageOders = ({ dispatch }) => {
     const [ valueSearch, setValueSearch ] = useState('')
     const [ dataOrders, setDataOrders ] = useState()
-    const [ value ] = useDebounce(valueSearch)
+    const [ value ] = useDebounce(valueSearch, 500)
     const [ params ] = useSearchParams()
     
     const getOrderProduct = async(data) => {
         dispatch(appSlice.actions.setChildren(<ShowLoading hiddenBackground />))
         const response = await apis.getOrders(data)
         dispatch(appSlice.actions.setChildren(null))
-        if (response.data.success) {
+        if (response?.data?.success) {
             setDataOrders(response?.data)
         }
     }
 
     useEffect(() => {
         let data = {}
-        if(value) data.indexOrder = value
+        console.log(value.replace(/\D/g, ""))
+        if(value.replace(/\D/g, "")) {
+            data.indexOrder = value
+        }
         
         const getParams = Object.fromEntries([...params])
         data = {...data, ...getParams}

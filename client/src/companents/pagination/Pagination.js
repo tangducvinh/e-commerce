@@ -47,7 +47,7 @@ const Pagination = ({ totalProductCount, changeValue, location, navigate }) => {
             {page !== 1 && 
                 <div 
                     onClick={() => handleChoosePage(page - 1)}
-                    className='w-[42px] h-[42px] flex items-center justify-center border rounded-full cursor-pointer hover:bg-[#DEE2E6]'
+                    className='w-[42px] h-[42px] flex items-center justify-center border border-gray-300 rounded-full cursor-pointer hover:bg-[#DEE2E6]'
                 >
                     <FaAngleLeft />
                 </div>
@@ -56,14 +56,14 @@ const Pagination = ({ totalProductCount, changeValue, location, navigate }) => {
                 <div 
                     onClick={() => handleChoosePage(item)}
                     key={index} 
-                    className={`w-[42px] h-[42px] flex items-center justify-center border rounded-full cursor-pointer hover:bg-[#DEE2E6] ${Number(item) === (Number(params.get('page') || 1)) ? 'bg-main text-white hover:bg-main' : undefined}`}>
+                    className={`w-[42px] h-[42px] flex items-center justify-center border border-gray-300 rounded-full cursor-pointer hover:bg-[#DEE2E6] ${Number(item) === (Number(params.get('page') || 1)) ? 'bg-main text-white hover:bg-main' : undefined}`}>
                     {item}
                 </div>
             ))}
             {page !== pagination?.[pagination?.length - 1] &&
                 <div 
                     onClick={() => handleChoosePage(page + 1)}
-                    className='w-[42px] h-[42px] flex items-center justify-center border rounded-full cursor-pointer hover:bg-[#DEE2E6]'
+                    className='w-[42px] h-[42px] flex items-center justify-center border border-gray-300 rounded-full cursor-pointer hover:bg-[#DEE2E6]'
                 >
                     <FaAngleRight />
                 </div>

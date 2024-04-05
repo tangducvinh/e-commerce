@@ -5,8 +5,8 @@ import { renderStar } from '../../ultis/func'
 
 const ResultVote = ({ dataDetaiProduct }) => {
     return (
-        <div className='flex py-7 border-b-[1px]'>
-            <div className='flex flex-3 flex-col justify-center items-center border-r-[1px] gap-1'>
+        <div className='flex py-7 border-b-[1px] border-gray-400'>
+            <div className='flex flex-3 flex-col justify-center items-center border-r-[1px] border-gray-400 gap-1'>
                 <p className='text-[24px] text-[#363636] font-bold'>{`${dataDetaiProduct?.totalRatings.rate}/${dataDetaiProduct?.totalRatings.totalUser}`}</p>
 
                 <div className='flex items-center gap-2'>

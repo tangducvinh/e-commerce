@@ -58,7 +58,7 @@ const ItemProduct = ({ image, discount, title, price, sale, star, incentives, pi
     return (
         <button 
             onClick={handleNavigate}
-            className="flex flex-col ml-2 bg-white h-full rounded-xl p-3 relative mt-[10px] shadow-lg"
+            className="flex flex-col ml-2 bg-white h-full rounded-xl p-3 relative mt-[10px] shadow-xl border-[1px] border-gray-200"
         >
             <div className="flex justify-center w-full mt-2">
                 <img className="w-[160px] h-[160px] object-cover" alt="product" src={image} ></img>

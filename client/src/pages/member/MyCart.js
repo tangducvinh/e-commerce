@@ -96,7 +96,7 @@ const MyCart = ({ dispatch, navigate}) => {
 
                     <div className='flex items-center justify-between w-[600px]'>
                         <div className='flex items-center gap-2'>
-                            <button onClick={handleChooseAll} className='w-[20px] h-[20px] rounded-full border-2 relative flex items-center justify-center'>
+                            <button onClick={handleChooseAll} className='w-[20px] h-[20px] rounded-full border-2 border-gray-300 relative flex items-center justify-center'>
                                 {dataCurrent?.cart.length === checks.length && <FaCircleCheck color='red' />}
                             </button>
                             {dataCurrent?.cart.length === checks.length ? <span>Bỏ chọn tất cả</span> : <span>Chọn tất cả</span>}
@@ -131,7 +131,7 @@ const MyCart = ({ dispatch, navigate}) => {
 
                     <div className='h-[100px]'></div>
 
-                    <div className='w-[600px] px-2 pt-2 pb-4 flex bg-white items-center rounded-md border-[1px] justify-between fixed bottom-0'>
+                    <div className='w-[600px] px-2 pt-2 pb-4 flex bg-white items-center rounded-md border-[1px] border-gray-300 justify-between fixed bottom-0'>
                         <div className='flex flex-col'>
                             <p className='text-[14px] font-medium'>Tạm tính</p>
                             <p className='text-main text-[16px] font-semibold'>{`${total.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})}`}</p>

@@ -38,7 +38,7 @@ const InforUserItem = ({ name, email, mobile, role, status, uid, handleChangeDat
                 <img src={avatar} alt='avatar' className='w-8 h-8 rounded-full'></img>
             </div>
             <span className='flex-2 text-[14px] font-[500]'>{name}</span>
-            <span className='flex-2 text-[14px] font-[500]'>{email}</span>
+            <span className='flex-2 text-[14px] font-[500] line-clamp-2 mr-2'>{email}</span>
             <span className='flex-2 text-[14px] font-[500]'>{mobile}</span>
             <span className='flex-2 text-[14px] font-[500]'>{rules.find(el => el.role === role).value}</span>
             <span className={`flex-2 text-[14px] font-[500] ${!status ? 'text-green-600' : 'text-red-600'}`}>{!status ? 'HOẠT ĐỘNG' : 'BỊ CHẶN'}</span>

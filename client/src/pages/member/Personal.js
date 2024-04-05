@@ -125,7 +125,7 @@ const Personal = ({ dispatch }) => {
                         <div key={item._id} className='flex items-center gap-2'>
                             <button 
                                 onClick={() => setCheckAddress(index)}
-                                className='w-[15px] h-[15px] rounded-full border-[1px] relative'
+                                className='w-[15px] h-[15px] rounded-full border-[1px] border-gray-300 relative'
                             >
                                 {checkAddress === index && <span className='text-main absolute inset-0'><FaCircleCheck /></span>}
                             </button>

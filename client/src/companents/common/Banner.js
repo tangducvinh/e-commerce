@@ -77,7 +77,7 @@ const Banner = () => {
                         <div 
                             key={index}
                             onClick={() => setNumber(index)}
-                            className={`flex text-[12px] flex-col p-4 flex-shrink-0 items-center border-b-2 cursor-pointer text-gray-600 hover:bg-hv ${index === number ? 'border-main' : 'border-transparent'}`}
+                            className={`flex text-[12px] flex-col p-4 flex-shrink-0 items-center border-b-2 border-gray-300 cursor-pointer text-gray-600 hover:bg-hv ${index === number ? 'border-main' : 'border-transparent'}`}
                         >
                             <span className={number === index ? 'text-black font-[500]' : undefined}>{item.name}</span>
                             <span className={number === index ? 'text-black font-[500]' : undefined}>{item.description}</span>

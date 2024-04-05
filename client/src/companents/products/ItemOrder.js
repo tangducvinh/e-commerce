@@ -7,8 +7,8 @@ const ItemOrder = ({data}) => {
     const date = new Date(data?.updatedAt)
 
     return (
-        <div className='w-full border-[1px] p-4 rounded-md'>
-            <div className='flex items-center gap-8 px-4 py-6 rounded-md border-b-[1px]'>
+        <div className='w-full border-[1px] border-gray-300 p-4 rounded-md'>
+            <div className='flex items-center gap-8 px-4 py-6 rounded-md border-b-[1px] border-gray-300'>
                 <div className='flex flex-shrink-0 flex-col items-center'>
                     <p className='text-[14px] font-medium'>Mã hoá đơn</p>
                     <p className='text-[14px] text-slate-500'>{`#${data?.indexOrder}`}</p>

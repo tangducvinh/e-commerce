@@ -14,7 +14,7 @@ const CommentVote = ({ dataDetaiProduct }) => {
             <div className='mt-2'>
                 <div 
                     onClick={() => setFilterStarComment(0)}
-                    className={`text-[14px] px-3 py-1 inline-block rounded-3xl border-[1px] cursor-pointer ${filterStarComment === 0 ? 'bg-main text-white' : 'text-[#637381]'}`}
+                    className={`text-[14px] px-3 py-1 inline-block rounded-3xl border-[1px] border-gray-400 cursor-pointer ${filterStarComment === 0 ? 'bg-main text-white' : 'text-[#637381]'}`}
                 >
                     Tất cả
                 </div>             
@@ -25,7 +25,7 @@ const CommentVote = ({ dataDetaiProduct }) => {
                     <div 
                         key={index}
                         onClick={() => setFilterStarComment(item.amont)}
-                        className={`flex gap-1 border px-3 py-1 rounded-3xl items-center cursor-pointer ${item.amont === filterStarComment ? 'bg-main text-white' : 'text-[#637381]'}`}
+                        className={`flex gap-1 border-[1px] border-gray-400 px-3 py-1 rounded-3xl items-center cursor-pointer ${item.amont === filterStarComment ? 'bg-main text-white' : 'text-[#637381]'}`}
                     >
                         <span className='text-[15px] mt-1'>{item.amont}</span>
                         {item.star}

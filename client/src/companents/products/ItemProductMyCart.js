@@ -32,12 +32,12 @@ const ItemProductMyCart = ({ isChecked, image, name, price, discount, quanlity, 
 
     const { GoTrash, IoShieldCheckmarkOutline, FaCircleCheck } = icons
     return (
-        <div className='flex border-[1px] rounded-md px-2 py-4'>
-            <button onClick={() => onCheck(id)} className='w-[20px] h-[20px] rounded-full border-2 relative flex items-center justify-center'>
+        <div className='flex border-[1px] border-gray-300 rounded-md px-2 py-4'>
+            <button onClick={() => onCheck(id)} className='w-[20px] h-[20px] rounded-full border-2 border-gray-300 relative flex items-center justify-center'>
                 {isChecked && < FaCircleCheck color='red' />}
             </button>
             <div className='flex flex-auto flex-col'>
-                <div className='flex gap-[20px] border-b-[1px] pb-6'>
+                <div className='flex gap-[20px] border-b-[1px] border-gray-300 pb-6'>
                     <img className='w-[100px] h-[100px] object-cover' alt='anh' src={image}></img>
 
                     <div className='flex justify-between flex-auto flex-col'>

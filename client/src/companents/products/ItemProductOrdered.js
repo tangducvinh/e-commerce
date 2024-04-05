@@ -34,7 +34,7 @@ const ItemProductOrdered = ({ image, name, price, color, quantity, pid, dispatch
 
             <div className="flex item-center justify-end mt-4">
                 <div className='flex items-center mr-8'>
-                    <Link to={`/${path.DETAIL_PRODUCT}/${pid}`} className='border-r-[2px] text-[14px] font-medium pr-2 text-purple-800'>Chi tiết sản phẩm</Link>
+                    <Link to={`/${path.DETAIL_PRODUCT}/${pid}`} className='border-r-[2px] border-gray-300 text-[14px] font-medium pr-2 text-purple-800'>Chi tiết sản phẩm</Link>
                     <button onClick={handleAddToCart} className='pl-2 font-medium text-[14px] text-purple-800'>Mua lại</button>
                 </div>
             </div>

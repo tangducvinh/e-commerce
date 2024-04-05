@@ -30,7 +30,7 @@ const Home = () => {
     return (
         <div className="flex mt-[16px] flex-col items-center px-[10px]">
             <div className="w-[1220px] flex gap-4">
-                <div className="w-[220px] rounded-xl shadow-md flex-shrink-0">
+                <div className="w-[220px] rounded-xl shadow-md border-[1px] border-gray-300 flex-shrink-0">
                     <Sidebar />
                 </div>
                 <div className="flex-auto rounded-br-xl rounded-bl-xl shadow-md"><Banner /></div>

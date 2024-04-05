@@ -12,15 +12,15 @@ const InputLogin = ({ data, index, description, value, setValue, style = {css: '
             <input 
                 onBlur={() => setShow(false)} 
                 onFocus={() => setShow(true)} 
-                className={"w-full outline-none border-b-[1px] py-1 text-[15px] bg-transparent"} 
+                className={"w-full outline-none border-b-[1px] border-gray-300 py-1 text-[15px] bg-transparent"} 
                 required 
                 placeholder={show ? '' : data.placeholder}
                 type={data?.type}
                 value={value || ''}
-                onChange={(e) => setValue(prev => ({...prev, [data.name]: e.target.value}))}
+                onChange={(e) => setValue(prev => ({...prev, [data.name]: e.target.value.trim()}))}
             >
             </input>
-            <span className={clsx(`border-b-[1px] absolute bottom-0 left-0 transition-all ${show ? 'w-full' : 'w-0'}`, style.color)}></span>
+            <span className={clsx(`border-b-[1px] border-gray-300 absolute bottom-0 left-0 transition-all ${show ? 'w-full' : 'w-0'}`, style.color)}></span>
 
             {data?.description &&
                 <span className='text-[12px] text-[#737373] mt-1 absolute bottom-[-20px] left-0'>{data?.description}</span>
