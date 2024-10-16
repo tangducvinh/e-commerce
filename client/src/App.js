@@ -24,7 +24,6 @@ function App() {
   
   return (
     <div className="font-main relative">
-
       {showOverlay && 
         <div 
             onScroll={(e) => e.stopPropagation()}
